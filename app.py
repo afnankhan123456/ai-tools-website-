@@ -18,11 +18,22 @@ app.config["PROCESSED_FOLDER"] = PROCESSED_FOLDER
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-# Auto delete old files (simple cleanup)
+# ===============================
+# HOME ROUTE (MISSING THA ❗)
+# ===============================
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+
+# ===============================
+# CLEANUP FUNCTION
+# ===============================
 def cleanup_folder(folder):
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
@@ -30,6 +41,9 @@ def cleanup_folder(folder):
             os.remove(file_path)
 
 
+# ===============================
+# IMAGE COMPRESSOR
+# ===============================
 @app.route("/image-compressor", methods=["GET", "POST"])
 def image_compressor():
 
@@ -46,7 +60,6 @@ def image_compressor():
 
         if file and allowed_file(file.filename):
 
-            # Unique filename generate
             unique_name = str(uuid.uuid4()) + "_" + secure_filename(file.filename)
 
             upload_path = os.path.join(app.config["UPLOAD_FOLDER"], unique_name)
@@ -64,3 +77,33 @@ def image_compressor():
             return redirect(request.url)
 
     return render_template("tools/image_compressor.html")
+
+
+# ===============================
+# OTHER TOOL ROUTES
+# ===============================
+@app.route("/pdf-converter")
+def pdf_converter():
+    return render_template("tools/pdf_converter.html")
+
+
+@app.route("/bg-remover")
+def bg_remover():
+    return render_template("tools/bg_remover.html")
+
+
+@app.route("/word-counter")
+def word_counter():
+    return render_template("tools/word_counter.html")
+
+
+@app.route("/image-resizer")
+def image_resizer():
+    return render_template("tools/image_resizer.html")
+
+
+# ===============================
+# LOCAL RUN
+# ===============================
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
