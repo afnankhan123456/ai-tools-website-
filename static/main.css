@@ -40,7 +40,7 @@ body {
     color: #6a5cff;
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO SECTION (COMPACT FIX) ===== */
 .hero {
     background: linear-gradient(
         135deg,
@@ -49,7 +49,7 @@ body {
         #d9d4f5 100%
     );
     text-align: center;
-    padding: 130px 20px;
+    padding: 60px 20px;   /* 🔥 vertical space kam kiya */
     position: relative;
     overflow: hidden;
 }
@@ -57,22 +57,22 @@ body {
 .hero::before {
     content: "";
     position: absolute;
-    width: 700px;   
-    height: 300px;  
+    width: 500px;
+    height: 250px;
     background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%);
-    top: -150px;
-    right: -100px;
+    top: -120px;
+    right: -80px;
 }
 
-/* 🔥 YAHI REAL CHANGE */
+/* Hero content */
 .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 420px;   /* pehle 520px tha – ab 2 inch approx kam */
+    max-width: 600px;
     margin: 0 auto;
 }
 
-/* TEXT SIZE SAME */
+/* TEXT SAME */
 .hero-content h1 {
     font-size: 44px;
     font-weight: 700;
@@ -81,35 +81,19 @@ body {
 
 .hero-content p {
     font-size: 20px;
-    margin-top: 15px;
-    margin-bottom: 35px;
+    margin-top: 10px;
+    margin-bottom: 20px;   /* gap bhi kam kiya */
     color: #555;
-}
-
-.hero-btn {
-    background: #5f6dfb;
-    color: white;
-    padding: 14px 34px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    transition: 0.3s ease;
-}
-
-.hero-btn:hover {
-    background: #4b59e0;
-    transform: translateY(-3px);
 }
 
 /* ===== TOOLS SECTION ===== */
 .tools-section {
-    padding: 80px 60px;
+    padding: 70px 60px;
 }
 
 .section-title {
     font-size: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     color: #2c2c54;
 }
 
@@ -145,4 +129,3 @@ body {
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
-
