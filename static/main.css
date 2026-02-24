@@ -40,18 +40,30 @@ body {
     color: #6a5cff;
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO SECTION (NEON HD GRADIENT) ===== */
 .hero {
     background: linear-gradient(
-        135deg,
-        #e0c3fc 0%,
-        #c3cfe2 50%,
-        #d9d4f5 100%
+        120deg,
+        #0f0c29 0%,
+        #1a1a40 25%,
+        #302b63 50%,
+        #ff00cc 75%,
+        #00f2ff 100%
     );
+    background-size: 200% 200%;
+    animation: gradientMove 8s ease infinite;
+
     text-align: center;
-    padding: 60px 20px;
+    padding: 90px 20px;
     position: relative;
     overflow: hidden;
+}
+
+/* Smooth Animated Gradient */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .hero-content {
@@ -64,14 +76,14 @@ body {
 .hero-content h1 {
     font-size: 44px;
     font-weight: 700;
-    color: #2c2c54;
+    color: #ffffff;
 }
 
 .hero-content p {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 20px;
-    color: #555;
+    color: #e0e0ff;
 }
 
 /* ===== TOOLS SECTION ===== */
@@ -123,7 +135,7 @@ body {
 /* ===== ICON STYLE ===== */
 .tool-card i {
     margin-right: 10px;
-    font-size: 22px;   /* 🔥 thoda bada kiya */
+    font-size: 22px;
 }
 
 /* ===== INDIVIDUAL ICON COLORS ===== */
