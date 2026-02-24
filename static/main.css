@@ -21,13 +21,24 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
+/* Logo with Image */
 .logo a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     font-size: 22px;
     font-weight: 700;
     color: #6a5cff;
 }
 
+.nav-logo {
+    width: 28px;      /* ChatGPT style size */
+    height: 28px;
+    object-fit: contain;
+    margin-right: 8px;
+}
+
+/* Nav Links */
 .nav-links a {
     margin-left: 25px;
     text-decoration: none;
@@ -59,7 +70,6 @@ body {
     overflow: hidden;
 }
 
-/* Smooth Animated Gradient */
 @keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
