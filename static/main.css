@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+    body {
+        background: red !important;
+    }
+</style>
+
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-content">
