@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Word Counter</h2>
+
+<textarea id="textInput" rows="10" style="width:100%;padding:10px;"></textarea>
+
+<p id="result" style="margin-top:10px;"></p>
+
+<script>
+const input = document.getElementById("textInput");
+const result = document.getElementById("result");
+
+input.addEventListener("input", function() {
+    const text = input.value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    const characters = text.length;
+
+    result.innerHTML = `Words: ${words} | Characters: ${characters}`;
+});
+</script>
+
+{% endblock %}

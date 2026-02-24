@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Image Compressor</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="upload-box">
+        <p>Drag & Drop Image Here</p>
+        <input type="file" name="image" required>
+    </div>
+
+    <button type="submit" class="btn">Compress & Download</button>
+</form>
+
+{% endblock %}
