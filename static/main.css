@@ -64,9 +64,12 @@ body {
     right: -200px;
 }
 
+/* ✅ YAHI CHANGE KIYA HAI */
 .hero-content {
     position: relative;
     z-index: 2;
+    max-width: 520px;     /* width chhoti ki */
+    margin: 0 auto;       /* center me rakha */
 }
 
 .hero-content h1 {
