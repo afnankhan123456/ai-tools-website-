@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!-- HERO SECTION -->
 <section class="hero">
-    <h1>⚡ Free Online AI Tools</h1>
-    <p>Compress, Convert & Edit Instantly</p>
-    <a href="{{ url_for('image_compressor') }}" class="hero-btn">Try Image Compressor</a>
+    <div class="hero-content">
+        <h1>⚡ Free Online AI Tools</h1>
+        <p>Compress, Convert & Edit Instantly</p>
+        <a href="{{ url_for('image_compressor') }}" class="hero-btn">
+            Try Image Compressor
+        </a>
+    </div>
 </section>
 
+<!-- TOOLS SECTION -->
 <section class="tools-section">
-    <h2>All Tools</h2>
+    <h2 class="section-title">All Tools</h2>
 
     <div class="tools-grid">
 
