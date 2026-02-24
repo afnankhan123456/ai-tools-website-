@@ -5,38 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Tools Hub</title>
 
-    <!-- Basic SEO -->
     <meta name="description" content="Free online AI tools like Image Compressor, PDF Converter, Background Remover and more.">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">
-            <a href="{{ url_for('home') }}">AI Tools Hub</a>
-        </div>
+<nav class="navbar">
+    <div class="logo">
+        <a href="{{ url_for('home') }}">AI Tools Hub</a>
+    </div>
 
-        <div class="nav-links">
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('image_compressor') }}">Image Compressor</a>
-            <a href="{{ url_for('pdf_converter') }}">PDF Converter</a>
-            <a href="{{ url_for('bg_remover') }}">BG Remover</a>
-            <a href="{{ url_for('word_counter') }}">Word Counter</a>
-            <a href="{{ url_for('image_resizer') }}">Image Resizer</a>
-        </div>
-    </nav>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('image_compressor') }}">Compressor</a>
+        <a href="{{ url_for('pdf_converter') }}">PDF</a>
+        <a href="{{ url_for('bg_remover') }}">BG Remove</a>
+        <a href="{{ url_for('word_counter') }}">Counter</a>
+        <a href="{{ url_for('image_resizer') }}">Resizer</a>
+    </div>
+</nav>
 
-    <!-- MAIN CONTENT -->
-    <main class="container">
-        {% block content %}{% endblock %}
-    </main>
+<main>
+    {% block content %}{% endblock %}
+</main>
 
-    <!-- JS -->
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 
 </body>
 </html>
