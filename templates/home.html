@@ -1,36 +1,43 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<h2 style="margin-bottom:20px;">All Tools</h2>
+<section class="hero">
+    <h1>⚡ Free Online AI Tools</h1>
+    <p>Compress, Convert & Edit Instantly</p>
+    <a href="{{ url_for('image_compressor') }}" class="hero-btn">Try Image Compressor</a>
+</section>
 
-<div class="tools-grid">
+<section class="tools-section">
+    <h2>All Tools</h2>
 
-    <a href="/image-compressor" class="tool-card">
-        <h3>Image Compressor</h3>
-        <p>Reduce image size without losing quality.</p>
-    </a>
+    <div class="tools-grid">
 
-    <a href="/pdf-converter" class="tool-card">
-        <h3>PDF Converter</h3>
-        <p>Convert PDF files easily.</p>
-    </a>
+        <a href="{{ url_for('image_compressor') }}" class="tool-card">
+            <h3>📦 Image Compressor</h3>
+            <p>Reduce image size without losing quality.</p>
+        </a>
 
-    <a href="/bg-remover" class="tool-card">
-        <h3>Background Remover</h3>
-        <p>Remove image background instantly.</p>
-    </a>
+        <a href="{{ url_for('pdf_converter') }}" class="tool-card">
+            <h3>📄 PDF Converter</h3>
+            <p>Convert PDF files easily.</p>
+        </a>
 
-    <a href="/word-counter" class="tool-card">
-        <h3>Word Counter</h3>
-        <p>Count words and characters instantly.</p>
-    </a>
+        <a href="{{ url_for('bg_remover') }}" class="tool-card">
+            <h3>🎨 Background Remover</h3>
+            <p>Remove image background instantly.</p>
+        </a>
 
-    <a href="/image-resizer" class="tool-card">
-        <h3>Image Resizer</h3>
-        <p>Resize your images quickly.</p>
-    </a>
+        <a href="{{ url_for('word_counter') }}" class="tool-card">
+            <h3>✍ Word Counter</h3>
+            <p>Count words and characters instantly.</p>
+        </a>
 
-</div>
+        <a href="{{ url_for('image_resizer') }}" class="tool-card">
+            <h3>📐 Image Resizer</h3>
+            <p>Resize your images quickly.</p>
+        </a>
+
+    </div>
+</section>
 
 {% endblock %}
