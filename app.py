@@ -1,4 +1,5 @@
 import os
+import uuid
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from PIL import Image
@@ -6,7 +7,6 @@ from PIL import Image
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
-# Folders
 UPLOAD_FOLDER = "uploads"
 PROCESSED_FOLDER = "processed"
 
@@ -22,39 +22,39 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-# ==============================
-# Home Page
-# ==============================
-@app.route("/")
-def home():
-    return render_template("home.html")
+# Auto delete old files (simple cleanup)
+def cleanup_folder(folder):
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
 
-# ==============================
-# Image Compressor Page
-# ==============================
 @app.route("/image-compressor", methods=["GET", "POST"])
 def image_compressor():
+
     if request.method == "POST":
-        if "image" not in request.files:
-            flash("No file selected")
-            return redirect(request.url)
 
-        file = request.files["image"]
+        cleanup_folder(app.config["UPLOAD_FOLDER"])
+        cleanup_folder(app.config["PROCESSED_FOLDER"])
 
-        if file.filename == "":
+        file = request.files.get("image")
+
+        if not file or file.filename == "":
             flash("No file selected")
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            upload_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+            # Unique filename generate
+            unique_name = str(uuid.uuid4()) + "_" + secure_filename(file.filename)
+
+            upload_path = os.path.join(app.config["UPLOAD_FOLDER"], unique_name)
             file.save(upload_path)
 
-            # Compress Image
             img = Image.open(upload_path)
-            output_path = os.path.join(app.config["PROCESSED_FOLDER"], filename)
 
+            output_path = os.path.join(app.config["PROCESSED_FOLDER"], unique_name)
             img.save(output_path, optimize=True, quality=60)
 
             return send_file(output_path, as_attachment=True)
@@ -63,11 +63,4 @@ def image_compressor():
             flash("Invalid file type")
             return redirect(request.url)
 
-    return render_template("image_compressor.html")
-
-
-# ==============================
-# Run App
-# ==============================
-if __name__ == "__main__":
-    app.run(debug=True)
+    return render_template("tools/image_compressor.html")
