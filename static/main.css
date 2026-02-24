@@ -57,11 +57,11 @@ body {
 .hero::before {
     content: "";
     position: absolute;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
-    top: -250px;
-    right: -200px;
+    width: 700px;   
+    height: 300px;  
+    background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%);
+    top: -150px;
+    right: -100px;
 }
 
 /* 🔥 YAHI REAL CHANGE */
@@ -145,3 +145,4 @@ body {
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
+
