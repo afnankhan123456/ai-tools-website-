@@ -1,125 +1,49 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
+{% extends "base.html" %}
+{% block content %}
 
-body {
-    background: #f4f7fb;
-    color: #333;
-}
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>⚡ Free Online AI Tools</h1>
+        <p>Compress, Convert & Edit Instantly</p>
+        <a href="{{ url_for('image_compressor') }}" class="hero-btn">
+            Try Image Compressor
+        </a>
+    </div>
+</section>
 
-/* Navbar */
-.navbar {
-    background: linear-gradient(90deg, #0f172a, #1e293b);
-    padding: 15px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+<!-- TOOLS SECTION -->
+<section class="tools-section">
+    <h2 class="section-title">All Tools</h2>
 
-.logo a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 20px;
-}
+    <div class="tools-grid">
 
-.nav-links a {
-    color: #cbd5e1;
-    text-decoration: none;
-    margin-left: 20px;
-    transition: 0.3s;
-}
+        <a href="{{ url_for('image_compressor') }}" class="tool-card">
+            <h3>📦 Image Compressor</h3>
+            <p>Reduce image size without losing quality.</p>
+        </a>
 
-.nav-links a:hover {
-    color: white;
-}
+        <a href="{{ url_for('pdf_converter') }}" class="tool-card">
+            <h3>📄 PDF Converter</h3>
+            <p>Convert PDF files easily.</p>
+        </a>
 
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    background: linear-gradient(135deg, #6366f1, #3b82f6);
-    color: white;
-}
+        <a href="{{ url_for('bg_remover') }}" class="tool-card">
+            <h3>🎨 Background Remover</h3>
+            <p>Remove image background instantly.</p>
+        </a>
 
-.hero h1 {
-    font-size: 42px;
-    margin-bottom: 15px;
-}
+        <a href="{{ url_for('word_counter') }}" class="tool-card">
+            <h3>✍ Word Counter</h3>
+            <p>Count words and characters instantly.</p>
+        </a>
 
-.hero p {
-    font-size: 18px;
-    margin-bottom: 25px;
-}
+        <a href="{{ url_for('image_resizer') }}" class="tool-card">
+            <h3>📐 Image Resizer</h3>
+            <p>Resize your images quickly.</p>
+        </a>
 
-.hero-btn {
-    background: white;
-    color: #3b82f6;
-    padding: 12px 25px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
+    </div>
+</section>
 
-.hero-btn:hover {
-    background: #e0e7ff;
-}
-
-/* Tools Section */
-.tools-section {
-    max-width: 1100px;
-    margin: 60px auto;
-    padding: 0 20px;
-}
-
-.tools-section h2 {
-    margin-bottom: 30px;
-    font-size: 26px;
-}
-
-/* Grid */
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-}
-
-.tool-card {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    transition: 0.3s ease;
-    text-decoration: none;
-    color: inherit;
-}
-
-.tool-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-}
-
-.tool-card h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-.tool-card p {
-    color: #6b7280;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .hero h1 {
-        font-size: 30px;
-    }
-}
+{% endblock %}
