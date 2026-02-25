@@ -24,11 +24,30 @@ def allowed_file(filename):
 
 
 # ===============================
-# HOME ROUTE (MISSING THA ❗)
+# HOME ROUTE
 # ===============================
 @app.route("/")
 def home():
     return render_template("home.html")
+
+
+# ===============================
+# CATEGORY PAGES (NEW ADDED)
+# ===============================
+
+@app.route("/pdf-tools")
+def pdf_tools():
+    return render_template("pdf_tools.html")
+
+
+@app.route("/image-tools")
+def image_tools():
+    return render_template("image_tools.html")
+
+
+@app.route("/utility-tools")
+def utility_tools():
+    return render_template("utility_tools.html")
 
 
 # ===============================
@@ -80,7 +99,7 @@ def image_compressor():
 
 
 # ===============================
-# OTHER TOOL ROUTES
+# OTHER TOOL ROUTES (UNCHANGED)
 # ===============================
 @app.route("/pdf-converter")
 def pdf_converter():
@@ -108,4 +127,3 @@ def image_resizer():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
