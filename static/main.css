@@ -21,7 +21,6 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Logo with Image */
 .logo a {
     display: flex;
     align-items: center;
@@ -32,13 +31,12 @@ body {
 }
 
 .nav-logo {
-    width: 28px;      /* ChatGPT style size */
+    width: 28px;
     height: 28px;
     object-fit: contain;
     margin-right: 8px;
 }
 
-/* Nav Links */
 .nav-links a {
     margin-left: 25px;
     text-decoration: none;
@@ -51,7 +49,7 @@ body {
     color: #6a5cff;
 }
 
-/* ===== HERO SECTION (NEON HD GRADIENT) ===== */
+/* ===== HERO ===== */
 .hero {
     background: linear-gradient(
         120deg,
@@ -63,24 +61,14 @@ body {
     );
     background-size: 200% 200%;
     animation: gradientMove 8s ease infinite;
-
     text-align: center;
     padding: 90px 20px;
-    position: relative;
-    overflow: hidden;
 }
 
 @keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .hero-content h1 {
@@ -92,7 +80,6 @@ body {
 .hero-content p {
     font-size: 20px;
     margin-top: 10px;
-    margin-bottom: 20px;
     color: #e0e0ff;
 }
 
@@ -125,6 +112,11 @@ body {
     transition: 0.3s ease;
 }
 
+.tool-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
 .tool-card h3 {
     font-size: 20px;
     margin-bottom: 10px;
@@ -137,41 +129,16 @@ body {
     font-size: 15px;
 }
 
-.tool-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-}
-
 /* ===== ICON STYLE ===== */
 .tool-card i {
     margin-right: 10px;
     font-size: 22px;
 }
 
-/* ===== INDIVIDUAL ICON COLORS ===== */
-
-/* Image Compressor - Orange */
-.fa-file-zipper {
-    color: #ff9800;
-}
-
-/* PDF - Red */
-.fa-file-pdf {
-    color: #e53935;
-}
-
-/* Background Remover - Purple */
-.fa-eraser {
-    color: #8e24aa;
-}
-
-/* Word Counter - Blue */
-.fa-keyboard {
-    color: #1e88e5;
-}
-
-/* Image Resizer - Green */
-.fa-expand,
-.fa-up-right-and-down-left-from-center {
-    color: #43a047;
-}
+/* ===== ICON COLORS ===== */
+.fa-file-pdf { color: #e53935; }
+.fa-image { color: #43a047; }
+.fa-screwdriver-wrench { color: #1e88e5; }
+.fa-eraser { color: #8e24aa; }
+.fa-expand { color: #ff9800; }
+.fa-keyboard { color: #00acc1; }
