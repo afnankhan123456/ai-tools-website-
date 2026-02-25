@@ -9,35 +9,25 @@
     </div>
 </section>
 
-<!-- TOOLS SECTION -->
+<!-- MAIN CATEGORY SECTION -->
 <section class="tools-section">
-    <h2 class="section-title">All Tools</h2>
+    <h2 class="section-title">Our Tools</h2>
 
     <div class="tools-grid">
 
-        <a href="{{ url_for('image_compressor') }}" class="tool-card">
-            <h3><i class="fa-solid fa-file-zipper"></i> Image Compressor</h3>
-            <p>Reduce image size without losing quality.</p>
+        <a href="{{ url_for('pdf_tools') }}" class="tool-card">
+            <h3><i class="fa-solid fa-file-pdf"></i> PDF Tools</h3>
+            <p>Merge, Split, Convert, Compress & More</p>
         </a>
 
-        <a href="{{ url_for('pdf_converter') }}" class="tool-card">
-            <h3><i class="fa-solid fa-file-pdf"></i> PDF Converter</h3>
-            <p>Convert PDF files easily.</p>
+        <a href="{{ url_for('image_tools') }}" class="tool-card">
+            <h3><i class="fa-solid fa-image"></i> Image Tools</h3>
+            <p>Compress, Resize & Remove Background</p>
         </a>
 
-        <a href="{{ url_for('bg_remover') }}" class="tool-card">
-            <h3><i class="fa-solid fa-eraser"></i> Background Remover</h3>
-            <p>Remove image background instantly.</p>
-        </a>
-
-        <a href="{{ url_for('word_counter') }}" class="tool-card">
-            <h3><i class="fa-solid fa-keyboard"></i> Word Counter</h3>
-            <p>Count words and characters instantly.</p>
-        </a>
-
-        <a href="{{ url_for('image_resizer') }}" class="tool-card">
-            <h3><i class="fa-solid fa-up-right-and-down-left-from-center"></i> Image Resizer</h3>
-            <p>Resize your images quickly.</p>
+        <a href="{{ url_for('utility_tools') }}" class="tool-card">
+            <h3><i class="fa-solid fa-screwdriver-wrench"></i> Smart Utility Tools</h3>
+            <p>Word Counter, QR Generator, JSON Formatter</p>
         </a>
 
     </div>
