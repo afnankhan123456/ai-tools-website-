@@ -32,22 +32,22 @@ def home():
 
 
 # ===============================
-# CATEGORY PAGES (NEW ADDED)
+# CATEGORY PAGES (FIXED)
 # ===============================
 
 @app.route("/pdf-tools")
 def pdf_tools():
-    return render_template("pdf_tools.html")
+    return render_template("pdf_tools/pdf_all_in_one.html")
 
 
 @app.route("/image-tools")
 def image_tools():
-    return render_template("image_tools.html")
+    return render_template("image_tools/image_compress.html")
 
 
 @app.route("/utility-tools")
 def utility_tools():
-    return render_template("utility_tools.html")
+    return render_template("utility_tools/word_counter.html")
 
 
 # ===============================
@@ -61,7 +61,7 @@ def cleanup_folder(folder):
 
 
 # ===============================
-# IMAGE COMPRESSOR
+# IMAGE COMPRESSOR (PATH FIXED)
 # ===============================
 @app.route("/image-compressor", methods=["GET", "POST"])
 def image_compressor():
@@ -95,30 +95,7 @@ def image_compressor():
             flash("Invalid file type")
             return redirect(request.url)
 
-    return render_template("tools/image_compressor.html")
-
-
-# ===============================
-# OTHER TOOL ROUTES (UNCHANGED)
-# ===============================
-@app.route("/pdf-converter")
-def pdf_converter():
-    return render_template("tools/pdf_converter.html")
-
-
-@app.route("/bg-remover")
-def bg_remover():
-    return render_template("tools/bg_remover.html")
-
-
-@app.route("/word-counter")
-def word_counter():
-    return render_template("tools/word_counter.html")
-
-
-@app.route("/image-resizer")
-def image_resizer():
-    return render_template("tools/image_resizer.html")
+    return render_template("image_tools/image_compress.html")
 
 
 # ===============================
