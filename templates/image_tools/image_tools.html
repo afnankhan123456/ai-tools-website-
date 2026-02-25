@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tools-section">
+    <h2 class="section-title">Image Tools</h2>
+
+    <div class="tools-grid">
+
+        <a href="{{ url_for('image_compress') }}" class="tool-card">
+            <h3><i class="fa-solid fa-file-zipper"></i> Image Compressor</h3>
+            <p>Reduce image file size instantly</p>
+        </a>
+
+        <a href="{{ url_for('image_resize') }}" class="tool-card">
+            <h3><i class="fa-solid fa-expand"></i> Image Resizer</h3>
+            <p>Resize images quickly and easily</p>
+        </a>
+
+        <a href="{{ url_for('bg_remover') }}" class="tool-card">
+            <h3><i class="fa-solid fa-eraser"></i> Background Remover</h3>
+            <p>Remove background from images</p>
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}
