@@ -120,6 +120,7 @@ def image_compressor():
 
     if request.method == "POST":
 
+        # Clear old files
         for folder in [UPLOAD_FOLDER, PROCESSED_FOLDER]:
             for f in os.listdir(folder):
                 os.remove(os.path.join(folder, f))
