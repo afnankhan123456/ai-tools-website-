@@ -126,6 +126,7 @@ def image_compressor():
                 os.remove(os.path.join(folder, f))
 
         file = request.files.get("image")
+        quality = request.form.get("quality", 60)
 
         if not file or file.filename == "":
             flash("No file selected")
@@ -140,7 +141,7 @@ def image_compressor():
             img = Image.open(upload_path)
 
             output_path = os.path.join(PROCESSED_FOLDER, unique_name)
-            img.save(output_path, optimize=True, quality=60)
+            img.save(output_path, optimize=True, quality=int(quality))
 
             return send_file(output_path, as_attachment=True)
 
@@ -164,8 +165,21 @@ def bg_remove():
 # ===============================
 # UTILITY TOOLS
 # ===============================
-@app.route("/word-counter")
+@app.route("/word-counter", methods=["GET", "POST"])
 def word_counter():
+
+    if request.method == "POST":
+        text = request.form.get("text", "")
+        word_count = len(text.split())
+        char_count = len(text)
+
+        return render_template(
+            "utility_tools/word_counter.html",
+            word_count=word_count,
+            char_count=char_count,
+            text=text
+        )
+
     return render_template("utility_tools/word_counter.html")
 
 
