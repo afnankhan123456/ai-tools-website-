@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tool-container">
+    <h1>?? Image Resizer</h1>
+    <p>Resize your image by entering custom width and height.</p>
+
+    <form action="{{ url_for('image_resize') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+
+        <label>Width (px)</label>
+        <input type="number" name="width" required>
+
+        <label>Height (px)</label>
+        <input type="number" name="height" required>
+
+        <button type="submit">Resize Image</button>
+    </form>
+</section>
+
+{% endblock %}

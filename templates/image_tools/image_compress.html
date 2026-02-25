@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tool-container">
+    <h1>??? Image Compressor</h1>
+    <p>Upload your image and reduce file size instantly.</p>
+
+    <form action="{{ url_for('image_compress') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        
+        <label>Compression Quality (10-90)</label>
+        <input type="number" name="quality" min="10" max="90" value="70">
+
+        <button type="submit">Compress Image</button>
+    </form>
+</section>
+
+{% endblock %}
