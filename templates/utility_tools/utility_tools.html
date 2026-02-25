@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tools-section">
+    <h2 class="section-title">Utility Tools</h2>
+
+    <div class="tools-grid">
+
+        <a href="{{ url_for('word_counter') }}" class="tool-card">
+            <h3><i class="fa-solid fa-keyboard"></i> Word Counter</h3>
+            <p>Count words and characters instantly</p>
+        </a>
+
+        <a href="{{ url_for('qr_generator') }}" class="tool-card">
+            <h3><i class="fa-solid fa-qrcode"></i> QR Code Generator</h3>
+            <p>Generate QR codes easily</p>
+        </a>
+
+        <a href="{{ url_for('base64_encoder') }}" class="tool-card">
+            <h3><i class="fa-solid fa-code"></i> Base64 Encoder</h3>
+            <p>Encode and decode Base64 text</p>
+        </a>
+
+        <a href="{{ url_for('json_formatter') }}" class="tool-card">
+            <h3><i class="fa-solid fa-file-code"></i> JSON Formatter</h3>
+            <p>Format and beautify JSON data</p>
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}
