@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tool-container">
+    <h1>?? Word Counter</h1>
+    <p>Count words and characters instantly.</p>
+
+    <form action="{{ url_for('word_counter') }}" method="POST">
+        <textarea name="text" rows="8" placeholder="Enter your text here..." required></textarea>
+        <button type="submit">Count Words</button>
+    </form>
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tool-container">
+    <h1>?? JSON Formatter</h1>
+    <p>Beautify and validate your JSON data.</p>
+
+    <form action="{{ url_for('json_formatter') }}" method="POST">
+        <textarea name="json_data" rows="10" placeholder="Paste your JSON here..." required></textarea>
+        <button type="submit">Format JSON</button>
+    </form>
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tool-container">
+    <h1>?? QR Code Generator</h1>
+    <p>Generate QR code from text or link.</p>
+
+    <form action="{{ url_for('qr_generator') }}" method="POST">
+        <input type="text" name="data" placeholder="Enter text or URL" required>
+        <button type="submit">Generate QR</button>
+    </form>
+</section>
+
+{% endblock %}

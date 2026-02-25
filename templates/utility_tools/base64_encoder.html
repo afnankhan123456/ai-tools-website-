@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="tool-container">
+    <h1>?? Base64 Encoder</h1>
+    <p>Encode your text into Base64 format.</p>
+
+    <form action="{{ url_for('base64_encoder') }}" method="POST">
+        <textarea name="text" rows="6" placeholder="Enter text..." required></textarea>
+        <button type="submit">Encode</button>
+    </form>
+</section>
+
+{% endblock %}
