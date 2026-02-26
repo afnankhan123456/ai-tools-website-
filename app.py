@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, send_file, redirect, flash
 from werkzeug.utils import secure_filename
 from PIL import Image
 
+# 👇 logic file import
+from logic import *
+
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
@@ -50,77 +53,130 @@ def utility_tools():
 
 
 # ===============================
-# PDF TOOL ROUTES
+# PDF TOOL PAGE ROUTES (GET)
 # ===============================
 @app.route("/png-to-pdf")
-def png_to_pdf():
+def png_to_pdf_page():
     return render_template("pdf_tools/png_to_pdf.html")
 
 
 @app.route("/jpg-to-pdf")
-def jpg_to_pdf():
+def jpg_to_pdf_page():
     return render_template("pdf_tools/jpg_to_pdf.html")
 
 
 @app.route("/pdf-to-word")
-def pdf_to_word():
+def pdf_to_word_page():
     return render_template("pdf_tools/pdf_to_word.html")
 
 
 @app.route("/word-to-pdf")
-def word_to_pdf():
+def word_to_pdf_page():
     return render_template("pdf_tools/word_to_pdf.html")
 
 
-@app.route("/pdf-to-jpg")
-def pdf_to_jpg():
-    return render_template("pdf_tools/pdf_to_jpg.html")
-
-
 @app.route("/merge-pdf")
-def merge_pdf():
+def merge_pdf_page():
     return render_template("pdf_tools/merge_pdf.html")
 
 
 @app.route("/split-pdf")
-def split_pdf():
+def split_pdf_page():
     return render_template("pdf_tools/split_pdf.html")
 
 
 @app.route("/compress-pdf")
-def compress_pdf():
+def compress_pdf_page():
     return render_template("pdf_tools/compress_pdf.html")
 
 
 @app.route("/rotate-pdf")
-def rotate_pdf():
+def rotate_pdf_page():
     return render_template("pdf_tools/rotate_pdf.html")
 
 
 @app.route("/unlock-pdf")
-def unlock_pdf():
+def unlock_pdf_page():
     return render_template("pdf_tools/unlock_pdf.html")
 
 
 @app.route("/protect-pdf")
-def protect_pdf():
+def protect_pdf_page():
     return render_template("pdf_tools/protect_pdf.html")
 
 
 @app.route("/resize-pdf")
-def resize_pdf():
+def resize_pdf_page():
     return render_template("pdf_tools/resize_pdf.html")
 
 
 # ===============================
-# IMAGE TOOLS
+# PDF TOOL ACTION ROUTES (POST)
+# ===============================
+
+@app.route("/png-to-pdf-action", methods=["POST"])
+def png_to_pdf_action():
+    return png_to_pdf_logic(app)
+
+
+@app.route("/jpg-to-pdf-action", methods=["POST"])
+def jpg_to_pdf_action():
+    return jpg_to_pdf_logic(app)
+
+
+@app.route("/pdf-to-word-action", methods=["POST"])
+def pdf_to_word_action():
+    return pdf_to_word_logic(app)
+
+
+@app.route("/word-to-pdf-action", methods=["POST"])
+def word_to_pdf_action():
+    return word_to_pdf_logic(app)
+
+
+@app.route("/merge-pdf-action", methods=["POST"])
+def merge_pdf_action():
+    return merge_pdf_logic(app)
+
+
+@app.route("/split-pdf-action", methods=["POST"])
+def split_pdf_action():
+    return split_pdf_logic(app)
+
+
+@app.route("/compress-pdf-action", methods=["POST"])
+def compress_pdf_action():
+    return compress_pdf_logic(app)
+
+
+@app.route("/rotate-pdf-action", methods=["POST"])
+def rotate_pdf_action():
+    return rotate_pdf_logic(app)
+
+
+@app.route("/protect-pdf-action", methods=["POST"])
+def protect_pdf_action():
+    return protect_pdf_logic(app)
+
+
+@app.route("/unlock-pdf-action", methods=["POST"])
+def unlock_pdf_action():
+    return unlock_pdf_logic(app)
+
+
+@app.route("/resize-pdf-action", methods=["POST"])
+def resize_pdf_action():
+    return resize_pdf_logic(app)
+
+
+# ===============================
+# IMAGE COMPRESSOR (Already Working)
 # ===============================
 @app.route("/image-compressor", methods=["GET", "POST"])
 def image_compressor():
 
     if request.method == "POST":
 
-        # Clear old files
         for folder in [UPLOAD_FOLDER, PROCESSED_FOLDER]:
             for f in os.listdir(folder):
                 os.remove(os.path.join(folder, f))
@@ -150,52 +206,6 @@ def image_compressor():
             return redirect(request.url)
 
     return render_template("image_tools/image_compress.html")
-
-
-@app.route("/image-resize")
-def image_resize():
-    return render_template("image_tools/image_resize.html")
-
-
-@app.route("/bg-remove")
-def bg_remove():
-    return render_template("image_tools/bg_remover.html")
-
-
-# ===============================
-# UTILITY TOOLS
-# ===============================
-@app.route("/word-counter", methods=["GET", "POST"])
-def word_counter():
-
-    if request.method == "POST":
-        text = request.form.get("text", "")
-        word_count = len(text.split())
-        char_count = len(text)
-
-        return render_template(
-            "utility_tools/word_counter.html",
-            word_count=word_count,
-            char_count=char_count,
-            text=text
-        )
-
-    return render_template("utility_tools/word_counter.html")
-
-
-@app.route("/qr-generator")
-def qr_generator():
-    return render_template("utility_tools/qr_generator.html")
-
-
-@app.route("/base64-encoder")
-def base64_encoder():
-    return render_template("utility_tools/base64_encoder.html")
-
-
-@app.route("/json-formatter")
-def json_formatter():
-    return render_template("utility_tools/json_formatter.html")
 
 
 # ===============================
