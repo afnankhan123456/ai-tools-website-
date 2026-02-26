@@ -1,66 +1,88 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section style="display:flex;justify-content:center;margin-top:50px;">
+<section style="display:flex; justify-content:flex-start; margin:60px 0 0 80px;">
 
     <div style="
         background: linear-gradient(135deg, #4f46e5, #6366f1);
-        padding:40px;
-        border-radius:16px;
-        width:500px;
-        text-align:center;
+        padding:45px;
+        border-radius:18px;
+        width:480px;
         color:white;
-        box-shadow:0 10px 25px rgba(0,0,0,0.15);
+        box-shadow:0 15px 35px rgba(0,0,0,0.18);
+        position:relative;
+        overflow:hidden;
     ">
 
-        <!-- Logo Made With CSS -->
+        <!-- Subtle Background Glow -->
         <div style="
-            font-size:40px;
-            font-weight:bold;
-            background:white;
-            color:#4f46e5;
-            width:90px;
-            height:90px;
-            line-height:90px;
-            margin:0 auto 20px auto;
-            border-radius:20px;
-            box-shadow:0 6px 15px rgba(0,0,0,0.2);
-        ">
-            PNG
+            position:absolute;
+            top:-60px;
+            right:-60px;
+            width:180px;
+            height:180px;
+            background:rgba(255,255,255,0.15);
+            border-radius:50%;
+        "></div>
+
+        <!-- Logo Row -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
+
+            <div style="
+                background:white;
+                color:#4f46e5;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                PNG
+            </div>
+
+            <div style="font-size:24px; font-weight:600;">
+                PNG → PDF
+            </div>
+
         </div>
 
-        <h2 style="margin-bottom:10px;">PNG to PDF</h2>
-        <p style="margin-bottom:25px;color:#e0e7ff;">
-            Convert your PNG images into high-quality PDF instantly.
+        <p style="margin-bottom:30px; color:#e0e7ff;">
+            Convert your PNG images into high-quality PDF format instantly.
         </p>
 
         <form action="{{ url_for('png_to_pdf_action') }}"
               method="POST"
               enctype="multipart/form-data">
 
-            <input type="file"
-                   name="file"
-                   required
-                   style="
-                       padding:8px;
-                       background:white;
-                       border-radius:8px;
-                       border:none;
-                       margin-bottom:20px;
-                       width:100%;
-                   ">
+            <!-- File Input -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <input type="file"
+                       name="file"
+                       required
+                       style="border:none; width:100%;">
+            </div>
 
+            <!-- Button -->
             <button type="submit"
                     style="
                         background:white;
                         color:#4f46e5;
                         border:none;
-                        padding:12px 25px;
-                        border-radius:8px;
-                        font-weight:bold;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
                         cursor:pointer;
                         transition:0.3s;
-                        width:100%;
                     "
                     onmouseover="this.style.background='#e0e7ff'"
                     onmouseout="this.style.background='white'">
