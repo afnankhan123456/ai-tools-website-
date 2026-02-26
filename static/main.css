@@ -6,9 +6,10 @@
     font-family: "Segoe UI", sans-serif;
 }
 
+/* ===== BODY ===== */
 body {
-    background: #f3f4f8;
-    color: #333;
+    background: radial-gradient(circle at top, #1a1a40, #0f0c29);
+    color: #ffffff;
 }
 
 /* ===== NAVBAR ===== */
@@ -17,8 +18,9 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 18px 60px;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .logo a {
@@ -27,7 +29,7 @@ body {
     text-decoration: none;
     font-size: 22px;
     font-weight: 700;
-    color: #6a5cff;
+    color: #ffffff;
 }
 
 .nav-logo {
@@ -40,24 +42,23 @@ body {
 .nav-links a {
     margin-left: 25px;
     text-decoration: none;
-    color: #333;
+    color: #ffffff;
     font-weight: 500;
     transition: 0.3s;
 }
 
 .nav-links a:hover {
-    color: #6a5cff;
+    color: #00f2ff;
 }
 
 /* ===== HERO ===== */
 .hero {
     background: linear-gradient(
         120deg,
-        #0f0c29 0%,
-        #1a1a40 25%,
-        #302b63 50%,
-        #ff00cc 75%,
-        #00f2ff 100%
+        #0f0c29,
+        #302b63,
+        #ff00cc,
+        #00f2ff
     );
     background-size: 200% 200%;
     animation: gradientMove 8s ease infinite;
@@ -88,12 +89,13 @@ body {
     padding: 70px 60px;
 }
 
-/* 🔥 1 INCH NICHE SHIFT */
+/* 🔥 1 INCH NICHE */
 .section-title {
-    font-size: 30px;
-    margin-top: 100px;   /* ~1 inch */
-    margin-bottom: 40px;
-    color: #2c2c54;
+    font-size: 32px;
+    margin-top: 100px;
+    margin-bottom: 60px;
+    text-align: center;
+    letter-spacing: 1px;
 }
 
 /* ===== GRID ===== */
@@ -103,43 +105,51 @@ body {
     gap: 30px;
 }
 
-/* ===== TOOL CARD BASE ===== */
+/* ===== NEON CARD ===== */
 .tool-card {
-    padding: 28px;
-    border-radius: 16px;
+    padding: 30px;
+    border-radius: 18px;
     text-decoration: none;
-    color: white;
     font-weight: 600;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    color: white;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    position: relative;
     transition: 0.4s ease;
-    background-size: 200% 200%;
-    animation: cardMove 6s ease infinite;
+    overflow: hidden;
 }
 
-@keyframes cardMove {
+/* Neon Border */
+.tool-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+    background: linear-gradient(
+        135deg,
+        #ff00cc,
+        #00f2ff,
+        #7f00ff,
+        #00ff88
+    );
+    background-size: 300% 300%;
+    animation: neonMove 6s linear infinite;
+    z-index: -1;
+}
+
+@keyframes neonMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
 .tool-card:hover {
-    transform: translateY(-8px) scale(1.03);
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 0 35px rgba(0, 242, 255, 0.8);
 }
-
-/* ===== 12 DIFFERENT CARD COLORS ===== */
-.tools-grid a:nth-child(1)  { background: linear-gradient(135deg,#ff416c,#ff4b2b); }
-.tools-grid a:nth-child(2)  { background: linear-gradient(135deg,#00c6ff,#0072ff); }
-.tools-grid a:nth-child(3)  { background: linear-gradient(135deg,#7f00ff,#e100ff); }
-.tools-grid a:nth-child(4)  { background: linear-gradient(135deg,#11998e,#38ef7d); }
-.tools-grid a:nth-child(5)  { background: linear-gradient(135deg,#fc466b,#3f5efb); }
-.tools-grid a:nth-child(6)  { background: linear-gradient(135deg,#ff9966,#ff5e62); }
-.tools-grid a:nth-child(7)  { background: linear-gradient(135deg,#56ab2f,#a8e063); }
-.tools-grid a:nth-child(8)  { background: linear-gradient(135deg,#f7971e,#ffd200); }
-.tools-grid a:nth-child(9)  { background: linear-gradient(135deg,#654ea3,#eaafc8); }
-.tools-grid a:nth-child(10) { background: linear-gradient(135deg,#00f260,#0575e6); }
-.tools-grid a:nth-child(11) { background: linear-gradient(135deg,#ff512f,#dd2476); }
-.tools-grid a:nth-child(12) { background: linear-gradient(135deg,#36d1dc,#5b86e5); }
 
 .tool-card h3 {
     font-size: 20px;
+    letter-spacing: 0.5px;
 }
