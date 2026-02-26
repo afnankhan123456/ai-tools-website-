@@ -3,7 +3,8 @@ from PIL import Image
 from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
 from docx2pdf import convert
-import os, uuid
+from pdf2image import convert_from_path
+import os, uuid, zipfile
 
 
 # ---------------- PNG TO PDF ----------------
@@ -22,18 +23,37 @@ def jpg_to_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
+# ---------------- PDF TO JPG ----------------
+def pdf_to_jpg_logic(app):
+    file = request.files["file"]
+
+    input_path = os.path.join(app.config["UPLOAD_FOLDER"], str(uuid.uuid4()) + ".pdf")
+    file.save(input_path)
+
+    images = convert_from_path(input_path)
+
+    zip_filename = str(uuid.uuid4()) + ".zip"
+    zip_path = os.path.join(app.config["PROCESSED_FOLDER"], zip_filename)
+
+    with zipfile.ZipFile(zip_path, "w") as zipf:
+        for i, image in enumerate(images):
+            img_path = os.path.join(app.config["PROCESSED_FOLDER"], f"page_{i+1}.jpg")
+            image.save(img_path, "JPEG")
+            zipf.write(img_path, f"page_{i+1}.jpg")
+            os.remove(img_path)
+
+    return send_file(zip_path, as_attachment=True)
+
+
 # ---------------- PDF TO WORD ----------------
 def pdf_to_word_logic(app):
     file = request.files["file"]
 
-    # Save uploaded PDF first
     input_path = os.path.join(app.config["UPLOAD_FOLDER"], str(uuid.uuid4()) + ".pdf")
     file.save(input_path)
 
-    # Output path
     output_path = os.path.join(app.config["PROCESSED_FOLDER"], str(uuid.uuid4()) + ".docx")
 
-    # Convert using file path (IMPORTANT FIX)
     converter = Converter(input_path)
     converter.convert(output_path)
     converter.close()
@@ -67,19 +87,14 @@ def merge_pdf_logic(app):
 
 
 # ---------------- SPLIT PDF ----------------
-import zipfile
-
 def split_pdf_logic(app):
     file = request.files["file"]
     reader = PdfReader(file)
 
-    # Unique ZIP file name
     zip_filename = str(uuid.uuid4()) + ".zip"
     zip_path = os.path.join(app.config["PROCESSED_FOLDER"], zip_filename)
 
     with zipfile.ZipFile(zip_path, "w") as zipf:
-
-        # Har page ke liye separate PDF banega
         for i in range(len(reader.pages)):
             writer = PdfWriter()
             writer.add_page(reader.pages[i])
@@ -93,8 +108,7 @@ def split_pdf_logic(app):
                 writer.write(f)
 
             zipf.write(temp_pdf_path, f"page_{i+1}.pdf")
-
-            os.remove(temp_pdf_path)  # temp file delete
+            os.remove(temp_pdf_path)
 
     return send_file(zip_path, as_attachment=True)
 
@@ -158,6 +172,10 @@ def unlock_pdf_logic(app):
     password = request.form["password"]
 
     reader = PdfReader(file)
+
+    if not reader.is_encrypted:
+        return "This PDF is not password protected."
+
     reader.decrypt(password)
 
     writer = PdfWriter()
@@ -186,4 +204,3 @@ def resize_pdf_logic(app):
         writer.write(f)
 
     return send_file(output_path, as_attachment=True)
-
