@@ -67,17 +67,36 @@ def merge_pdf_logic(app):
 
 
 # ---------------- SPLIT PDF ----------------
+import zipfile
+
 def split_pdf_logic(app):
     file = request.files["file"]
     reader = PdfReader(file)
-    writer = PdfWriter()
-    writer.add_page(reader.pages[0])
 
-    output_path = os.path.join(app.config["PROCESSED_FOLDER"], str(uuid.uuid4()) + ".pdf")
-    with open(output_path, "wb") as f:
-        writer.write(f)
+    # Unique ZIP file name
+    zip_filename = str(uuid.uuid4()) + ".zip"
+    zip_path = os.path.join(app.config["PROCESSED_FOLDER"], zip_filename)
 
-    return send_file(output_path, as_attachment=True)
+    with zipfile.ZipFile(zip_path, "w") as zipf:
+
+        # Har page ke liye separate PDF banega
+        for i in range(len(reader.pages)):
+            writer = PdfWriter()
+            writer.add_page(reader.pages[i])
+
+            temp_pdf_path = os.path.join(
+                app.config["PROCESSED_FOLDER"],
+                f"page_{i+1}.pdf"
+            )
+
+            with open(temp_pdf_path, "wb") as f:
+                writer.write(f)
+
+            zipf.write(temp_pdf_path, f"page_{i+1}.pdf")
+
+            os.remove(temp_pdf_path)  # temp file delete
+
+    return send_file(zip_path, as_attachment=True)
 
 
 # ---------------- COMPRESS PDF ----------------
@@ -167,3 +186,4 @@ def resize_pdf_logic(app):
         writer.write(f)
 
     return send_file(output_path, as_attachment=True)
+
