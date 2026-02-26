@@ -4,7 +4,6 @@ from flask import Flask, render_template, request, send_file, redirect, flash
 from werkzeug.utils import secure_filename
 from PIL import Image
 
-# ✅ SAFE IMPORT (NO import *)
 from logic import (
     png_to_pdf_logic,
     jpg_to_pdf_logic,
@@ -85,6 +84,11 @@ def pdf_to_word():
 @app.route("/word-to-pdf")
 def word_to_pdf():
     return render_template("pdf_tools/word_to_pdf.html")
+
+
+@app.route("/pdf-to-jpg")
+def pdf_to_jpg():
+    return render_template("pdf_tools/pdf_to_jpg.html")
 
 
 @app.route("/merge-pdf")
