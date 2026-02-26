@@ -1,3 +1,6 @@
 Flask
 Pillow
 gunicorn
+PyPDF2
+pdf2docx
+docx2pdf
