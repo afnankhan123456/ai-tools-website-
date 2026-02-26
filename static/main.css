@@ -51,10 +51,11 @@ body {
     color: #00f2ff;
 }
 
-/* ===== HERO (ADS SPACE READY) ===== */
+/* ===== HERO ===== */
 .hero {
-    margin-top: 190px;   /* Header se ~2 inch niche */
-    min-height: 240px;   /* 2.5 inch vertical height */
+    margin-top: 96px;        /* 1 inch header se gap */
+    margin-bottom: 96px;     /* 1 inch niche cards se gap */
+    min-height: 240px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,13 +92,14 @@ body {
 
 /* ===== TOOLS SECTION ===== */
 .tools-section {
-    padding: 70px 60px;
+    padding: 0 60px 70px 60px;  /* top padding remove */
 }
 
+/* ===== SECTION TITLE ===== */
 .section-title {
     font-size: 32px;
-    margin-top: 100px;
-    margin-bottom: 60px;
+    margin-top: 0;     /* extra spacing remove */
+    margin-bottom: 40px;
     text-align: center;
     letter-spacing: 1px;
 }
@@ -124,7 +126,6 @@ body {
     overflow: hidden;
 }
 
-/* Neon Border Animation */
 .tool-card::before {
     content: "";
     position: absolute;
