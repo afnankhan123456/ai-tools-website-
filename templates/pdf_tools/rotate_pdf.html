@@ -1,9 +1,112 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="tools-section">
-    <h2 class="section-title">Rotate PDF</h2>
-    <p>Rotate PDF pages easily.</p>
+<section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
+
+    <div style="
+        padding:45px;
+        border-radius:18px;
+        width:480px;
+        color:white;
+        box-shadow:0 15px 35px rgba(0,0,0,0.18);
+        position:relative;
+        overflow:hidden;
+        background: linear-gradient(270deg, #00f2fe, #4facfe, #43e97b);
+        background-size: 600% 600%;
+        animation: gradientMove 8s ease infinite;
+    ">
+
+        <!-- Logo Row -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
+
+            <div style="
+                background:white;
+                color:#4facfe;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                PDF
+            </div>
+
+            <div style="font-size:24px; font-weight:600;">
+                Rotate PDF
+            </div>
+
+        </div>
+
+        <p style="margin-bottom:30px; color:#ffffff;">
+            Rotate your PDF pages to the desired angle instantly.
+        </p>
+
+        <form action="{{ url_for('rotate_pdf_action') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <input type="file"
+                       name="file"
+                       accept=".pdf"
+                       required
+                       style="border:none; width:100%;">
+            </div>
+
+            <!-- Optional Rotate Option -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <select name="angle" style="width:100%; border:none;">
+                    <option value="90">Rotate 90°</option>
+                    <option value="180">Rotate 180°</option>
+                    <option value="270">Rotate 270°</option>
+                </select>
+            </div>
+
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#4facfe;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Rotate PDF
+
+            </button>
+
+        </form>
+
+    </div>
+
 </section>
+
+<style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
 
 {% endblock %}
