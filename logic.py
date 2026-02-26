@@ -25,10 +25,19 @@ def jpg_to_pdf_logic(app):
 # ---------------- PDF TO WORD ----------------
 def pdf_to_word_logic(app):
     file = request.files["file"]
+
+    # Save uploaded PDF first
+    input_path = os.path.join(app.config["UPLOAD_FOLDER"], str(uuid.uuid4()) + ".pdf")
+    file.save(input_path)
+
+    # Output path
     output_path = os.path.join(app.config["PROCESSED_FOLDER"], str(uuid.uuid4()) + ".docx")
-    converter = Converter(file)
+
+    # Convert using file path (IMPORTANT FIX)
+    converter = Converter(input_path)
     converter.convert(output_path)
     converter.close()
+
     return send_file(output_path, as_attachment=True)
 
 
