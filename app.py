@@ -15,7 +15,8 @@ from logic import (
     rotate_pdf_logic,
     protect_pdf_logic,
     unlock_pdf_logic,
-    resize_pdf_logic
+    resize_pdf_logic,
+    pdf_to_jpg_logic   # ✅ ADD KIYA
 )
 
 app = Flask(__name__)
@@ -147,6 +148,12 @@ def pdf_to_word_action():
 @app.route("/word-to-pdf-action", methods=["POST"])
 def word_to_pdf_action():
     return word_to_pdf_logic(app)
+
+
+# ✅ YE ROUTE MISSING THA
+@app.route("/pdf-to-jpg-action", methods=["POST"])
+def pdf_to_jpg_action():
+    return pdf_to_jpg_logic(app)
 
 
 @app.route("/merge-pdf-action", methods=["POST"])
