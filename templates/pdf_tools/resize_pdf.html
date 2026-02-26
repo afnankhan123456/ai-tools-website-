@@ -1,9 +1,113 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="tools-section">
-    <h2 class="section-title">Resize PDF</h2>
-    <p>Change PDF page size easily.</p>
+<section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
+
+    <div style="
+        padding:45px;
+        border-radius:18px;
+        width:480px;
+        color:white;
+        box-shadow:0 15px 35px rgba(0,0,0,0.18);
+        position:relative;
+        overflow:hidden;
+        background: linear-gradient(270deg, #136a8a, #267871, #0f2027);
+        background-size: 600% 600%;
+        animation: gradientMove 8s ease infinite;
+    ">
+
+        <!-- Logo Row -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
+
+            <div style="
+                background:white;
+                color:#136a8a;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                PDF
+            </div>
+
+            <div style="font-size:24px; font-weight:600;">
+                Resize PDF
+            </div>
+
+        </div>
+
+        <p style="margin-bottom:30px; color:#ffffff;">
+            Adjust the page size or scale of your PDF file easily.
+        </p>
+
+        <form action="{{ url_for('resize_pdf_action') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <input type="file"
+                       name="file"
+                       accept=".pdf"
+                       required
+                       style="border:none; width:100%;">
+            </div>
+
+            <!-- Resize Option -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <select name="size_option" style="width:100%; border:none;">
+                    <option value="A4">Convert to A4</option>
+                    <option value="Letter">Convert to Letter</option>
+                    <option value="Scale90">Scale to 90%</option>
+                    <option value="Scale80">Scale to 80%</option>
+                </select>
+            </div>
+
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#136a8a;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Resize PDF
+
+            </button>
+
+        </form>
+
+    </div>
+
 </section>
+
+<style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
 
 {% endblock %}
