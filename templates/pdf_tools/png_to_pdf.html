@@ -1,21 +1,78 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="tools-section">
-    <h2 class="section-title">PNG to PDF</h2>
-    <p>Convert your PNG images into PDF format easily.</p>
+<section style="display:flex;justify-content:center;margin-top:50px;">
 
-    <form action="{{ url_for('png_to_pdf_action') }}"
-          method="POST"
-          enctype="multipart/form-data"
-          style="margin-top:20px;">
+    <div style="
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        padding:40px;
+        border-radius:16px;
+        width:500px;
+        text-align:center;
+        color:white;
+        box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    ">
 
-        <input type="file" name="file" required>
-        <br><br>
+        <!-- Logo Made With CSS -->
+        <div style="
+            font-size:40px;
+            font-weight:bold;
+            background:white;
+            color:#4f46e5;
+            width:90px;
+            height:90px;
+            line-height:90px;
+            margin:0 auto 20px auto;
+            border-radius:20px;
+            box-shadow:0 6px 15px rgba(0,0,0,0.2);
+        ">
+            PNG
+        </div>
 
-        <button type="submit" class="btn">Convert to PDF</button>
+        <h2 style="margin-bottom:10px;">PNG to PDF</h2>
+        <p style="margin-bottom:25px;color:#e0e7ff;">
+            Convert your PNG images into high-quality PDF instantly.
+        </p>
 
-    </form>
+        <form action="{{ url_for('png_to_pdf_action') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="file"
+                   name="file"
+                   required
+                   style="
+                       padding:8px;
+                       background:white;
+                       border-radius:8px;
+                       border:none;
+                       margin-bottom:20px;
+                       width:100%;
+                   ">
+
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#4f46e5;
+                        border:none;
+                        padding:12px 25px;
+                        border-radius:8px;
+                        font-weight:bold;
+                        cursor:pointer;
+                        transition:0.3s;
+                        width:100%;
+                    "
+                    onmouseover="this.style.background='#e0e7ff'"
+                    onmouseout="this.style.background='white'">
+
+                Convert to PDF
+
+            </button>
+
+        </form>
+
+    </div>
+
 </section>
 
 {% endblock %}
