@@ -4,8 +4,20 @@ from flask import Flask, render_template, request, send_file, redirect, flash
 from werkzeug.utils import secure_filename
 from PIL import Image
 
-# 👇 logic file import
-from logic import *
+# ✅ SAFE IMPORT (NO import *)
+from logic import (
+    png_to_pdf_logic,
+    jpg_to_pdf_logic,
+    pdf_to_word_logic,
+    word_to_pdf_logic,
+    merge_pdf_logic,
+    split_pdf_logic,
+    compress_pdf_logic,
+    rotate_pdf_logic,
+    protect_pdf_logic,
+    unlock_pdf_logic,
+    resize_pdf_logic
+)
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -113,7 +125,6 @@ def resize_pdf_page():
 # ===============================
 # PDF TOOL ACTION ROUTES (POST)
 # ===============================
-
 @app.route("/png-to-pdf-action", methods=["POST"])
 def png_to_pdf_action():
     return png_to_pdf_logic(app)
@@ -170,7 +181,7 @@ def resize_pdf_action():
 
 
 # ===============================
-# IMAGE COMPRESSOR (Already Working)
+# IMAGE COMPRESSOR
 # ===============================
 @app.route("/image-compressor", methods=["GET", "POST"])
 def image_compressor():
