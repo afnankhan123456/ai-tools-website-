@@ -68,57 +68,57 @@ def utility_tools():
 # PDF TOOL PAGE ROUTES (GET)
 # ===============================
 @app.route("/png-to-pdf")
-def png_to_pdf_page():
+def png_to_pdf():
     return render_template("pdf_tools/png_to_pdf.html")
 
 
 @app.route("/jpg-to-pdf")
-def jpg_to_pdf_page():
+def jpg_to_pdf():
     return render_template("pdf_tools/jpg_to_pdf.html")
 
 
 @app.route("/pdf-to-word")
-def pdf_to_word_page():
+def pdf_to_word():
     return render_template("pdf_tools/pdf_to_word.html")
 
 
 @app.route("/word-to-pdf")
-def word_to_pdf_page():
+def word_to_pdf():
     return render_template("pdf_tools/word_to_pdf.html")
 
 
 @app.route("/merge-pdf")
-def merge_pdf_page():
+def merge_pdf():
     return render_template("pdf_tools/merge_pdf.html")
 
 
 @app.route("/split-pdf")
-def split_pdf_page():
+def split_pdf():
     return render_template("pdf_tools/split_pdf.html")
 
 
 @app.route("/compress-pdf")
-def compress_pdf_page():
+def compress_pdf():
     return render_template("pdf_tools/compress_pdf.html")
 
 
 @app.route("/rotate-pdf")
-def rotate_pdf_page():
+def rotate_pdf():
     return render_template("pdf_tools/rotate_pdf.html")
 
 
 @app.route("/unlock-pdf")
-def unlock_pdf_page():
+def unlock_pdf():
     return render_template("pdf_tools/unlock_pdf.html")
 
 
 @app.route("/protect-pdf")
-def protect_pdf_page():
+def protect_pdf():
     return render_template("pdf_tools/protect_pdf.html")
 
 
 @app.route("/resize-pdf")
-def resize_pdf_page():
+def resize_pdf():
     return render_template("pdf_tools/resize_pdf.html")
 
 
