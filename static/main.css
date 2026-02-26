@@ -51,8 +51,15 @@ body {
     color: #00f2ff;
 }
 
-/* ===== HERO ===== */
+/* ===== HERO (ADS SPACE READY) ===== */
 .hero {
+    margin-top: 190px;   /* Header se ~2 inch niche */
+    min-height: 240px;   /* 2.5 inch vertical height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
     background: linear-gradient(
         120deg,
         #0f0c29,
@@ -62,8 +69,6 @@ body {
     );
     background-size: 200% 200%;
     animation: gradientMove 8s ease infinite;
-    text-align: center;
-    padding: 90px 20px;
 }
 
 @keyframes gradientMove {
@@ -89,7 +94,6 @@ body {
     padding: 70px 60px;
 }
 
-/* 🔥 1 INCH NICHE */
 .section-title {
     font-size: 32px;
     margin-top: 100px;
@@ -120,7 +124,7 @@ body {
     overflow: hidden;
 }
 
-/* Neon Border */
+/* Neon Border Animation */
 .tool-card::before {
     content: "";
     position: absolute;
