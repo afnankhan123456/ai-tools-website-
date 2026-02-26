@@ -4,7 +4,6 @@
 <section style="display:flex; justify-content:flex-start; margin:60px 0 0 80px;">
 
     <div style="
-        background: linear-gradient(135deg, #4f46e5, #6366f1);
         padding:45px;
         border-radius:18px;
         width:480px;
@@ -12,18 +11,10 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
+        background: linear-gradient(270deg, #ff00cc, #4f46e5, #00f2fe);
+        background-size: 600% 600%;
+        animation: gradientMove 8s ease infinite;
     ">
-
-        <!-- Subtle Background Glow -->
-        <div style="
-            position:absolute;
-            top:-60px;
-            right:-60px;
-            width:180px;
-            height:180px;
-            background:rgba(255,255,255,0.15);
-            border-radius:50%;
-        "></div>
 
         <!-- Logo Row -->
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
@@ -50,7 +41,7 @@
 
         </div>
 
-        <p style="margin-bottom:30px; color:#e0e7ff;">
+        <p style="margin-bottom:30px; color:#ffffff;">
             Convert your PNG images into high-quality PDF format instantly.
         </p>
 
@@ -58,7 +49,6 @@
               method="POST"
               enctype="multipart/form-data">
 
-            <!-- File Input -->
             <div style="
                 background:white;
                 padding:12px;
@@ -71,7 +61,6 @@
                        style="border:none; width:100%;">
             </div>
 
-            <!-- Button -->
             <button type="submit"
                     style="
                         background:white;
@@ -84,7 +73,7 @@
                         cursor:pointer;
                         transition:0.3s;
                     "
-                    onmouseover="this.style.background='#e0e7ff'"
+                    onmouseover="this.style.background='#f3f4f6'"
                     onmouseout="this.style.background='white'">
 
                 Convert to PDF
@@ -96,5 +85,13 @@
     </div>
 
 </section>
+
+<style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
 
 {% endblock %}
