@@ -14,10 +14,11 @@
         background: linear-gradient(270deg, #00c6ff, #0072ff, #00f5a0);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
+        text-align:center;
     ">
 
         <!-- Logo Row -->
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:25px;">
 
             <div style="
                 background:white;
@@ -41,47 +42,14 @@
 
         </div>
 
-        <p style="margin-bottom:30px; color:#ffffff;">
-            Convert your Word documents into high-quality PDF files instantly.
+        <p style="margin-bottom:20px; font-size:20px;">
+            😊 Feature Coming Soon!
         </p>
 
-        <form action="{{ url_for('word_to_pdf_action') }}"
-              method="POST"
-              enctype="multipart/form-data">
-
-            <div style="
-                background:white;
-                padding:12px;
-                border-radius:10px;
-                margin-bottom:20px;
-            ">
-                <input type="file"
-                       name="file"
-                       accept=".doc,.docx"
-                       required
-                       style="border:none; width:100%;">
-            </div>
-
-            <button type="submit"
-                    style="
-                        background:white;
-                        color:#0072ff;
-                        border:none;
-                        padding:14px;
-                        width:100%;
-                        border-radius:10px;
-                        font-weight:600;
-                        cursor:pointer;
-                        transition:0.3s;
-                    "
-                    onmouseover="this.style.background='#f3f4f6'"
-                    onmouseout="this.style.background='white'">
-
-                Convert to PDF
-
-            </button>
-
-        </form>
+        <p style="font-size:16px; opacity:0.9;">
+            We are working hard to bring Word to PDF conversion very soon.
+            Stay tuned and keep smiling!
+        </p>
 
     </div>
 
