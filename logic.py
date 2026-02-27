@@ -4,7 +4,9 @@ from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
 from docx2pdf import convert
 from pdf2image import convert_from_path
-import os, uuid, zipfile
+import os
+import uuid
+import zipfile
 
 
 # ---------------- PNG TO PDF ----------------
@@ -301,31 +303,21 @@ def image_resize_logic(app):
 
 
 # ---------------- BG REMOVER ----------------
-from flask import request, send_file
-from PIL import Image
-import os
-import uuid
-
 def bg_remover_logic(app):
-
     file = request.files["file"]
     bg_option = request.form.get("bg_option", "white")
     custom_bg_file = request.files.get("custom_bg")
 
     input_image = Image.open(file)
 
-    # Convert to RGBA if not already
     if input_image.mode != "RGBA":
         input_image = input_image.convert("RGBA")
 
     width, height = input_image.size
 
-    # DEFAULT WHITE BACKGROUND
     if bg_option == "white":
-
         white_bg = Image.new("RGB", (width, height), (255, 255, 255))
 
-        # Agar alpha channel hai to mask use hoga
         if "A" in input_image.getbands():
             white_bg.paste(input_image, (0, 0), input_image.split()[3])
         else:
@@ -333,9 +325,7 @@ def bg_remover_logic(app):
 
         final_image = white_bg
 
-    # CUSTOM BACKGROUND
     elif bg_option == "custom" and custom_bg_file:
-
         custom_bg = Image.open(custom_bg_file).convert("RGB")
         custom_bg = custom_bg.resize((width, height))
 
@@ -347,7 +337,6 @@ def bg_remover_logic(app):
         final_image = custom_bg
 
     else:
-        # fallback white
         final_image = input_image.convert("RGB")
 
     output_path = os.path.join(
@@ -358,4 +347,3 @@ def bg_remover_logic(app):
     final_image.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
-
