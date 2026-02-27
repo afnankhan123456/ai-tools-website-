@@ -98,8 +98,8 @@ body {
 /* ===== SECTION TITLE ===== */
 .section-title {
     font-size: 32px;
-    margin-top: 0;
-    margin-bottom: 96px;   /* 🔥 1 inch gap cards se */
+    margin-top: 96px;   /* 🔥 1 inch niche shift */
+    margin-bottom: 40px;
     text-align: center;
     letter-spacing: 1px;
 }
@@ -158,3 +158,4 @@ body {
     font-size: 20px;
     letter-spacing: 0.5px;
 }
+
