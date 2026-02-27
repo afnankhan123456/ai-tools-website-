@@ -2,11 +2,11 @@
 {% block content %}
 
 <section class="tool-container">
-    <h1>?? Background Remover</h1>
+    <h1>🖼️ Background Remover</h1>
     <p>Remove background from your image automatically.</p>
 
     <form action="{{ url_for('bg_remover') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" required>
+        <input type="file" name="file" required>
         <button type="submit">Remove Background</button>
     </form>
 </section>
