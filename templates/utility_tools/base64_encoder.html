@@ -1,14 +1,96 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="tool-container">
-    <h1>?? Base64 Encoder</h1>
-    <p>Encode your text into Base64 format.</p>
+<section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
 
-    <form action="{{ url_for('base64_encoder') }}" method="POST">
-        <textarea name="text" rows="6" placeholder="Enter text..." required></textarea>
-        <button type="submit">Encode</button>
-    </form>
+    <div style="
+        padding:45px;
+        border-radius:18px;
+        width:480px;
+        color:white;
+        box-shadow:0 15px 35px rgba(0,0,0,0.18);
+        position:relative;
+        overflow:hidden;
+        background: linear-gradient(270deg, #4e73df, #6f42c1, #4e73df);
+        background-size: 600% 600%;
+        animation: gradientMove 8s ease infinite;
+    ">
+
+        <!-- Logo Row -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
+
+            <div style="
+                background:white;
+                color:#6f42c1;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                B64
+            </div>
+
+            <div style="font-size:24px; font-weight:600;">
+                Base64 Encoder
+            </div>
+
+        </div>
+
+        <p style="margin-bottom:30px; color:#ffffff;">
+            Encode your text into Base64 format instantly.
+        </p>
+
+        <form action="{{ url_for('base64_encoder') }}" method="POST">
+
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <textarea name="text"
+                          rows="6"
+                          placeholder="Enter text..."
+                          required
+                          style="border:none; width:100%; resize:none;"></textarea>
+            </div>
+
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#6f42c1;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Encode Text
+
+            </button>
+
+        </form>
+
+    </div>
+
 </section>
+
+<style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
 
 {% endblock %}
