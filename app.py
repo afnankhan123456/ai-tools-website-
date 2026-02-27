@@ -16,7 +16,9 @@ from logic import (
     protect_pdf_logic,
     unlock_pdf_logic,
     resize_pdf_logic,
-    pdf_to_jpg_logic   # ✅ ADD KIYA
+    pdf_to_jpg_logic,
+    image_resize_logic,
+    bg_remover_logic
 )
 
 app = Flask(__name__)
@@ -150,7 +152,6 @@ def word_to_pdf_action():
     return word_to_pdf_logic(app)
 
 
-# ✅ YE ROUTE MISSING THA
 @app.route("/pdf-to-jpg-action", methods=["POST"])
 def pdf_to_jpg_action():
     return pdf_to_jpg_logic(app)
@@ -199,11 +200,7 @@ def image_compressor():
 
     if request.method == "POST":
 
-        for folder in [UPLOAD_FOLDER, PROCESSED_FOLDER]:
-            for f in os.listdir(folder):
-                os.remove(os.path.join(folder, f))
-
-        file = request.files.get("image")
+        file = request.files.get("file")
         quality = request.form.get("quality", 60)
 
         if not file or file.filename == "":
@@ -228,6 +225,30 @@ def image_compressor():
             return redirect(request.url)
 
     return render_template("image_tools/image_compress.html")
+
+
+# ===============================
+# IMAGE RESIZER
+# ===============================
+@app.route("/image-resize", methods=["GET", "POST"])
+def image_resize():
+
+    if request.method == "POST":
+        return image_resize_logic(app)
+
+    return render_template("image_tools/image_resize.html")
+
+
+# ===============================
+# BACKGROUND REMOVER
+# ===============================
+@app.route("/bg-remover", methods=["GET", "POST"])
+def bg_remover():
+
+    if request.method == "POST":
+        return bg_remover_logic(app)
+
+    return render_template("image_tools/bg_remover.html")
 
 
 # ===============================
