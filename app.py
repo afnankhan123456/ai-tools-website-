@@ -1,30 +1,6 @@
 import os
-import uuid
-import base64
-import json
-import qrcode
-
-from flask import Flask, render_template, request, send_file, redirect, flash
-from werkzeug.utils import secure_filename
-from PIL import Image
-from io import BytesIO
-
-from logic import (
-    png_to_pdf_logic,
-    jpg_to_pdf_logic,
-    pdf_to_word_logic,
-    word_to_pdf_logic,
-    merge_pdf_logic,
-    split_pdf_logic,
-    compress_pdf_logic,
-    rotate_pdf_logic,
-    protect_pdf_logic,
-    unlock_pdf_logic,
-    resize_pdf_logic,
-    pdf_to_jpg_logic,
-    image_resize_logic,
-    bg_remover_logic
-)
+from flask import Flask, render_template, request
+from logic import *
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -37,12 +13,6 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["PROCESSED_FOLDER"] = PROCESSED_FOLDER
-
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
-
-
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 # ===============================
@@ -72,244 +42,142 @@ def utility_tools():
 
 
 # ===============================
-# PDF TOOL PAGE ROUTES (GET)
+# PDF TOOL ROUTES
 # ===============================
-@app.route("/png-to-pdf")
+@app.route("/png-to-pdf", methods=["GET", "POST"])
 def png_to_pdf():
+    if request.method == "POST":
+        return png_to_pdf_logic(app)
     return render_template("pdf_tools/png_to_pdf.html")
 
 
-@app.route("/jpg-to-pdf")
+@app.route("/jpg-to-pdf", methods=["GET", "POST"])
 def jpg_to_pdf():
+    if request.method == "POST":
+        return jpg_to_pdf_logic(app)
     return render_template("pdf_tools/jpg_to_pdf.html")
 
 
-@app.route("/pdf-to-word")
+@app.route("/pdf-to-word", methods=["GET", "POST"])
 def pdf_to_word():
+    if request.method == "POST":
+        return pdf_to_word_logic(app)
     return render_template("pdf_tools/pdf_to_word.html")
 
 
-@app.route("/word-to-pdf")
+@app.route("/word-to-pdf", methods=["GET", "POST"])
 def word_to_pdf():
+    if request.method == "POST":
+        return word_to_pdf_logic(app)
     return render_template("pdf_tools/word_to_pdf.html")
 
 
-@app.route("/pdf-to-jpg")
+@app.route("/pdf-to-jpg", methods=["GET", "POST"])
 def pdf_to_jpg():
+    if request.method == "POST":
+        return pdf_to_jpg_logic(app)
     return render_template("pdf_tools/pdf_to_jpg.html")
 
 
-@app.route("/merge-pdf")
+@app.route("/merge-pdf", methods=["GET", "POST"])
 def merge_pdf():
+    if request.method == "POST":
+        return merge_pdf_logic(app)
     return render_template("pdf_tools/merge_pdf.html")
 
 
-@app.route("/split-pdf")
+@app.route("/split-pdf", methods=["GET", "POST"])
 def split_pdf():
+    if request.method == "POST":
+        return split_pdf_logic(app)
     return render_template("pdf_tools/split_pdf.html")
 
 
-@app.route("/compress-pdf")
+@app.route("/compress-pdf", methods=["GET", "POST"])
 def compress_pdf():
+    if request.method == "POST":
+        return compress_pdf_logic(app)
     return render_template("pdf_tools/compress_pdf.html")
 
 
-@app.route("/rotate-pdf")
+@app.route("/rotate-pdf", methods=["GET", "POST"])
 def rotate_pdf():
+    if request.method == "POST":
+        return rotate_pdf_logic(app)
     return render_template("pdf_tools/rotate_pdf.html")
 
 
-@app.route("/unlock-pdf")
-def unlock_pdf():
-    return render_template("pdf_tools/unlock_pdf.html")
-
-
-@app.route("/protect-pdf")
+@app.route("/protect-pdf", methods=["GET", "POST"])
 def protect_pdf():
+    if request.method == "POST":
+        return protect_pdf_logic(app)
     return render_template("pdf_tools/protect_pdf.html")
 
 
-@app.route("/resize-pdf")
+@app.route("/unlock-pdf", methods=["GET", "POST"])
+def unlock_pdf():
+    if request.method == "POST":
+        return unlock_pdf_logic(app)
+    return render_template("pdf_tools/unlock_pdf.html")
+
+
+@app.route("/resize-pdf", methods=["GET", "POST"])
 def resize_pdf():
+    if request.method == "POST":
+        return resize_pdf_logic(app)
     return render_template("pdf_tools/resize_pdf.html")
 
 
 # ===============================
-# PDF TOOL ACTION ROUTES (POST)
-# ===============================
-@app.route("/png-to-pdf-action", methods=["POST"])
-def png_to_pdf_action():
-    return png_to_pdf_logic(app)
-
-
-@app.route("/jpg-to-pdf-action", methods=["POST"])
-def jpg_to_pdf_action():
-    return jpg_to_pdf_logic(app)
-
-
-@app.route("/pdf-to-word-action", methods=["POST"])
-def pdf_to_word_action():
-    return pdf_to_word_logic(app)
-
-
-@app.route("/word-to-pdf-action", methods=["POST"])
-def word_to_pdf_action():
-    return word_to_pdf_logic(app)
-
-
-@app.route("/pdf-to-jpg-action", methods=["POST"])
-def pdf_to_jpg_action():
-    return pdf_to_jpg_logic(app)
-
-
-@app.route("/merge-pdf-action", methods=["POST"])
-def merge_pdf_action():
-    return merge_pdf_logic(app)
-
-
-@app.route("/split-pdf-action", methods=["POST"])
-def split_pdf_action():
-    return split_pdf_logic(app)
-
-
-@app.route("/compress-pdf-action", methods=["POST"])
-def compress_pdf_action():
-    return compress_pdf_logic(app)
-
-
-@app.route("/rotate-pdf-action", methods=["POST"])
-def rotate_pdf_action():
-    return rotate_pdf_logic(app)
-
-
-@app.route("/protect-pdf-action", methods=["POST"])
-def protect_pdf_action():
-    return protect_pdf_logic(app)
-
-
-@app.route("/unlock-pdf-action", methods=["POST"])
-def unlock_pdf_action():
-    return unlock_pdf_logic(app)
-
-
-@app.route("/resize-pdf-action", methods=["POST"])
-def resize_pdf_action():
-    return resize_pdf_logic(app)
-
-
-# ===============================
-# IMAGE COMPRESSOR
-# ===============================
-@app.route("/image-compressor", methods=["GET", "POST"])
-def image_compressor():
-
-    if request.method == "POST":
-
-        file = request.files.get("file")
-        quality = request.form.get("quality", 60)
-
-        if not file or file.filename == "":
-            flash("No file selected")
-            return redirect(request.url)
-
-        if file and allowed_file(file.filename):
-
-            unique_name = str(uuid.uuid4()) + "_" + secure_filename(file.filename)
-            upload_path = os.path.join(UPLOAD_FOLDER, unique_name)
-            file.save(upload_path)
-
-            img = Image.open(upload_path)
-
-            output_path = os.path.join(PROCESSED_FOLDER, unique_name)
-            img.save(output_path, optimize=True, quality=int(quality))
-
-            return send_file(output_path, as_attachment=True)
-
-        else:
-            flash("Invalid file type")
-            return redirect(request.url)
-
-    return render_template("image_tools/image_compress.html")
-
-
-# ===============================
-# IMAGE RESIZER
+# IMAGE TOOLS
 # ===============================
 @app.route("/image-resize", methods=["GET", "POST"])
 def image_resize():
-
     if request.method == "POST":
         return image_resize_logic(app)
-
     return render_template("image_tools/image_resize.html")
 
 
-# ===============================
-# BACKGROUND REMOVER
-# ===============================
 @app.route("/bg-remover", methods=["GET", "POST"])
 def bg_remover():
-
     if request.method == "POST":
         return bg_remover_logic(app)
-
     return render_template("image_tools/bg_remover.html")
 
 
 # ===============================
-# UTILITY TOOL ROUTES (ADDED ONLY)
+# UTILITY TOOLS
 # ===============================
-
 @app.route("/base64-encoder", methods=["GET", "POST"])
 def base64_encoder():
     if request.method == "POST":
-        text = request.form["text"]
-        encoded = base64.b64encode(text.encode()).decode()
-        return render_template("utility_tools/base64_encoder.html", result=encoded)
+        return base64_encoder_logic()
     return render_template("utility_tools/base64_encoder.html")
 
 
 @app.route("/json-formatter", methods=["GET", "POST"])
 def json_formatter():
     if request.method == "POST":
-        try:
-            raw_json = request.form["json_data"]
-            parsed = json.loads(raw_json)
-            formatted = json.dumps(parsed, indent=4)
-            return render_template("utility_tools/json_formatter.html", result=formatted)
-        except:
-            return render_template("utility_tools/json_formatter.html", error="Invalid JSON")
+        return json_formatter_logic()
     return render_template("utility_tools/json_formatter.html")
 
 
 @app.route("/qr-generator", methods=["GET", "POST"])
 def qr_generator():
     if request.method == "POST":
-        data = request.form["data"]
-        img = qrcode.make(data)
-        buffer = BytesIO()
-        img.save(buffer, format="PNG")
-        buffer.seek(0)
-        return send_file(buffer, mimetype="image/png", as_attachment=True, download_name="qr.png")
+        return qr_generator_logic()
     return render_template("utility_tools/qr_generator.html")
 
 
 @app.route("/word-counter", methods=["GET", "POST"])
 def word_counter():
     if request.method == "POST":
-        text = request.form["text"]
-        words = len(text.split())
-        characters = len(text)
-        return render_template(
-            "utility_tools/word_counter.html",
-            word_count=words,
-            char_count=characters
-        )
+        return word_counter_logic()
     return render_template("utility_tools/word_counter.html")
 
 
 # ===============================
-# LOCAL RUN
+# RUN
 # ===============================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
