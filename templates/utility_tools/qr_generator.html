@@ -1,14 +1,96 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="tool-container">
-    <h1>?? QR Code Generator</h1>
-    <p>Generate QR code from text or link.</p>
+<section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
 
-    <form action="{{ url_for('qr_generator') }}" method="POST">
-        <input type="text" name="data" placeholder="Enter text or URL" required>
-        <button type="submit">Generate QR</button>
-    </form>
+    <div style="
+        padding:45px;
+        border-radius:18px;
+        width:480px;
+        color:white;
+        box-shadow:0 15px 35px rgba(0,0,0,0.18);
+        position:relative;
+        overflow:hidden;
+        background: linear-gradient(270deg, #8e2de2, #ff6fd8, #8e2de2);
+        background-size: 600% 600%;
+        animation: gradientMove 8s ease infinite;
+    ">
+
+        <!-- Logo Row -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
+
+            <div style="
+                background:white;
+                color:#8e2de2;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                QR
+            </div>
+
+            <div style="font-size:24px; font-weight:600;">
+                QR Code Generator
+            </div>
+
+        </div>
+
+        <p style="margin-bottom:30px; color:#ffffff;">
+            Generate QR code instantly from text or link.
+        </p>
+
+        <form action="{{ url_for('qr_generator') }}" method="POST">
+
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <input type="text"
+                       name="data"
+                       placeholder="Enter text or URL"
+                       required
+                       style="border:none; width:100%; outline:none;">
+            </div>
+
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#8e2de2;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Generate QR
+
+            </button>
+
+        </form>
+
+    </div>
+
 </section>
+
+<style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
 
 {% endblock %}
