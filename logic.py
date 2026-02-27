@@ -1,15 +1,22 @@
-from flask import request, send_file
+import os
+import uuid
+import base64
+import json
+import zipfile
+import qrcode
+
+from flask import request, send_file, render_template
 from PIL import Image
 from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
 from docx2pdf import convert
 from pdf2image import convert_from_path
-import os
-import uuid
-import zipfile
+from io import BytesIO
 
 
-# ---------------- PNG TO PDF ----------------
+# ===============================
+# PNG TO PDF
+# ===============================
 def png_to_pdf_logic(app):
     file = request.files["file"]
 
@@ -19,11 +26,12 @@ def png_to_pdf_logic(app):
     )
 
     Image.open(file).convert("RGB").save(output_path)
-
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- JPG TO PDF ----------------
+# ===============================
+# JPG TO PDF
+# ===============================
 def jpg_to_pdf_logic(app):
     file = request.files["file"]
 
@@ -33,11 +41,12 @@ def jpg_to_pdf_logic(app):
     )
 
     Image.open(file).convert("RGB").save(output_path)
-
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- PDF TO JPG ----------------
+# ===============================
+# PDF TO JPG
+# ===============================
 def pdf_to_jpg_logic(app):
     file = request.files["file"]
 
@@ -65,7 +74,9 @@ def pdf_to_jpg_logic(app):
     return send_file(zip_path, as_attachment=True)
 
 
-# ---------------- PDF TO WORD ----------------
+# ===============================
+# PDF TO WORD
+# ===============================
 def pdf_to_word_logic(app):
     file = request.files["file"]
 
@@ -87,7 +98,9 @@ def pdf_to_word_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- WORD TO PDF ----------------
+# ===============================
+# WORD TO PDF
+# ===============================
 def word_to_pdf_logic(app):
     file = request.files["file"]
 
@@ -103,11 +116,12 @@ def word_to_pdf_logic(app):
     )
 
     convert(input_path, output_path)
-
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- MERGE PDF ----------------
+# ===============================
+# MERGE PDF
+# ===============================
 def merge_pdf_logic(app):
     files = request.files.getlist("files")
     merger = PdfMerger()
@@ -126,7 +140,9 @@ def merge_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- SPLIT PDF ----------------
+# ===============================
+# SPLIT PDF
+# ===============================
 def split_pdf_logic(app):
     file = request.files["file"]
     reader = PdfReader(file)
@@ -155,7 +171,9 @@ def split_pdf_logic(app):
     return send_file(zip_path, as_attachment=True)
 
 
-# ---------------- COMPRESS PDF ----------------
+# ===============================
+# COMPRESS PDF
+# ===============================
 def compress_pdf_logic(app):
     file = request.files["file"]
     reader = PdfReader(file)
@@ -175,7 +193,9 @@ def compress_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- ROTATE PDF ----------------
+# ===============================
+# ROTATE PDF
+# ===============================
 def rotate_pdf_logic(app):
     file = request.files["file"]
     reader = PdfReader(file)
@@ -196,7 +216,9 @@ def rotate_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- PROTECT PDF ----------------
+# ===============================
+# PROTECT PDF
+# ===============================
 def protect_pdf_logic(app):
     file = request.files["file"]
     password = request.form["password"]
@@ -220,17 +242,17 @@ def protect_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- UNLOCK PDF ----------------
+# ===============================
+# UNLOCK PDF
+# ===============================
 def unlock_pdf_logic(app):
     file = request.files["file"]
     password = request.form["password"]
 
     reader = PdfReader(file)
 
-    if not reader.is_encrypted:
-        return "PDF is not password protected."
-
-    reader.decrypt(password)
+    if reader.is_encrypted:
+        reader.decrypt(password)
 
     writer = PdfWriter()
     for page in reader.pages:
@@ -247,7 +269,9 @@ def unlock_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- RESIZE PDF ----------------
+# ===============================
+# RESIZE PDF
+# ===============================
 def resize_pdf_logic(app):
     file = request.files["file"]
     reader = PdfReader(file)
@@ -268,22 +292,9 @@ def resize_pdf_logic(app):
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- IMAGE COMPRESS ----------------
-def image_compress_logic(app):
-    file = request.files["file"]
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".jpg"
-    )
-
-    image = Image.open(file).convert("RGB")
-    image.save(output_path, "JPEG", quality=40, optimize=True)
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- IMAGE RESIZE ----------------
+# ===============================
+# IMAGE RESIZE
+# ===============================
 def image_resize_logic(app):
     file = request.files["file"]
     width = int(request.form.get("width", 800))
@@ -298,52 +309,90 @@ def image_resize_logic(app):
     )
 
     resized.save(output_path)
-
     return send_file(output_path, as_attachment=True)
 
 
-# ---------------- BG REMOVER ----------------
+# ===============================
+# BACKGROUND REMOVER
+# ===============================
 def bg_remover_logic(app):
     file = request.files["file"]
-    bg_option = request.form.get("bg_option", "white")
-    custom_bg_file = request.files.get("custom_bg")
-
-    input_image = Image.open(file)
-
-    if input_image.mode != "RGBA":
-        input_image = input_image.convert("RGBA")
+    input_image = Image.open(file).convert("RGBA")
 
     width, height = input_image.size
-
-    if bg_option == "white":
-        white_bg = Image.new("RGB", (width, height), (255, 255, 255))
-
-        if "A" in input_image.getbands():
-            white_bg.paste(input_image, (0, 0), input_image.split()[3])
-        else:
-            white_bg.paste(input_image, (0, 0))
-
-        final_image = white_bg
-
-    elif bg_option == "custom" and custom_bg_file:
-        custom_bg = Image.open(custom_bg_file).convert("RGB")
-        custom_bg = custom_bg.resize((width, height))
-
-        if "A" in input_image.getbands():
-            custom_bg.paste(input_image, (0, 0), input_image.split()[3])
-        else:
-            custom_bg.paste(input_image, (0, 0))
-
-        final_image = custom_bg
-
-    else:
-        final_image = input_image.convert("RGB")
+    white_bg = Image.new("RGB", (width, height), (255, 255, 255))
+    white_bg.paste(input_image, (0, 0), input_image.split()[3])
 
     output_path = os.path.join(
         app.config["PROCESSED_FOLDER"],
         str(uuid.uuid4()) + ".jpg"
     )
 
-    final_image.save(output_path, "JPEG")
-
+    white_bg.save(output_path, "JPEG")
     return send_file(output_path, as_attachment=True)
+
+
+# ===============================
+# BASE64 ENCODER
+# ===============================
+def base64_encoder_logic():
+    text = request.form["text"]
+    encoded = base64.b64encode(text.encode()).decode()
+    return render_template(
+        "utility_tools/base64_encoder.html",
+        result=encoded
+    )
+
+
+# ===============================
+# JSON FORMATTER
+# ===============================
+def json_formatter_logic():
+    try:
+        raw_json = request.form["json_data"]
+        parsed = json.loads(raw_json)
+        formatted = json.dumps(parsed, indent=4)
+
+        return render_template(
+            "utility_tools/json_formatter.html",
+            result=formatted
+        )
+    except:
+        return render_template(
+            "utility_tools/json_formatter.html",
+            error="Invalid JSON"
+        )
+
+
+# ===============================
+# QR GENERATOR
+# ===============================
+def qr_generator_logic():
+    data = request.form["data"]
+    img = qrcode.make(data)
+
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    return send_file(
+        buffer,
+        mimetype="image/png",
+        as_attachment=True,
+        download_name="qr.png"
+    )
+
+
+# ===============================
+# WORD COUNTER
+# ===============================
+def word_counter_logic():
+    text = request.form["text"]
+    words = len(text.split())
+    characters = len(text)
+
+    return render_template(
+        "utility_tools/word_counter.html",
+        word_count=words,
+        char_count=characters
+    )
