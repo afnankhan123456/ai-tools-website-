@@ -1,8 +1,13 @@
 import os
 import uuid
+import base64
+import json
+import qrcode
+
 from flask import Flask, render_template, request, send_file, redirect, flash
 from werkzeug.utils import secure_filename
 from PIL import Image
+from io import BytesIO
 
 from logic import (
     png_to_pdf_logic,
@@ -249,6 +254,58 @@ def bg_remover():
         return bg_remover_logic(app)
 
     return render_template("image_tools/bg_remover.html")
+
+
+# ===============================
+# UTILITY TOOL ROUTES (ADDED ONLY)
+# ===============================
+
+@app.route("/base64-encoder", methods=["GET", "POST"])
+def base64_encoder():
+    if request.method == "POST":
+        text = request.form["text"]
+        encoded = base64.b64encode(text.encode()).decode()
+        return render_template("utility_tools/base64_encoder.html", result=encoded)
+    return render_template("utility_tools/base64_encoder.html")
+
+
+@app.route("/json-formatter", methods=["GET", "POST"])
+def json_formatter():
+    if request.method == "POST":
+        try:
+            raw_json = request.form["json_data"]
+            parsed = json.loads(raw_json)
+            formatted = json.dumps(parsed, indent=4)
+            return render_template("utility_tools/json_formatter.html", result=formatted)
+        except:
+            return render_template("utility_tools/json_formatter.html", error="Invalid JSON")
+    return render_template("utility_tools/json_formatter.html")
+
+
+@app.route("/qr-generator", methods=["GET", "POST"])
+def qr_generator():
+    if request.method == "POST":
+        data = request.form["data"]
+        img = qrcode.make(data)
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+        buffer.seek(0)
+        return send_file(buffer, mimetype="image/png", as_attachment=True, download_name="qr.png")
+    return render_template("utility_tools/qr_generator.html")
+
+
+@app.route("/word-counter", methods=["GET", "POST"])
+def word_counter():
+    if request.method == "POST":
+        text = request.form["text"]
+        words = len(text.split())
+        characters = len(text)
+        return render_template(
+            "utility_tools/word_counter.html",
+            word_count=words,
+            char_count=characters
+        )
+    return render_template("utility_tools/word_counter.html")
 
 
 # ===============================
