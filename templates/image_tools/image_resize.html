@@ -1,21 +1,128 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="tool-container">
-    <h1>📐 Image Resizer</h1>
-    <p>Resize your image by entering custom width and height.</p>
+<section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
 
-    <form action="{{ url_for('image_resize') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" required>
+    <div style="
+        padding:45px;
+        border-radius:18px;
+        width:480px;
+        color:white;
+        box-shadow:0 15px 35px rgba(0,0,0,0.18);
+        position:relative;
+        overflow:hidden;
+        background: linear-gradient(270deg, #4e54c8, #8f94fb, #4e54c8);
+        background-size: 600% 600%;
+        animation: gradientMove 8s ease infinite;
+    ">
 
-        <label>Width (px)</label>
-        <input type="number" name="width" required>
+        <!-- Logo Row -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
 
-        <label>Height (px)</label>
-        <input type="number" name="height" required>
+            <div style="
+                background:white;
+                color:#4e54c8;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                IMG
+            </div>
 
-        <button type="submit">Resize Image</button>
-    </form>
+            <div style="font-size:24px; font-weight:600;">
+                Image Resizer
+            </div>
+
+        </div>
+
+        <p style="margin-bottom:30px; color:#ffffff;">
+            Resize your image easily by setting custom width and height.
+        </p>
+
+        <form action="{{ url_for('image_resize') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <!-- File Upload -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <input type="file"
+                       name="file"
+                       accept="image/*"
+                       required
+                       style="border:none; width:100%;">
+            </div>
+
+            <!-- Width -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <label style="color:#333; font-size:14px;">Width (px)</label>
+                <input type="number"
+                       name="width"
+                       required
+                       style="width:100%; border:none; margin-top:5px;">
+            </div>
+
+            <!-- Height -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <label style="color:#333; font-size:14px;">Height (px)</label>
+                <input type="number"
+                       name="height"
+                       required
+                       style="width:100%; border:none; margin-top:5px;">
+            </div>
+
+            <!-- Button -->
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#4e54c8;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Resize Image
+
+            </button>
+
+        </form>
+
+    </div>
+
 </section>
+
+<style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
 
 {% endblock %}
