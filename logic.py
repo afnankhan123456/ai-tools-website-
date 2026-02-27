@@ -301,37 +301,44 @@ def image_resize_logic(app):
 
 
 # ---------------- BG REMOVER ----------------
-from rembg import remove
-from io import BytesIO
+from flask import request, send_file
+from PIL import Image
+import os
+import uuid
 
-def bg_remover_logic(app):
+def bg_editor_logic(app):
+
     file = request.files["file"]
     bg_option = request.form.get("bg_option", "white")
     custom_bg_file = request.files.get("custom_bg")
 
-    input_image = Image.open(file).convert("RGBA")
+    input_image = Image.open(file)
 
-    # AI background removal
-    output = remove(input_image)
+    # Convert to RGBA only if needed
+    if input_image.mode != "RGBA":
+        input_image = input_image.convert("RGBA")
 
-    output = output.convert("RGBA")
+    width, height = input_image.size
 
-    # WHITE BACKGROUND
+    # DEFAULT WHITE BACKGROUND
     if bg_option == "white":
-        background = Image.new("RGBA", output.size, (255, 255, 255, 255))
-        background.paste(output, (0, 0), output)
-        final_image = background.convert("RGB")
+
+        white_bg = Image.new("RGB", (width, height), (255, 255, 255))
+        white_bg.paste(input_image, mask=input_image.split()[3] if "A" in input_image.getbands() else None)
+        final_image = white_bg
 
     # CUSTOM BACKGROUND
     elif bg_option == "custom" and custom_bg_file:
-        custom_bg = Image.open(custom_bg_file).convert("RGBA")
-        custom_bg = custom_bg.resize(output.size)
 
-        custom_bg.paste(output, (0, 0), output)
-        final_image = custom_bg.convert("RGB")
+        custom_bg = Image.open(custom_bg_file).convert("RGB")
+        custom_bg = custom_bg.resize((width, height))
+
+        custom_bg.paste(input_image, mask=input_image.split()[3] if "A" in input_image.getbands() else None)
+        final_image = custom_bg
 
     else:
-        final_image = output.convert("RGB")
+        # fallback white
+        final_image = input_image.convert("RGB")
 
     output_path = os.path.join(
         app.config["PROCESSED_FOLDER"],
@@ -341,5 +348,3 @@ def bg_remover_logic(app):
     final_image.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
-
-
