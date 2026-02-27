@@ -42,25 +42,53 @@
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Automatically remove the background from your image with one click.
+            Remove background and choose your new background style.
         </p>
 
         <form action="{{ url_for('bg_remover') }}"
               method="POST"
               enctype="multipart/form-data">
 
-            <!-- File Upload -->
+            <!-- Main Image Upload -->
             <div style="
                 background:white;
                 padding:12px;
                 border-radius:10px;
-                margin-bottom:20px;
+                margin-bottom:15px;
             ">
                 <input type="file"
                        name="file"
                        accept="image/*"
                        required
                        style="border:none; width:100%;">
+            </div>
+
+            <!-- Background Type Selection -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <label style="color:#333; font-size:14px;">Choose Background Type</label>
+                <select name="bg_option" style="width:100%; border:none; margin-top:5px;">
+                    <option value="white">White Background</option>
+                    <option value="custom">Upload Custom Background</option>
+                </select>
+            </div>
+
+            <!-- Custom Background Upload -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <label style="color:#333; font-size:14px;">Upload Custom Background (optional)</label>
+                <input type="file"
+                       name="custom_bg"
+                       accept="image/*"
+                       style="border:none; width:100%; margin-top:5px;">
             </div>
 
             <!-- Button -->
@@ -79,7 +107,7 @@
                     onmouseover="this.style.background='#f3f4f6'"
                     onmouseout="this.style.background='white'">
 
-                Remove Background
+                Process Image
 
             </button>
 
