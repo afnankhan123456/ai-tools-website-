@@ -306,7 +306,7 @@ from PIL import Image
 import os
 import uuid
 
-def bg_editor_logic(app):
+def bg_remover_logic(app):
 
     file = request.files["file"]
     bg_option = request.form.get("bg_option", "white")
@@ -314,7 +314,7 @@ def bg_editor_logic(app):
 
     input_image = Image.open(file)
 
-    # Convert to RGBA only if needed
+    # Convert to RGBA if not already
     if input_image.mode != "RGBA":
         input_image = input_image.convert("RGBA")
 
@@ -324,7 +324,13 @@ def bg_editor_logic(app):
     if bg_option == "white":
 
         white_bg = Image.new("RGB", (width, height), (255, 255, 255))
-        white_bg.paste(input_image, mask=input_image.split()[3] if "A" in input_image.getbands() else None)
+
+        # Agar alpha channel hai to mask use hoga
+        if "A" in input_image.getbands():
+            white_bg.paste(input_image, (0, 0), input_image.split()[3])
+        else:
+            white_bg.paste(input_image, (0, 0))
+
         final_image = white_bg
 
     # CUSTOM BACKGROUND
@@ -333,7 +339,11 @@ def bg_editor_logic(app):
         custom_bg = Image.open(custom_bg_file).convert("RGB")
         custom_bg = custom_bg.resize((width, height))
 
-        custom_bg.paste(input_image, mask=input_image.split()[3] if "A" in input_image.getbands() else None)
+        if "A" in input_image.getbands():
+            custom_bg.paste(input_image, (0, 0), input_image.split()[3])
+        else:
+            custom_bg.paste(input_image, (0, 0))
+
         final_image = custom_bg
 
     else:
@@ -348,3 +358,4 @@ def bg_editor_logic(app):
     final_image.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
+
