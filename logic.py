@@ -303,10 +303,14 @@ def image_resize_logic(app):
 # ---------------- BG REMOVER ----------------
 def bg_remover_logic(app):
     file = request.files["file"]
+    bg_option = request.form.get("bg_option", "white")
+    custom_bg_file = request.files.get("custom_bg")
 
+    # Load main image
     image = Image.open(file).convert("RGBA")
     datas = image.getdata()
 
+    # Remove white background (basic removal)
     newData = []
     for item in datas:
         if item[0] > 200 and item[1] > 200 and item[2] > 200:
@@ -316,11 +320,29 @@ def bg_remover_logic(app):
 
     image.putdata(newData)
 
+    # WHITE BACKGROUND OPTION
+    if bg_option == "white":
+        background = Image.new("RGBA", image.size, (255, 255, 255, 255))
+        background.paste(image, (0, 0), image)
+        final_image = background.convert("RGB")
+
+    # CUSTOM BACKGROUND OPTION
+    elif bg_option == "custom" and custom_bg_file:
+        custom_bg = Image.open(custom_bg_file).convert("RGBA")
+        custom_bg = custom_bg.resize(image.size)
+
+        custom_bg.paste(image, (0, 0), image)
+        final_image = custom_bg.convert("RGB")
+
+    else:
+        final_image = image.convert("RGB")
+
     output_path = os.path.join(
         app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".png"
+        str(uuid.uuid4()) + ".jpg"
     )
 
-    image.save(output_path, "PNG")
+    final_image.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
+
