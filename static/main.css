@@ -53,8 +53,8 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-    margin-top: 96px;        /* 1 inch header se gap */
-    margin-bottom: 96px;     /* 1 inch niche cards se gap */
+    margin-top: 96px;        
+    margin-bottom: 96px;     
     min-height: 240px;
     display: flex;
     align-items: center;
@@ -92,14 +92,14 @@ body {
 
 /* ===== TOOLS SECTION ===== */
 .tools-section {
-    padding: 0 60px 70px 60px;  /* top padding remove */
+    padding: 0 60px 70px 60px;
 }
 
 /* ===== SECTION TITLE ===== */
 .section-title {
     font-size: 32px;
-    margin-top: 0;     /* extra spacing remove */
-    margin-bottom: 40px;
+    margin-top: 0;
+    margin-bottom: 96px;   /* 🔥 1 inch gap cards se */
     text-align: center;
     letter-spacing: 1px;
 }
