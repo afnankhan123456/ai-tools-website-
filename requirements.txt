@@ -5,8 +5,4 @@ PyPDF2
 pdf2docx
 docx2pdf
 pdf2image
-qrcode
-
-
-
-
+qrcode[pil]
