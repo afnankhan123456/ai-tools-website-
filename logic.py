@@ -301,41 +301,37 @@ def image_resize_logic(app):
 
 
 # ---------------- BG REMOVER ----------------
+from rembg import remove
+from io import BytesIO
+
 def bg_remover_logic(app):
     file = request.files["file"]
     bg_option = request.form.get("bg_option", "white")
     custom_bg_file = request.files.get("custom_bg")
 
-    # Load main image
-    image = Image.open(file).convert("RGBA")
-    datas = image.getdata()
+    input_image = Image.open(file).convert("RGBA")
 
-    # Remove white background (basic removal)
-    newData = []
-    for item in datas:
-        if item[0] > 200 and item[1] > 200 and item[2] > 200:
-            newData.append((255, 255, 255, 0))
-        else:
-            newData.append(item)
+    # AI background removal
+    output = remove(input_image)
 
-    image.putdata(newData)
+    output = output.convert("RGBA")
 
-    # WHITE BACKGROUND OPTION
+    # WHITE BACKGROUND
     if bg_option == "white":
-        background = Image.new("RGBA", image.size, (255, 255, 255, 255))
-        background.paste(image, (0, 0), image)
+        background = Image.new("RGBA", output.size, (255, 255, 255, 255))
+        background.paste(output, (0, 0), output)
         final_image = background.convert("RGB")
 
-    # CUSTOM BACKGROUND OPTION
+    # CUSTOM BACKGROUND
     elif bg_option == "custom" and custom_bg_file:
         custom_bg = Image.open(custom_bg_file).convert("RGBA")
-        custom_bg = custom_bg.resize(image.size)
+        custom_bg = custom_bg.resize(output.size)
 
-        custom_bg.paste(image, (0, 0), image)
+        custom_bg.paste(output, (0, 0), output)
         final_image = custom_bg.convert("RGB")
 
     else:
-        final_image = image.convert("RGB")
+        final_image = output.convert("RGB")
 
     output_path = os.path.join(
         app.config["PROCESSED_FOLDER"],
@@ -345,4 +341,5 @@ def bg_remover_logic(app):
     final_image.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
+
 
