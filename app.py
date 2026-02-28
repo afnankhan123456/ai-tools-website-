@@ -1,5 +1,6 @@
 import os
 import uuid
+import threading  # 🔥 Used for concurrent user limit
 from flask import Flask, render_template, request, send_file, redirect, flash, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
@@ -28,6 +29,11 @@ from logic import (
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
+# ======================================================
+# 🔥 5MB MAX UPLOAD LIMIT (Global Limit for All Tools)
+# ======================================================
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
+
 UPLOAD_FOLDER = "uploads"
 PROCESSED_FOLDER = "processed"
 
@@ -38,6 +44,15 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["PROCESSED_FOLDER"] = PROCESSED_FOLDER
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+
+# ======================================================
+# 🔥 HEAVY TOOL CONCURRENT LIMIT (MAX 3 USERS)
+# Only for:
+# - pdf_to_jpg
+# - split_pdf
+# - bg_remover
+# ======================================================
+heavy_tool_semaphore = threading.BoundedSemaphore(3)
 
 
 def allowed_file(filename):
@@ -73,14 +88,11 @@ def utility_tools():
 # ===============================
 # UTILITY TOOL ROUTES
 # ===============================
-
 @app.route("/base64-encoder", methods=["GET", "POST"])
 def base64_encoder():
     result = None
-
     if request.method == "POST":
         result = base64_encoder_logic()
-
     return render_template("utility_tools/base64_encoder.html", result=result)
 
 
@@ -88,13 +100,11 @@ def base64_encoder():
 def json_formatter():
     result = None
     error = None
-
     if request.method == "POST":
         try:
             result = json_formatter_logic()
         except Exception:
             error = "Invalid JSON format."
-
     return render_template("utility_tools/json_formatter.html", result=result, error=error)
 
 
@@ -108,10 +118,8 @@ def qr_generator():
 @app.route("/word-counter", methods=["GET", "POST"])
 def word_counter():
     result = None
-
     if request.method == "POST":
         result = word_counter_logic()
-
     return render_template("utility_tools/word_counter.html", result=result)
 
 
@@ -181,6 +189,7 @@ def resize_pdf():
 # ===============================
 # PDF TOOL ACTION ROUTES (POST)
 # ===============================
+
 @app.route("/png-to-pdf-action", methods=["POST"])
 def png_to_pdf_action():
     return png_to_pdf_logic(app)
@@ -201,19 +210,37 @@ def word_to_pdf_action():
     return word_to_pdf_logic(app)
 
 
+# ======================================================
+# 🔥 HEAVY TOOL 1: PDF TO JPG (LIMITED TO 3 USERS)
+# ======================================================
 @app.route("/pdf-to-jpg-action", methods=["POST"])
 def pdf_to_jpg_action():
-    return pdf_to_jpg_logic(app)
+    if not heavy_tool_semaphore.acquire(blocking=False):
+        return "Server busy. Please try again after few seconds."
+
+    try:
+        return pdf_to_jpg_logic(app)
+    finally:
+        heavy_tool_semaphore.release()
+
+
+# ======================================================
+# 🔥 HEAVY TOOL 2: SPLIT PDF (LIMITED TO 3 USERS)
+# ======================================================
+@app.route("/split-pdf-action", methods=["POST"])
+def split_pdf_action():
+    if not heavy_tool_semaphore.acquire(blocking=False):
+        return "Server busy. Please try again after few seconds."
+
+    try:
+        return split_pdf_logic(app)
+    finally:
+        heavy_tool_semaphore.release()
 
 
 @app.route("/merge-pdf-action", methods=["POST"])
 def merge_pdf_action():
     return merge_pdf_logic(app)
-
-
-@app.route("/split-pdf-action", methods=["POST"])
-def split_pdf_action():
-    return split_pdf_logic(app)
 
 
 @app.route("/compress-pdf-action", methods=["POST"])
@@ -241,6 +268,34 @@ def resize_pdf_action():
     return resize_pdf_logic(app)
 
 
+# ======================================================
+# 🔥 HEAVY TOOL 3: BACKGROUND REMOVER (LIMITED TO 3 USERS)
+# ======================================================
+@app.route("/bg-remover", methods=["GET", "POST"])
+def bg_remover():
+
+    if request.method == "POST":
+        if not heavy_tool_semaphore.acquire(blocking=False):
+            return "Server busy. Please try again after few seconds."
+
+        try:
+            return bg_remover_logic(app)
+        finally:
+            heavy_tool_semaphore.release()
+
+    return render_template("image_tools/bg_remover.html")
+
+
+# ===============================
+# IMAGE RESIZER
+# ===============================
+@app.route("/image-resize", methods=["GET", "POST"])
+def image_resize():
+    if request.method == "POST":
+        return image_resize_logic(app)
+    return render_template("image_tools/image_resize.html")
+
+
 # ===============================
 # IMAGE COMPRESSOR
 # ===============================
@@ -263,7 +318,6 @@ def image_compressor():
             file.save(upload_path)
 
             img = Image.open(upload_path)
-
             output_path = os.path.join(PROCESSED_FOLDER, unique_name)
             img.save(output_path, optimize=True, quality=int(quality))
 
@@ -277,34 +331,8 @@ def image_compressor():
 
 
 # ===============================
-# IMAGE RESIZER
-# ===============================
-@app.route("/image-resize", methods=["GET", "POST"])
-def image_resize():
-
-    if request.method == "POST":
-        return image_resize_logic(app)
-
-    return render_template("image_tools/image_resize.html")
-
-
-# ===============================
-# BACKGROUND REMOVER
-# ===============================
-@app.route("/bg-remover", methods=["GET", "POST"])
-def bg_remover():
-
-    if request.method == "POST":
-        return bg_remover_logic(app)
-
-    return render_template("image_tools/bg_remover.html")
-
-
-# ===============================
 # LOCAL RUN
 # ===============================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
-
