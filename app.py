@@ -66,11 +66,57 @@ def allowed_file(filename):
 @app.route("/")
 def home():
     return render_template("home.html")
-
+    
+# ==== Gogle rout add
 @app.route("/google3e04282ea741df4b.html")
 def google_verify():
     return send_from_directory("static", "google3e04282ea741df4b.html")
-    
+
+#=============
+@app.route("/sitemap.xml")
+def sitemap():
+    pages = []
+
+    # Static pages
+    pages.append("https://ai-tools-website-twj7.onrender.com/")
+    pages.append("https://ai-tools-website-twj7.onrender.com/pdf-tools")
+    pages.append("https://ai-tools-website-twj7.onrender.com/image-tools")
+    pages.append("https://ai-tools-website-twj7.onrender.com/utility-tools")
+
+    # PDF tools
+    pages.append("https://ai-tools-website-twj7.onrender.com/png-to-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/jpg-to-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/pdf-to-word")
+    pages.append("https://ai-tools-website-twj7.onrender.com/word-to-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/pdf-to-jpg")
+    pages.append("https://ai-tools-website-twj7.onrender.com/merge-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/split-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/compress-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/rotate-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/unlock-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/protect-pdf")
+    pages.append("https://ai-tools-website-twj7.onrender.com/resize-pdf")
+
+    # Utility tools
+    pages.append("https://ai-tools-website-twj7.onrender.com/base64-encoder")
+    pages.append("https://ai-tools-website-twj7.onrender.com/json-formatter")
+    pages.append("https://ai-tools-website-twj7.onrender.com/qr-generator")
+    pages.append("https://ai-tools-website-twj7.onrender.com/word-counter")
+
+    # Image tools
+    pages.append("https://ai-tools-website-twj7.onrender.com/bg-remover")
+    pages.append("https://ai-tools-website-twj7.onrender.com/image-resize")
+    pages.append("https://ai-tools-website-twj7.onrender.com/image-compressor")
+
+    sitemap_xml = render_template("sitemap_template.xml", pages=pages)
+
+    response = app.response_class(
+        sitemap_xml,
+        mimetype='application/xml'
+    )
+
+    return response
+
 # ===============================
 # CATEGORY PAGES
 # ===============================
@@ -340,4 +386,5 @@ def image_compressor():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
