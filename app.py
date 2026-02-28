@@ -1,4 +1,5 @@
 import os
+from flask import send_from_directory
 import uuid
 import threading  # 🔥 Used for concurrent user limit
 from flask import Flask, render_template, request, send_file, redirect, flash, jsonify
@@ -66,7 +67,10 @@ def allowed_file(filename):
 def home():
     return render_template("home.html")
 
-
+@app.route("/google3e04282ea741df4b.html")
+def google_verify():
+    return send_from_directory("static", "google3e04282ea741df4b.html")
+    
 # ===============================
 # CATEGORY PAGES
 # ===============================
@@ -336,3 +340,4 @@ def image_compressor():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
