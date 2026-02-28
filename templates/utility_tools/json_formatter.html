@@ -57,7 +57,7 @@
                           rows="10"
                           placeholder="Paste your JSON here..."
                           required
-                          style="border:none; width:100%; resize:none;"></textarea>
+                          style="border:none; width:100%; resize:none; outline:none;">{{ request.form.json_data }}</textarea>
             </div>
 
             <button type="submit"
@@ -80,6 +80,34 @@
             </button>
 
         </form>
+
+        {% if result %}
+        <div style="
+            margin-top:25px;
+            background:white;
+            color:#11998e;
+            padding:15px;
+            border-radius:10px;
+            white-space:pre-wrap;
+            word-wrap:break-word;
+        ">
+            <strong>Formatted JSON:</strong><br><br>
+            {{ result }}
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div style="
+            margin-top:25px;
+            background:white;
+            color:red;
+            padding:15px;
+            border-radius:10px;
+            font-weight:600;
+        ">
+            {{ error }}
+        </div>
+        {% endif %}
 
     </div>
 
