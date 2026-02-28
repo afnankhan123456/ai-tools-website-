@@ -10,6 +10,7 @@
 body {
     background: radial-gradient(circle at top, #1a1a40, #0f0c29);
     color: #ffffff;
+    overflow-x: hidden;
 }
 
 /* ===== NAVBAR ===== */
@@ -21,7 +22,6 @@ body {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    flex-wrap: wrap; /* 🔥 Mobile fix */
 }
 
 .logo a {
@@ -58,8 +58,8 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-    margin-top: 96px;        
-    margin-bottom: 96px;     
+    margin-top: 96px;
+    margin-bottom: 96px;
     min-height: 240px;
     display: flex;
     align-items: center;
@@ -111,7 +111,7 @@ body {
 /* ===== GRID ===== */
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);  /* 🔥 Always 3 columns */
     gap: 30px;
 }
 
@@ -181,28 +181,30 @@ body {
         width: 100%;
     }
 
-    .nav-links a {
-        margin-left: 0;
-    }
-
-    .hero-content h1 {
-        font-size: 28px;
-    }
-
-    .hero-content p {
-        font-size: 16px;
-    }
-
     .tools-section {
-        padding: 0 20px 50px 20px;
+        padding: 0 15px 50px 15px;
     }
 
     .section-title {
-        margin-top: 60px;
         font-size: 24px;
+        margin-top: 60px;
+    }
+
+    .tools-grid {
+        grid-template-columns: repeat(3, 1fr); /* 🔥 Force horizontal */
+        gap: 15px;
     }
 
     .tool-card {
-        padding: 20px;
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    .hero-content h1 {
+        font-size: 26px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
     }
 }
