@@ -76,16 +76,26 @@ def utility_tools():
 
 @app.route("/base64-encoder", methods=["GET", "POST"])
 def base64_encoder():
+    result = None
+
     if request.method == "POST":
-        return base64_encoder_logic()
-    return render_template("utility_tools/base64_encoder.html")
+        result = base64_encoder_logic()
+
+    return render_template("utility_tools/base64_encoder.html", result=result)
 
 
 @app.route("/json-formatter", methods=["GET", "POST"])
 def json_formatter():
+    result = None
+    error = None
+
     if request.method == "POST":
-        return json_formatter_logic()
-    return render_template("utility_tools/json_formatter.html")
+        try:
+            result = json_formatter_logic()
+        except Exception:
+            error = "Invalid JSON format."
+
+    return render_template("utility_tools/json_formatter.html", result=result, error=error)
 
 
 @app.route("/qr-generator", methods=["GET", "POST"])
@@ -296,4 +306,5 @@ def bg_remover():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
