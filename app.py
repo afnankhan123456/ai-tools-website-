@@ -97,10 +97,12 @@ def qr_generator():
 
 @app.route("/word-counter", methods=["GET", "POST"])
 def word_counter():
+    result = None
+
     if request.method == "POST":
         result = word_counter_logic()
-        return jsonify(result)
-    return render_template("utility_tools/word_counter.html")
+
+    return render_template("utility_tools/word_counter.html", result=result)
 
 
 # ===============================
@@ -294,3 +296,4 @@ def bg_remover():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
