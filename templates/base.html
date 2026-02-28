@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tools Hub</title>
+
+    <!-- ✅ Dynamic SEO Title -->
+    <title>{% block title %}AI Tools Hub - Free Online PDF & Image Tools{% endblock %}</title>
+
+    <!-- ✅ Dynamic Meta Description -->
+    <meta name="description" content="{% block description %}Free online AI tools to convert, compress, edit PDFs and images instantly. Fast, secure and easy to use tools.{% endblock %}">
+
+    <!-- Keywords (Basic) -->
+    <meta name="keywords" content="PDF tools, Image tools, Word counter, PNG to PDF, AI tools online, free file converter">
+
+    <!-- Author -->
+    <meta name="author" content="AI Tools Hub">
+
+    <!-- Open Graph (Social Sharing) -->
+    <meta property="og:title" content="{% block og_title %}AI Tools Hub{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Free online AI tools for PDF, image and utility conversions.{% endblock %}">
+    <meta property="og:type" content="website">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
@@ -20,7 +36,7 @@
         <a href="{{ url_for('home') }}">
             <img class="nav-logo"
                  src="{{ url_for('static', filename='lodo2.png') }}"
-                 alt="Logo">
+                 alt="AI Tools Hub Logo">
             <span>AI Tools Hub</span>
         </a>
     </div>
@@ -45,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const maxSize = 5 * 1024 * 1024; // 5MB
 
-    // Target all file inputs in entire website
     document.querySelectorAll('input[type="file"]').forEach(function(input) {
 
         input.addEventListener("change", function () {
@@ -55,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (file.size > maxSize) {
                     alert("File size must be under 5MB.");
-                    this.value = ""; // Clear selected file
+                    this.value = "";
                 }
             }
 
@@ -68,4 +83,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
-
