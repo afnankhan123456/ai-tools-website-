@@ -21,6 +21,7 @@ body {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap; /* 🔥 Mobile fix */
 }
 
 .logo a {
@@ -39,8 +40,12 @@ body {
     margin-right: 8px;
 }
 
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
 .nav-links a {
-    margin-left: 25px;
     text-decoration: none;
     color: #ffffff;
     font-weight: 500;
@@ -81,7 +86,6 @@ body {
 .hero-content h1 {
     font-size: 44px;
     font-weight: 700;
-    color: #ffffff;
 }
 
 .hero-content p {
@@ -98,7 +102,7 @@ body {
 /* ===== SECTION TITLE ===== */
 .section-title {
     font-size: 32px;
-    margin-top: 96px;   /* 🔥 1 inch niche shift */
+    margin-top: 96px;
     margin-bottom: 40px;
     text-align: center;
     letter-spacing: 1px;
@@ -156,6 +160,49 @@ body {
 
 .tool-card h3 {
     font-size: 20px;
-    letter-spacing: 0.5px;
 }
 
+/* ============================= */
+/* 🔥 MOBILE RESPONSIVE FIX 🔥 */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+    }
+
+    .hero-content h1 {
+        font-size: 28px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .tools-section {
+        padding: 0 20px 50px 20px;
+    }
+
+    .section-title {
+        margin-top: 60px;
+        font-size: 24px;
+    }
+
+    .tool-card {
+        padding: 20px;
+    }
+}
