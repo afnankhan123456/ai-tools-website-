@@ -4,7 +4,12 @@ from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
 from docx2pdf import convert
 from pdf2image import convert_from_path
-import os, uuid, zipfile
+import base64
+import json
+import qrcode
+import os
+import uuid
+import zipfile
 
 
 # ---------------- PNG TO PDF ----------------
@@ -301,11 +306,6 @@ def image_resize_logic(app):
 
 
 # ---------------- BG REMOVER ----------------
-from flask import request, send_file
-from PIL import Image
-import os
-import uuid
-
 def bg_remover_logic(app):
 
     file = request.files["file"]
@@ -314,40 +314,29 @@ def bg_remover_logic(app):
 
     input_image = Image.open(file)
 
-    # Convert to RGBA if not already
     if input_image.mode != "RGBA":
         input_image = input_image.convert("RGBA")
 
     width, height = input_image.size
 
-    # DEFAULT WHITE BACKGROUND
     if bg_option == "white":
-
         white_bg = Image.new("RGB", (width, height), (255, 255, 255))
-
-        # Agar alpha channel hai to mask use hoga
         if "A" in input_image.getbands():
             white_bg.paste(input_image, (0, 0), input_image.split()[3])
         else:
             white_bg.paste(input_image, (0, 0))
-
         final_image = white_bg
 
-    # CUSTOM BACKGROUND
     elif bg_option == "custom" and custom_bg_file:
-
         custom_bg = Image.open(custom_bg_file).convert("RGB")
         custom_bg = custom_bg.resize((width, height))
-
         if "A" in input_image.getbands():
             custom_bg.paste(input_image, (0, 0), input_image.split()[3])
         else:
             custom_bg.paste(input_image, (0, 0))
-
         final_image = custom_bg
 
     else:
-        # fallback white
         final_image = input_image.convert("RGB")
 
     output_path = os.path.join(
@@ -358,3 +347,43 @@ def bg_remover_logic(app):
     final_image.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
+
+
+# ---------------- BASE64 ENCODER ----------------
+def base64_encoder_logic():
+    text = request.form.get("text", "")
+    return base64.b64encode(text.encode()).decode()
+
+
+# ---------------- JSON FORMATTER ----------------
+def json_formatter_logic():
+    raw_json = request.form.get("json_data", "")
+    parsed = json.loads(raw_json)
+    return json.dumps(parsed, indent=4)
+
+
+# ---------------- QR GENERATOR ----------------
+def qr_generator_logic(app):
+    data = request.form.get("data", "")
+    img = qrcode.make(data)
+
+    output_path = os.path.join(
+        app.config["PROCESSED_FOLDER"],
+        str(uuid.uuid4()) + ".png"
+    )
+
+    img.save(output_path)
+    return send_file(output_path, as_attachment=True)
+
+
+# ---------------- WORD COUNTER (2000 LIMIT) ----------------
+def word_counter_logic():
+    text = request.form.get("text", "")
+
+    if len(text) > 2000:
+        return {"error": "Sweet limit exceeded ❤️ Please keep text under 2000 characters."}
+
+    return {
+        "words": len(text.split()),
+        "characters": len(text)
+    }
