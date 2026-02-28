@@ -57,7 +57,7 @@
                           rows="8"
                           placeholder="Enter your text here..."
                           required
-                          style="border:none; width:100%; resize:none; outline:none;"></textarea>
+                          style="border:none; width:100%; resize:none; outline:none;">{{ request.form.text }}</textarea>
             </div>
 
             <button type="submit"
@@ -80,6 +80,24 @@
             </button>
 
         </form>
+
+        {% if result %}
+        <div style="
+            margin-top:25px;
+            background:white;
+            color:#ff8008;
+            padding:15px;
+            border-radius:10px;
+            font-weight:600;
+        ">
+            {% if result.error %}
+                {{ result.error }}
+            {% else %}
+                Words: {{ result.words }} <br>
+                Characters: {{ result.characters }}
+            {% endif %}
+        </div>
+        {% endif %}
 
     </div>
 
