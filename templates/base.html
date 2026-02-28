@@ -37,5 +37,34 @@
     {% block content %}{% endblock %}
 </main>
 
+<!-- ===================================================== -->
+<!-- 🔥 UNIVERSAL 5MB FILE SIZE VALIDATION (ALL FORMS) -->
+<!-- ===================================================== -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    // Target all file inputs in entire website
+    document.querySelectorAll('input[type="file"]').forEach(function(input) {
+
+        input.addEventListener("change", function () {
+
+            if (this.files.length > 0) {
+                const file = this.files[0];
+
+                if (file.size > maxSize) {
+                    alert("File size must be under 5MB.");
+                    this.value = ""; // Clear selected file
+                }
+            }
+
+        });
+
+    });
+
+});
+</script>
+
 </body>
 </html>
