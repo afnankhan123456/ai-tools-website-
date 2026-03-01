@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Rotate PDF Pages Online Free | AI Tools Hub{% endblock %}
-{% block description %}Rotate PDF pages online free. Quickly adjust PDF orientation with this easy tool.{% endblock %}
+{% block title %}Rotate PDF Pages Online Free | Rotate PDF Instantly{% endblock %}
+{% block description %}Rotate PDF pages online free. Turn PDF pages left or right easily. Fast and secure PDF rotation tool without watermark.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -13,7 +13,7 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #00f2fe, #4facfe, #43e97b);
+        background: linear-gradient(270deg, #654ea3, #eaafc8, #654ea3);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -23,7 +23,7 @@
 
             <div style="
                 background:white;
-                color:#4facfe;
+                color:#654ea3;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -44,13 +44,15 @@
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Rotate your PDF pages to the desired angle instantly.
+            Rotate your PDF pages left or right instantly.
+            Fast, secure and completely free PDF rotation tool.
         </p>
 
-        <form action="{{ url_for('rotate_pdf_action') }}"
+        <form action="{{ url_for('rotate_pdf') }}"
               method="POST"
               enctype="multipart/form-data">
 
+            <!-- File Upload -->
             <div style="
                 background:white;
                 padding:12px;
@@ -64,24 +66,25 @@
                        style="border:none; width:100%;">
             </div>
 
-            <!-- Optional Rotate Option -->
+            <!-- Rotate Options -->
             <div style="
                 background:white;
                 padding:12px;
                 border-radius:10px;
                 margin-bottom:20px;
             ">
-                <select name="angle" style="width:100%; border:none;">
-                    <option value="90">Rotate 90°</option>
+                <select name="rotate_option" style="width:100%; border:none;">
+                    <option value="90">Rotate 90° Right</option>
                     <option value="180">Rotate 180°</option>
-                    <option value="270">Rotate 270°</option>
+                    <option value="270">Rotate 90° Left</option>
                 </select>
             </div>
 
+            <!-- Button -->
             <button type="submit"
                     style="
                         background:white;
-                        color:#4facfe;
+                        color:#654ea3;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -106,48 +109,58 @@
 <!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>Rotate PDF Pages Online Free – PDF Orientation Change Karein Easily</h2>
+    <h2>Rotate PDF Pages Online Free – PDF Pages Ko Easily Turn Karein</h2>
 
     <p>
-        Hamara free PDF rotate tool aapko PDF pages ka angle change karne me madad karta hai.
-        Agar aapka PDF ulta open ho raha hai, sideways dikha raha hai
-        ya print karte waqt orientation galat aa rahi hai,
-        to ye tool fast aur simple solution deta hai.
+        Hamara <strong>free PDF rotate tool</strong> aapko PDF pages ko 90°, 180° ya 270° me rotate karne ki suvidha deta hai.
+        Agar aapka scanned document ulta ya sideways hai,
+        to ye <strong>online PDF rotation tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap PDF ko online rotate kar sakte hain bina koi software install kiye.
-        Sirf apni PDF file upload karein, desired rotation angle select karein
-        aur updated PDF download karein. Ye tool secure hai aur files permanently store nahi hoti.
+        Aap bina kisi software install kiye PDF pages rotate kar sakte hain.
+        Sirf apni file upload karein, rotation angle select karein
+        aur updated PDF download karein.
+        Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
     <h3>How to Rotate PDF Online?</h3>
     <ul>
         <li>Step 1: Apni PDF file upload karein</li>
-        <li>Step 2: Rotation angle select karein (90°, 180° ya 270°)</li>
+        <li>Step 2: Rotation angle select karein</li>
         <li>Step 3: Rotate PDF button par click karein</li>
-        <li>Step 4: Rotated PDF file download karein</li>
+        <li>Step 4: Updated PDF download karein</li>
     </ul>
 
-    <h3>Why Use This PDF Rotate Tool?</h3>
+    <h3>Why Use This PDF Rotation Tool?</h3>
     <ul>
         <li>100% free PDF rotation</li>
         <li>No watermark</li>
-        <li>Fast processing</li>
+        <li>Instant processing</li>
         <li>Secure file handling</li>
         <li>No registration required</li>
+        <li>Works on mobile & desktop</li>
+    </ul>
+
+    <!-- 🔗 MINIMAL PDF INTERNAL LINKING -->
+    <h3>Explore More PDF Tools</h3>
+
+    <ul>
+        <li><a href="{{ url_for('compress_pdf_action') }}">Compress PDF</a> – File size reduce karein</li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF</a> – Multiple PDFs combine karein</li>
+        <li><a href="{{ url_for('protect_pdf') }}">Protect PDF</a> – Password add karke secure karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
     <p><strong>Q: Kya sirf ek page rotate kar sakte hain?</strong><br>
-    Ye backend configuration par depend karta hai, lekin generally pura document rotate hota hai.</p>
+    Ye feature implementation par depend karta hai, lekin usually poori file rotate hoti hai.</p>
 
-    <p><strong>Q: Kya rotation ke baad content safe rehta hai?</strong><br>
-    Haan, content same rehta hai sirf page orientation change hoti hai.</p>
+    <p><strong>Q: Kya rotation ke baad quality change hoti hai?</strong><br>
+    Nahi, sirf page orientation change hoti hai. Content quality same rehti hai.</p>
 
-    <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, aap mobile, laptop ya kisi bhi device se use kar sakte hain.</p>
+    <p><strong>Q: Kya ye tool mobile par kaam karega?</strong><br>
+    Haan, ye fully responsive PDF rotation tool hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
