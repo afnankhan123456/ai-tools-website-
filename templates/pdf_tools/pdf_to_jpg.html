@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}PDF to JPG Converter Online Free | AI Tools Hub{% endblock %}
-{% block description %}Convert PDF pages to JPG images online free. Easy and secure PDF to JPG converter tool.{% endblock %}
+{% block title %}PDF to JPG Converter Online Free | Convert PDF to Images Instantly{% endblock %}
+{% block description %}Convert PDF to JPG online free. Extract high-quality images from PDF files quickly and securely. No watermark PDF to image converter tool.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -13,7 +13,7 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #ff512f, #dd2476, #ff9966);
+        background: linear-gradient(270deg, #1e3c72, #2a5298, #1e3c72);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -23,7 +23,7 @@
 
             <div style="
                 background:white;
-                color:#dd2476;
+                color:#1e3c72;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -38,19 +38,21 @@
             </div>
 
             <div style="font-size:24px; font-weight:600;">
-                PDF → JPG
+                PDF to JPG
             </div>
 
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Convert your PDF files into high-quality JPG images instantly.
+            Convert your PDF pages into high-quality JPG images instantly.
+            Fast, secure and completely free PDF to JPG converter.
         </p>
 
-        <form action="{{ url_for('pdf_to_jpg_action') }}"
+        <form action="{{ url_for('pdf_to_jpg') }}"
               method="POST"
               enctype="multipart/form-data">
 
+            <!-- File Upload -->
             <div style="
                 background:white;
                 padding:12px;
@@ -64,10 +66,11 @@
                        style="border:none; width:100%;">
             </div>
 
+            <!-- Button -->
             <button type="submit"
                     style="
                         background:white;
-                        color:#dd2476;
+                        color:#1e3c72;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -92,47 +95,63 @@
 <!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>PDF to JPG Converter Online Free – PDF Ko JPG Image Me Convert Karein</h2>
+    <h2>PDF to JPG Converter Online Free – PDF Pages ko Image Me Convert Karein</h2>
 
     <p>
-        Hamara free PDF to JPG converter tool aapko PDF pages ko high-quality JPG images me convert karne me madad karta hai.
-        Agar aap PDF ke pages ko image format me save karna chahte ho,
-        presentation me use karna ho ya social media par share karna ho,
-        to ye tool fast aur simple solution deta hai.
+        Hamara <strong>free PDF to JPG converter</strong> aapko PDF file ke har page ko high-quality JPG image me convert karne ki suvidha deta hai.
+        Agar aap document ka screenshot lena chahte ho ya PDF pages ko alag-alag images me share karna chahte ho,
+        to ye <strong>online PDF to image tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap PDF ko online JPG me convert kar sakte hain bina koi software install kiye.
-        Sirf apni PDF file upload karein aur converted JPG images download karein.
-        Ye tool secure hai aur uploaded files permanently store nahi hoti.
+        Aap bina kisi software install kiye PDF ko JPG me convert kar sakte hain.
+        Sirf apni file upload karein aur converted images download karein.
+        Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
     <h3>How to Convert PDF to JPG Online?</h3>
     <ul>
         <li>Step 1: Apni PDF file upload karein</li>
         <li>Step 2: Convert to JPG button par click karein</li>
-        <li>Step 3: JPG images download karein</li>
+        <li>Step 3: Har page ki JPG image download karein</li>
     </ul>
 
-    <h3>Why Use This PDF to JPG Converter?</h3>
+    <h3>Why Use This PDF to JPG Tool?</h3>
     <ul>
-        <li>100% free PDF to JPG conversion</li>
+        <li>100% free conversion</li>
         <li>No watermark</li>
-        <li>Fast processing</li>
         <li>High-quality image output</li>
-        <li>No registration required</li>
+        <li>Fast processing</li>
+        <li>Secure file handling</li>
+        <li>Works on mobile & desktop</li>
+    </ul>
+
+    <!-- 🔗 INTERNAL LINKING (ONLY PDF TOOLS) -->
+    <h3>Explore More PDF Tools</h3>
+
+    <p>
+        Agar aap PDF ko edit, combine ya optimize karna chahte hain,
+        to hamare ye related PDF tools bhi try karein:
+    </p>
+
+    <ul>
+        <li><a href="{{ url_for('compress_pdf_action') }}">Compress PDF</a> – PDF file size reduce karein</li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF</a> – Multiple PDFs ko ek file me combine karein</li>
+        <li><a href="{{ url_for('split_pdf') }}">Split PDF</a> – Large PDF ko alag pages me divide karein</li>
+        <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> – Editable Word format me convert karein</li>
+        <li><a href="{{ url_for('jpg_to_pdf') }}">JPG to PDF Converter</a> – Images ko PDF me convert karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Q: Kya PDF ke sab pages JPG me convert ho jate hain?</strong><br>
-    Haan, PDF ke har page ko alag JPG image me convert kiya ja sakta hai.</p>
+    <p><strong>Q: Kya har PDF page alag JPG me convert hota hai?</strong><br>
+    Haan, PDF ke har page ki separate JPG image generate hoti hai.</p>
 
-    <p><strong>Q: Kya image quality same rehti hai?</strong><br>
-    Haan, output JPG images clear aur readable rehti hain.</p>
+    <p><strong>Q: Kya image quality maintain rahegi?</strong><br>
+    Haan, high-resolution JPG output generate hota hai bina noticeable quality loss ke.</p>
 
     <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, aap mobile, laptop ya kisi bhi device se use kar sakte hain.</p>
+    Haan, ye fully responsive PDF to JPG converter hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
