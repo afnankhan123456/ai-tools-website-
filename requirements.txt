@@ -1,8 +1,11 @@
 Flask
-Pillow
 gunicorn
+Pillow
 PyPDF2
 pdf2docx
 docx2pdf
 pdf2image
 qrcode[pil]
+
+rembg
+onnxruntime
