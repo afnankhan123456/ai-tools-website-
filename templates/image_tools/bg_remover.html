@@ -75,9 +75,27 @@
             ">
                 <label style="color:#333; font-size:14px;">Choose Background Type</label>
                 <select name="bg_option"
+                        required
                         style="width:100%; border:none; margin-top:5px;">
-                    <option value="white">White Background</option>
-                    <option value="custom">Upload Custom Background</option>
+                    <option value="">Select Background</option>
+                    <option value="preset">Choose From Gallery</option>
+                    <option value="custom">Upload Your Own Background</option>
+                </select>
+            </div>
+
+            <!-- Preset Background Selection -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <label style="color:#333; font-size:14px;">Select Background From Gallery</label>
+                <select name="selected_bg"
+                        style="width:100%; border:none; margin-top:5px;">
+                    <option value="bg1.jpg">Background 1</option>
+                    <option value="bg2.jpg">Background 2</option>
+                    <option value="bg3.jpg">Background 3</option>
                 </select>
             </div>
 
@@ -88,7 +106,7 @@
                 border-radius:10px;
                 margin-bottom:20px;
             ">
-                <label style="color:#333; font-size:14px;">Upload Custom Background (Optional)</label>
+                <label style="color:#333; font-size:14px;">Upload Custom Background</label>
                 <input type="file"
                        name="custom_bg"
                        accept="image/*"
@@ -118,66 +136,6 @@
         </form>
 
     </div>
-
-</section>
-
-<!-- 🔥 SEO CONTENT SECTION -->
-<section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
-
-    <h2>Free Background Remover Online – Remove Image Background Easily & Instantly</h2>
-
-    <p>
-        Hamara <strong>free background remover tool</strong> AI technology ka use karta hai
-        jo automatically image ka background remove karta hai.
-        Agar aap product photos, eCommerce listing, passport photo ya social media graphics bana rahe ho,
-        to ye <strong>online background remover</strong> fast aur simple solution deta hai.
-    </p>
-
-    <p>
-        Aap bina kisi software install kiye background remove kar sakte hain.
-        Sirf image upload karein aur processed image download karein.
-        Ye tool JPG, PNG aur WebP format support karta hai.
-    </p>
-
-    <h3>How to Remove Background Online?</h3>
-    <ul>
-        <li>Step 1: Apni image upload karein</li>
-        <li>Step 2: Background type select karein</li>
-        <li>Step 3: Remove Background button par click karein</li>
-        <li>Step 4: Final image download karein</li>
-    </ul>
-
-    <h3>Why Use This Online Background Remover?</h3>
-    <ul>
-        <li>100% free background removal</li>
-        <li>No watermark</li>
-        <li>Fast AI processing</li>
-        <li>Secure image handling</li>
-        <li>No registration required</li>
-        <li>Works on mobile & desktop</li>
-    </ul>
-
-    <h3>More Free Online Tools</h3>
-
-    <p>
-        Background remove ke alawa aap hamare dusre tools bhi try kar sakte hain:
-    </p>
-
-    <ul>
-        <li><a href="{{ url_for('image_compress') }}">Compress Image Online</a></li>
-        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a></li>
-        <li><a href="{{ url_for('png_to_pdf') }}">PNG to PDF Converter</a></li>
-        <li><a href="{{ url_for('jpg_to_pdf') }}">JPG to PDF Tool</a></li>
-        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a></li>
-    </ul>
-
-    <h3>Frequently Asked Questions (FAQ)</h3>
-
-    <p><strong>Q: Kya background remove karne ke baad image quality safe rahegi?</strong><br>
-    Haan, original resolution maintain ki jati hai.</p>
-
-    <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, ye fully responsive background remover hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
