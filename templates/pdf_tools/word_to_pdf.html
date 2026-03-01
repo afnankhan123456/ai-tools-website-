@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Word to PDF Converter Online Free | AI Tools Hub{% endblock %}
-{% block description %}Convert Word documents to PDF online free. Simple and fast DOC to PDF converter tool.{% endblock %}
+{% block title %}Word to PDF Converter Online Free | Convert DOC to PDF Instantly{% endblock %}
+{% block description %}Convert Word to PDF online free. Change DOC or DOCX files into high-quality PDF easily and securely. No watermark Word to PDF converter tool.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -13,18 +13,17 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #00c6ff, #0072ff, #00f5a0);
+        background: linear-gradient(270deg, #2193b0, #6dd5ed, #2193b0);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
-        text-align:center;
     ">
 
         <!-- Logo Row -->
-        <div style="display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:25px;">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
 
             <div style="
                 background:white;
-                color:#0072ff;
+                color:#2193b0;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -39,19 +38,55 @@
             </div>
 
             <div style="font-size:24px; font-weight:600;">
-                Word → PDF
+                Word to PDF
             </div>
 
         </div>
 
-        <p style="margin-bottom:20px; font-size:22px;">
-            😊 Feature Coming Soon!
+        <p style="margin-bottom:30px; color:#ffffff;">
+            Convert your Word document into a high-quality PDF instantly.
+            Fast, secure and completely free Word to PDF converter.
         </p>
 
-        <p style="font-size:16px; opacity:0.9;">
-            We are working hard to bring Word to PDF conversion very soon.
-            Stay tuned and keep smiling!
-        </p>
+        <form action="{{ url_for('word_to_pdf') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <!-- File Upload -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <input type="file"
+                       name="file"
+                       accept=".doc,.docx"
+                       required
+                       style="border:none; width:100%;">
+            </div>
+
+            <!-- Button -->
+            <button type="submit"
+                    style="
+                        background:white;
+                        color:#2193b0;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Convert to PDF
+
+            </button>
+
+        </form>
 
     </div>
 
@@ -60,37 +95,56 @@
 <!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>Word to PDF Converter Online Free – DOC Ko PDF Me Convert Karein Easily</h2>
+    <h2>Word to PDF Converter Online Free – DOC File ko PDF Me Convert Karein</h2>
 
     <p>
-        Hamara Word to PDF converter tool aapko Word documents (.doc, .docx) ko PDF format me convert karne ki facility dega.
-        Agar aap resume, assignment, report ya official document ko secure PDF format me save karna chahte ho,
-        to Word se PDF convert karna best option hota hai.
+        Hamara <strong>free Word to PDF converter</strong> aapko DOC ya DOCX file ko high-quality PDF format me convert karne ki suvidha deta hai.
+        Agar aap resume, report ya assignment ko secure PDF format me share karna chahte ho,
+        to ye <strong>online DOC to PDF tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Bahut jald aap yaha apni Word file upload karke instantly PDF me convert kar sakenge.
-        Is tool ka purpose simple hoga – fast conversion, proper formatting aur secure processing.
+        Aap bina kisi software install kiye Word file ko PDF me convert kar sakte hain.
+        Sirf document upload karein aur converted PDF download karein.
+        Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
-    <h3>Why Convert Word to PDF?</h3>
+    <h3>How to Convert Word to PDF Online?</h3>
     <ul>
-        <li>PDF format me document layout same rehta hai</li>
-        <li>Sharing ke liye safe aur professional format</li>
-        <li>Printing ke liye perfect format</li>
-        <li>Editing restrictions apply ki ja sakti hain</li>
+        <li>Step 1: Apni Word file upload karein</li>
+        <li>Step 2: Convert to PDF button par click karein</li>
+        <li>Step 3: Final PDF file download karein</li>
+    </ul>
+
+    <h3>Why Use This Word to PDF Tool?</h3>
+    <ul>
+        <li>100% free conversion</li>
+        <li>No watermark</li>
+        <li>High-quality PDF output</li>
+        <li>Fast processing</li>
+        <li>Secure file handling</li>
+        <li>Works on mobile & desktop</li>
+    </ul>
+
+    <!-- 🔗 Minimal Internal Linking (PDF Related Only) -->
+    <h3>Explore More PDF Tools</h3>
+
+    <ul>
+        <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word</a> – PDF ko editable DOC me convert karein</li>
+        <li><a href="{{ url_for('compress_pdf_action') }}">Compress PDF</a> – File size reduce karein</li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF</a> – Multiple PDFs combine karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Q: Kya Word to PDF conversion free hoga?</strong><br>
-    Haan, ye tool completely free hoga jab launch hoga.</p>
-
     <p><strong>Q: Kya formatting same rahegi?</strong><br>
-    Haan, PDF me layout aur formatting maintain rahegi.</p>
+    Haan, most cases me formatting preserve hoti hai, lekin complex layouts me minor difference ho sakta hai.</p>
 
-    <p><strong>Q: Kab available hoga?</strong><br>
-    Bahut jald launch kiya jayega. Stay tuned!</p>
+    <p><strong>Q: Kya ye tool safe hai?</strong><br>
+    Haan, files temporary process hoti hain aur permanently store nahi ki jati.</p>
+
+    <p><strong>Q: Kya mobile par Word file convert kar sakte hain?</strong><br>
+    Haan, ye fully responsive Word to PDF converter hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
