@@ -4,12 +4,17 @@ from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
 from docx2pdf import convert
 from pdf2image import convert_from_path
+from rembg import remove
+import io
 import base64
 import json
 import qrcode
 import os
 import uuid
 import zipfile
+
+
+
 
 
 # ---------------- PNG TO PDF ----------------
@@ -306,45 +311,69 @@ def image_resize_logic(app):
 
 
 # ---------------- BG REMOVER ----------------
+from flask import request, send_file
+from PIL import Image
+from rembg import remove
+import os
+import uuid
+import io
+
 def bg_remover_logic(app):
 
+    if "file" not in request.files:
+        return "No file uploaded"
+
     file = request.files["file"]
-    bg_option = request.form.get("bg_option", "white")
+    bg_option = request.form.get("bg_option")
+    selected_bg = request.form.get("selected_bg")
     custom_bg_file = request.files.get("custom_bg")
 
-    input_image = Image.open(file)
+    os.makedirs(app.config["PROCESSED_FOLDER"], exist_ok=True)
 
-    if input_image.mode != "RGBA":
-        input_image = input_image.convert("RGBA")
+    # 🔹 Open and remove background
+    input_image = Image.open(file).convert("RGBA")
+    removed = remove(input_image)
+    foreground = Image.open(io.BytesIO(removed)).convert("RGBA")
 
-    width, height = input_image.size
+    width, height = foreground.size
 
-    if bg_option == "white":
-        white_bg = Image.new("RGB", (width, height), (255, 255, 255))
-        if "A" in input_image.getbands():
-            white_bg.paste(input_image, (0, 0), input_image.split()[3])
-        else:
-            white_bg.paste(input_image, (0, 0))
-        final_image = white_bg
+    # ===============================
+    # PRESET BACKGROUND (GitHub folder)
+    # ===============================
+    if bg_option == "preset" and selected_bg:
 
+        preset_path = os.path.join(
+            app.root_path,
+            "templates/image_tools/backgroud_images",
+            selected_bg
+        )
+
+        if not os.path.exists(preset_path):
+            return "Preset background not found"
+
+        background = Image.open(preset_path).convert("RGB")
+        background = background.resize((width, height))
+        background.paste(foreground, (0, 0), foreground)
+
+    # ===============================
+    #  UPLOAD BACKGROUND
+    # ===============================
     elif bg_option == "custom" and custom_bg_file:
-        custom_bg = Image.open(custom_bg_file).convert("RGB")
-        custom_bg = custom_bg.resize((width, height))
-        if "A" in input_image.getbands():
-            custom_bg.paste(input_image, (0, 0), input_image.split()[3])
-        else:
-            custom_bg.paste(input_image, (0, 0))
-        final_image = custom_bg
+
+        background = Image.open(custom_bg_file).convert("RGB")
+        background = background.resize((width, height))
+        background.paste(foreground, (0, 0), foreground)
 
     else:
-        final_image = input_image.convert("RGB")
+        return "Please select a valid background option"
 
+    output_filename = str(uuid.uuid4()) + ".jpg"
     output_path = os.path.join(
         app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".jpg"
+        output_filename
     )
 
-    final_image.save(output_path, "JPEG")
+    background.save(output_path, "JPEG")
 
     return send_file(output_path, as_attachment=True)
 
@@ -387,3 +416,4 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
