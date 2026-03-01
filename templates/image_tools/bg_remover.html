@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Free Background Remover Online | AI Tools Hub{% endblock %}
-{% block description %}Remove image background online free. Fast AI powered background remover tool.{% endblock %}
+{% block title %}Free Background Remover Online | Remove Image Background Easily{% endblock %}
+{% block description %}Remove image background online free. Fast AI powered background remover tool. Image background remove karein easily without watermark.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -18,7 +18,6 @@
         animation: gradientMove 8s ease infinite;
     ">
 
-        <!-- Logo Row -->
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
 
             <div style="
@@ -44,20 +43,14 @@
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Remove background and choose your new background style.
+            Remove image background online free and choose your new background style instantly.
         </p>
 
         <form action="{{ url_for('bg_remover') }}"
               method="POST"
               enctype="multipart/form-data">
 
-            <!-- Main Image Upload -->
-            <div style="
-                background:white;
-                padding:12px;
-                border-radius:10px;
-                margin-bottom:15px;
-            ">
+            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
                 <input type="file"
                        name="file"
                        accept="image/*"
@@ -65,13 +58,7 @@
                        style="border:none; width:100%;">
             </div>
 
-            <!-- Background Type Selection -->
-            <div style="
-                background:white;
-                padding:12px;
-                border-radius:10px;
-                margin-bottom:15px;
-            ">
+            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
                 <label style="color:#333; font-size:14px;">Choose Background Type</label>
                 <select name="bg_option" style="width:100%; border:none; margin-top:5px;">
                     <option value="white">White Background</option>
@@ -79,13 +66,7 @@
                 </select>
             </div>
 
-            <!-- Custom Background Upload -->
-            <div style="
-                background:white;
-                padding:12px;
-                border-radius:10px;
-                margin-bottom:20px;
-            ">
+            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:20px;">
                 <label style="color:#333; font-size:14px;">Upload Custom Background (optional)</label>
                 <input type="file"
                        name="custom_bg"
@@ -93,24 +74,9 @@
                        style="border:none; width:100%; margin-top:5px;">
             </div>
 
-            <!-- Button -->
             <button type="submit"
-                    style="
-                        background:white;
-                        color:#11998e;
-                        border:none;
-                        padding:14px;
-                        width:100%;
-                        border-radius:10px;
-                        font-weight:600;
-                        cursor:pointer;
-                        transition:0.3s;
-                    "
-                    onmouseover="this.style.background='#f3f4f6'"
-                    onmouseout="this.style.background='white'">
-
+                    style="background:white; color:#11998e; border:none; padding:14px; width:100%; border-radius:10px; font-weight:600; cursor:pointer;">
                 Process Image
-
             </button>
 
         </form>
@@ -118,6 +84,55 @@
     </div>
 
 </section>
+
+
+<!-- 🔥 SEO CONTENT SECTION -->
+<section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
+
+    <h2>Free Background Remover Online – Image Background Remove Karein Easily</h2>
+
+    <p>
+        Hamara free background remover tool aapko kisi bhi image ka background remove karne me madad karta hai.
+        Agar aap product photo edit kar rahe ho, passport size photo bana rahe ho, ya social media ke liye clean
+        background chahte ho – ye tool fast aur simple solution deta hai.
+    </p>
+
+    <p>
+        You can remove image background online without installing any software.
+        Sirf image upload karein aur processed image download karein.
+        Ye background remover tool PNG, JPG aur WebP format support karta hai.
+    </p>
+
+    <h3>How to Remove Background Online?</h3>
+    <ul>
+        <li>Step 1: Apni image upload karein</li>
+        <li>Step 2: Background option select karein (white ya custom)</li>
+        <li>Step 3: Process Image button click karein</li>
+        <li>Step 4: Download your background removed image</li>
+    </ul>
+
+    <h3>Why Use This Background Remover Tool?</h3>
+    <ul>
+        <li>No watermark</li>
+        <li>100% free background remover</li>
+        <li>Fast processing</li>
+        <li>Secure image handling</li>
+        <li>No registration required</li>
+    </ul>
+
+    <h3>Frequently Asked Questions (FAQ)</h3>
+
+    <p><strong>Q: Kya ye background remover free hai?</strong><br>
+    Haan, ye completely free background remover online tool hai.</p>
+
+    <p><strong>Q: Kya meri image safe rahegi?</strong><br>
+    Haan, uploaded images temporary process hoti hain aur permanently store nahi hoti.</p>
+
+    <p><strong>Q: Kya main mobile se bhi use kar sakta hoon?</strong><br>
+    Haan, aap mobile, laptop ya kisi bhi device se use kar sakte hain.</p>
+
+</section>
+
 
 <style>
 @keyframes gradientMove {
@@ -128,4 +143,3 @@
 </style>
 
 {% endblock %}
-
