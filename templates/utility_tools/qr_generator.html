@@ -14,7 +14,7 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #8e2de2, #ff6fd8, #8e2de2);
+        background: linear-gradient(270deg, #1e3c72, #2a5298, #1e3c72);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -24,7 +24,7 @@
 
             <div style="
                 background:white;
-                color:#8e2de2;
+                color:#2a5298;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -45,7 +45,7 @@
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Generate QR code instantly from text or link.
+            Generate QR code instantly from text or URL with secure processing.
         </p>
 
         <form action="{{ url_for('qr_generator') }}" method="POST">
@@ -66,7 +66,7 @@
             <button type="submit"
                     style="
                         background:white;
-                        color:#8e2de2;
+                        color:#2a5298;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -86,7 +86,9 @@
 
         {% if qr_image %}
         <div style="margin-top:25px; text-align:center;">
-            <img src="data:image/png;base64,{{ qr_image }}" alt="Generated QR Code" style="max-width:200px;">
+            <img src="data:image/png;base64,{{ qr_image }}" 
+                 alt="Generated QR Code" 
+                 style="max-width:200px; border-radius:10px; background:white; padding:10px;">
         </div>
         {% endif %}
 
@@ -125,6 +127,7 @@
         <li>No registration required</li>
         <li>Secure data handling</li>
         <li>Mobile friendly tool</li>
+        <li>Works on all devices</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
