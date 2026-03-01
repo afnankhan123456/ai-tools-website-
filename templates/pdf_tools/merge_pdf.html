@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Merge PDF Files Online Free | AI Tools Hub{% endblock %}
-{% block description %}Combine multiple PDF files into one document online for free. Fast and secure PDF merger tool.{% endblock %}
+{% block title %}Merge PDF Online Free | Combine PDF Files Instantly{% endblock %}
+{% block description %}Merge PDF files online free. Combine multiple PDFs into one document quickly and securely. No watermark PDF merger tool.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -13,7 +13,7 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #11998e, #38ef7d, #00b09b);
+        background: linear-gradient(270deg, #0f2027, #2c5364, #0f2027);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -23,7 +23,7 @@
 
             <div style="
                 background:white;
-                color:#11998e;
+                color:#2c5364;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -38,19 +38,21 @@
             </div>
 
             <div style="font-size:24px; font-weight:600;">
-                Merge PDF Files
+                Merge PDF
             </div>
 
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Combine multiple PDF files into one single PDF instantly.
+            Combine multiple PDF files into one single document instantly.
+            Fast, secure and completely free PDF merger tool.
         </p>
 
-        <form action="{{ url_for('merge_pdf_action') }}"
+        <form action="{{ url_for('merge_pdf') }}"
               method="POST"
               enctype="multipart/form-data">
 
+            <!-- File Upload -->
             <div style="
                 background:white;
                 padding:12px;
@@ -65,10 +67,11 @@
                        style="border:none; width:100%;">
             </div>
 
+            <!-- Button -->
             <button type="submit"
                     style="
                         background:white;
-                        color:#11998e;
+                        color:#2c5364;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -93,47 +96,64 @@
 <!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>Merge PDF Files Online Free – Multiple PDFs Ko Ek File Me Combine Karein</h2>
+    <h2>Merge PDF Online Free – Multiple PDF Files ko Ek Me Combine Karein</h2>
 
     <p>
-        Hamara free PDF merger tool aapko multiple PDF files ko ek single document me combine karne me madad karta hai.
-        Agar aap alag-alag PDF pages ko ek hi file me convert karna chahte ho,
-        project submission karna ho ya documents organize karne ho,
-        to ye tool fast aur simple solution deta hai.
+        Hamara <strong>free PDF merger tool</strong> aapko multiple PDF documents ko ek single file me combine karne ki suvidha deta hai.
+        Agar aap assignments, reports, scanned documents ya invoices ko ek hi PDF me organize karna chahte ho,
+        to ye <strong>online merge PDF tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap PDF files ko online merge kar sakte hain bina koi software install kiye.
-        Sirf apni PDF files upload karein aur merged PDF download karein.
-        Ye tool secure hai aur uploaded files permanently store nahi hoti.
+        Aap bina kisi software install kiye PDFs merge kar sakte hain.
+        Sirf apni files upload karein aur ek combined PDF download karein.
+        Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
-    <h3>How to Merge PDF Files Online?</h3>
+    <h3>How to Merge PDF Online?</h3>
     <ul>
         <li>Step 1: Apni multiple PDF files upload karein</li>
         <li>Step 2: Merge PDFs button par click karein</li>
         <li>Step 3: Combined PDF file download karein</li>
     </ul>
 
-    <h3>Why Use This PDF Merger Tool?</h3>
+    <h3>Why Use This PDF Merger?</h3>
     <ul>
-        <li>100% free PDF merge</li>
+        <li>100% free PDF merging</li>
         <li>No watermark</li>
         <li>Fast processing</li>
         <li>Secure file handling</li>
         <li>No registration required</li>
+        <li>Works on mobile & desktop</li>
+    </ul>
+
+    <!-- 🔗 INTERNAL LINKING SECTION -->
+    <h3>More Free Online Tools</h3>
+
+    <p>
+        Agar aap PDF ko edit, convert ya optimize karna chahte hain,
+        to hamare ye tools bhi try karein:
+    </p>
+
+    <ul>
+        <li><a href="{{ url_for('compress_pdf_action') }}">Compress PDF</a> – PDF file size reduce karein</li>
+        <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a> – Large PDF ko alag pages me divide karein</li>
+        <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> – Editable Word format me convert karein</li>
+        <li><a href="{{ url_for('jpg_to_pdf') }}">JPG to PDF Converter</a> – Images ko PDF me convert karein</li>
+        <li><a href="{{ url_for('image_compress') }}">Compress Image Online</a> – Photo size kam karein</li>
+        <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> – AI se background remove karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Q: Kya multiple PDF files ko ek saath merge kar sakte hain?</strong><br>
-    Haan, aap ek se zyada PDF files select karke unhe ek single document me merge kar sakte hain.</p>
+    <p><strong>Q: Kya main multiple PDFs ko ek order me merge kar sakta hoon?</strong><br>
+    Haan, aap upload order ke hisaab se PDFs combine ho jati hain.</p>
 
-    <p><strong>Q: Kya file order maintain hota hai?</strong><br>
-    File order generally upload sequence par depend karta hai.</p>
+    <p><strong>Q: Kya merging ke baad original files safe rahengi?</strong><br>
+    Haan, original files change nahi hoti. Sirf ek nayi merged file generate hoti hai.</p>
 
     <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, aap mobile, laptop ya kisi bhi device se use kar sakte hain.</p>
+    Haan, ye fully responsive PDF merger hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
