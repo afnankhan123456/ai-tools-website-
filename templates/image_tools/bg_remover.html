@@ -19,43 +19,22 @@
     ">
 
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
-
-            <div style="
-                background:white;
-                color:#11998e;
-                font-weight:bold;
-                font-size:22px;
-                width:70px;
-                height:70px;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                border-radius:16px;
-                box-shadow:0 6px 18px rgba(0,0,0,0.2);
-            ">
+            <div style="background:white;color:#11998e;font-weight:bold;font-size:22px;width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,0.2);">
                 AI
             </div>
-
             <div style="font-size:24px; font-weight:600;">
                 Background Remover
             </div>
-
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
             Remove image background online free and choose your new background style instantly.
         </p>
 
-        <form action="{{ url_for('bg_remover') }}"
-              method="POST"
-              enctype="multipart/form-data">
+        <form action="{{ url_for('bg_remover') }}" method="POST" enctype="multipart/form-data">
 
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
-                <input type="file"
-                       name="file"
-                       accept="image/*"
-                       required
-                       style="border:none; width:100%;">
+                <input type="file" name="file" accept="image/*" required style="border:none; width:100%;">
             </div>
 
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
@@ -68,71 +47,77 @@
 
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:20px;">
                 <label style="color:#333; font-size:14px;">Upload Custom Background (optional)</label>
-                <input type="file"
-                       name="custom_bg"
-                       accept="image/*"
-                       style="border:none; width:100%; margin-top:5px;">
+                <input type="file" name="custom_bg" accept="image/*" style="border:none; width:100%; margin-top:5px;">
             </div>
 
             <button type="submit"
-                    style="background:white; color:#11998e; border:none; padding:14px; width:100%; border-radius:10px; font-weight:600; cursor:pointer;">
+                style="background:white; color:#11998e; border:none; padding:14px; width:100%; border-radius:10px; font-weight:600; cursor:pointer;">
                 Process Image
             </button>
 
         </form>
 
     </div>
-
 </section>
 
 
-<!-- 🔥 SEO CONTENT SECTION -->
+<!-- SEO + INTERNAL LINKING SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
     <h2>Free Background Remover Online – Image Background Remove Karein Easily</h2>
 
     <p>
         Hamara free background remover tool aapko kisi bhi image ka background remove karne me madad karta hai.
-        Agar aap product photo edit kar rahe ho, passport size photo bana rahe ho, ya social media ke liye clean
-        background chahte ho – ye tool fast aur simple solution deta hai.
+        Agar aap product photo edit kar rahe ho, eCommerce ke liye clean white background chahte ho,
+        ya social media content bana rahe ho – ye tool fast aur simple solution deta hai.
     </p>
 
     <p>
-        You can remove image background online without installing any software.
-        Sirf image upload karein aur processed image download karein.
-        Ye background remover tool PNG, JPG aur WebP format support karta hai.
+        Aap bina kisi software install kiye image background remove kar sakte hain.
+        Sirf image upload karein aur download karein. Ye tool PNG, JPG aur WebP support karta hai.
     </p>
 
     <h3>How to Remove Background Online?</h3>
     <ul>
-        <li>Step 1: Apni image upload karein</li>
-        <li>Step 2: Background option select karein (white ya custom)</li>
-        <li>Step 3: Process Image button click karein</li>
-        <li>Step 4: Download your background removed image</li>
+        <li>Image upload karein</li>
+        <li>Background option select karein</li>
+        <li>Process button click karein</li>
+        <li>Final image download karein</li>
     </ul>
 
-    <h3>Why Use This Background Remover Tool?</h3>
+    <h3>Why Use This Tool?</h3>
     <ul>
         <li>No watermark</li>
-        <li>100% free background remover</li>
-        <li>Fast processing</li>
-        <li>Secure image handling</li>
-        <li>No registration required</li>
+        <li>Fast AI processing</li>
+        <li>Secure uploads</li>
+        <li>Free to use</li>
     </ul>
 
-    <h3>Frequently Asked Questions (FAQ)</h3>
+    <h3>Try Our Other Free Tools</h3>
 
-    <p><strong>Q: Kya ye background remover free hai?</strong><br>
-    Haan, ye completely free background remover online tool hai.</p>
+    <p>
+        Agar aap image convert karna chahte hain to hamara 
+        <a href="{{ url_for('png_to_pdf') }}">PNG to PDF Converter</a> 
+        try karein.
+    </p>
 
-    <p><strong>Q: Kya meri image safe rahegi?</strong><br>
-    Haan, uploaded images temporary process hoti hain aur permanently store nahi hoti.</p>
+    <p>
+        Aap PDF edit karna chahte hain to 
+        <a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> 
+        ya 
+        <a href="{{ url_for('merge_pdf') }}">Merge PDF Tool</a> 
+        bhi use kar sakte hain.
+    </p>
 
-    <p><strong>Q: Kya main mobile se bhi use kar sakta hoon?</strong><br>
-    Haan, aap mobile, laptop ya kisi bhi device se use kar sakte hain.</p>
+    <h3>FAQ</h3>
+
+    <p><strong>Kya ye background remover free hai?</strong><br>
+    Haan, ye completely free tool hai.</p>
+
+    <p><strong>Kya image safe rahegi?</strong><br>
+    Haan, files temporary process hoti hain.</p>
 
 </section>
-
 
 <style>
 @keyframes gradientMove {
