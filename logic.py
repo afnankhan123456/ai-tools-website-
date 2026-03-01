@@ -4,7 +4,6 @@ from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
 from docx2pdf import convert
 from pdf2image import convert_from_path
-from rembg import remove
 import io
 import base64
 import json
@@ -416,4 +415,5 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
