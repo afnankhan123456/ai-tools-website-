@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}JSON Formatter & Validator Online Free | AI Tools Hub{% endblock %}
-{% block description %}Format, beautify and validate JSON data online for free. Easy and accurate JSON formatter tool.{% endblock %}
+{% block title %}QR Code Generator Online Free | AI Tools Hub{% endblock %}
+{% block description %}Generate QR code from text or URL online for free. Fast, secure and easy QR code generator tool.{% endblock %}
+
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -82,6 +83,12 @@
             </button>
 
         </form>
+
+        {% if qr_image %}
+        <div style="margin-top:25px; text-align:center;">
+            <img src="data:image/png;base64,{{ qr_image }}" alt="Generated QR Code" style="max-width:200px;">
+        </div>
+        {% endif %}
 
     </div>
 
