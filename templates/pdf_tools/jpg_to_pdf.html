@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Compress PDF Online Free | Reduce PDF Size Instantly{% endblock %}
-{% block description %}Compress PDF online free. Reduce PDF file size without noticeable quality loss. Fast, secure and no watermark PDF compressor tool.{% endblock %}
+{% block title %}JPG to PDF Converter Online Free | Convert Images to PDF Instantly{% endblock %}
+{% block description %}Convert JPG to PDF online free. Fast and secure image to PDF converter without watermark. Combine JPG images into one PDF easily.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -13,7 +13,7 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #6a11cb, #2575fc, #6a11cb);
+        background: linear-gradient(270deg, #ff8c00, #ff5e00, #ff8c00);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -23,7 +23,7 @@
 
             <div style="
                 background:white;
-                color:#6a11cb;
+                color:#ff5e00;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -34,21 +34,21 @@
                 border-radius:16px;
                 box-shadow:0 6px 18px rgba(0,0,0,0.2);
             ">
-                PDF
+                JPG
             </div>
 
             <div style="font-size:24px; font-weight:600;">
-                Compress PDF
+                JPG to PDF
             </div>
 
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Reduce your PDF file size instantly without noticeable quality loss.
-            Fast, secure and completely free PDF compression tool.
+            Convert your JPG images into a high-quality PDF instantly.
+            Fast, secure and completely free JPG to PDF converter.
         </p>
 
-        <form action="{{ url_for('compress_pdf_action') }}"
+        <form action="{{ url_for('jpg_to_pdf') }}"
               method="POST"
               enctype="multipart/form-data">
 
@@ -60,8 +60,9 @@
                 margin-bottom:20px;
             ">
                 <input type="file"
-                       name="file"
-                       accept=".pdf"
+                       name="files"
+                       accept="image/jpeg"
+                       multiple
                        required
                        style="border:none; width:100%;">
             </div>
@@ -70,7 +71,7 @@
             <button type="submit"
                     style="
                         background:white;
-                        color:#6a11cb;
+                        color:#ff5e00;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -82,7 +83,7 @@
                     onmouseover="this.style.background='#f3f4f6'"
                     onmouseout="this.style.background='white'">
 
-                Compress PDF
+                Convert to PDF
 
             </button>
 
@@ -95,35 +96,34 @@
 <!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>Compress PDF Online Free – PDF Size Kam Karein Easily & Instantly</h2>
+    <h2>JPG to PDF Converter Online Free – Images ko PDF Me Convert Karein Easily</h2>
 
     <p>
-        Hamara <strong>free PDF compressor tool</strong> aapko kisi bhi PDF ka size kam karne me madad karta hai
-        bina major quality loss ke. Agar aap PDF email me bhejna chahte ho,
-        college assignment upload karna hai, ya website par size limit issue aa raha hai,
-        to ye <strong>online PDF compression tool</strong> fast aur simple solution deta hai.
+        Hamara <strong>free JPG to PDF converter</strong> aapko multiple JPG images ko ek single PDF file me convert karne ki suvidha deta hai.
+        Agar aap scanned documents, notes, ya photos ko PDF format me save karna chahte ho,
+        to ye <strong>online image to PDF tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap bina kisi software install kiye PDF compress kar sakte hain.
-        Sirf apni file upload karein aur reduced size wali PDF download karein.
+        Aap bina kisi software install kiye JPG ko PDF me convert kar sakte hain.
+        Sirf images upload karein aur ek combined PDF download karein.
         Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
-    <h3>How to Compress PDF Online?</h3>
+    <h3>How to Convert JPG to PDF Online?</h3>
     <ul>
-        <li>Step 1: Apni PDF file upload karein</li>
-        <li>Step 2: Compress PDF button par click karein</li>
-        <li>Step 3: Reduced size wali file download karein</li>
+        <li>Step 1: Apni JPG images upload karein</li>
+        <li>Step 2: Convert to PDF button par click karein</li>
+        <li>Step 3: Final PDF file download karein</li>
     </ul>
 
-    <h3>Why Use This Online PDF Compressor?</h3>
+    <h3>Why Use This JPG to PDF Tool?</h3>
     <ul>
-        <li>100% free PDF compression</li>
+        <li>100% free conversion</li>
         <li>No watermark</li>
+        <li>High-quality PDF output</li>
         <li>Fast processing</li>
         <li>Secure file handling</li>
-        <li>No registration required</li>
         <li>Works on mobile & desktop</li>
     </ul>
 
@@ -131,29 +131,29 @@
     <h3>More Free Online Tools</h3>
 
     <p>
-        Agar aap PDF ke alawa images ya documents bhi optimize karna chahte hain,
-        to hamare ye popular tools bhi try karein:
+        Agar aap images ya PDFs ko edit ya optimize karna chahte hain,
+        to hamare ye tools bhi try karein:
     </p>
 
     <ul>
-        <li><a href="{{ url_for('image_compress') }}">Compress Image Online</a> – Photo size kam karein bina quality loss ke</li>
-        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a> – Custom width aur height set karein easily</li>
-        <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> – AI se background instantly remove karein</li>
-        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a> – Multiple PDFs ko ek file me combine karein</li>
-        <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a> – Large PDF ko alag pages me divide karein</li>
+        <li><a href="{{ url_for('image_compress') }}">Compress Image Online</a> – Photo size kam karein easily</li>
+        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a> – Custom dimensions set karein</li>
+        <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> – AI se background remove karein</li>
+        <li><a href="{{ url_for('compress_pdf_action') }}">Compress PDF</a> – PDF file size reduce karein</li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a> – Multiple PDFs combine karein</li>
         <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> – Editable Word format me convert karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Q: Kya PDF compress karne se quality kharab hoti hai?</strong><br>
-    Normal compression me noticeable difference bahut kam hota hai, lekin file size significantly kam ho jata hai.</p>
+    <p><strong>Q: Kya main multiple JPG images ko ek PDF me convert kar sakta hoon?</strong><br>
+    Haan, aap multiple images upload karke ek single PDF bana sakte hain.</p>
 
-    <p><strong>Q: Kya main mobile se PDF compress kar sakta hoon?</strong><br>
-    Haan, ye fully responsive PDF compressor hai jo mobile, laptop aur desktop sab par smoothly kaam karta hai.</p>
+    <p><strong>Q: Kya conversion ke baad image quality safe rahegi?</strong><br>
+    Haan, high-quality PDF output generate hota hai bina noticeable quality loss ke.</p>
 
-    <p><strong>Q: Kya meri file safe rahegi?</strong><br>
-    Haan, files temporary process hoti hain aur permanently store nahi ki jati.</p>
+    <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
+    Haan, ye fully responsive JPG to PDF converter hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
