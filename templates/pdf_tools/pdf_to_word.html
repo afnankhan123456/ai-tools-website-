@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}PDF to Word Converter Online Free | AI Tools Hub{% endblock %}
-{% block description %}Convert PDF files to editable Word documents online free. Fast and accurate PDF to Word tool.{% endblock %}
+{% block title %}PDF to Word Converter Online Free | Convert PDF to DOC Instantly{% endblock %}
+{% block description %}Convert PDF to Word online free. Easily change PDF into editable DOC file without losing formatting. Fast and secure PDF to Word converter tool.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -13,7 +13,7 @@
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
         position:relative;
         overflow:hidden;
-        background: linear-gradient(270deg, #ff7e5f, #6a11cb, #2575fc);
+        background: linear-gradient(270deg, #8e2de2, #4a00e0, #8e2de2);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -23,7 +23,7 @@
 
             <div style="
                 background:white;
-                color:#6a11cb;
+                color:#4a00e0;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -34,23 +34,25 @@
                 border-radius:16px;
                 box-shadow:0 6px 18px rgba(0,0,0,0.2);
             ">
-                PDF
+                DOC
             </div>
 
             <div style="font-size:24px; font-weight:600;">
-                PDF → Word
+                PDF to Word
             </div>
 
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Convert your PDF files into editable Word documents instantly.
+            Convert your PDF file into an editable Word document instantly.
+            Fast, secure and completely free PDF to Word converter.
         </p>
 
-        <form action="{{ url_for('pdf_to_word_action') }}"
+        <form action="{{ url_for('pdf_to_word') }}"
               method="POST"
               enctype="multipart/form-data">
 
+            <!-- File Upload -->
             <div style="
                 background:white;
                 padding:12px;
@@ -64,10 +66,11 @@
                        style="border:none; width:100%;">
             </div>
 
+            <!-- Button -->
             <button type="submit"
                     style="
                         background:white;
-                        color:#6a11cb;
+                        color:#4a00e0;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -92,46 +95,56 @@
 <!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>PDF to Word Converter Online Free – PDF Ko Editable Word Me Convert Karein</h2>
+    <h2>PDF to Word Converter Online Free – PDF ko Editable DOC Me Convert Karein</h2>
 
     <p>
-        Hamara free PDF to Word converter tool aapko PDF files ko editable Word document me convert karne me madad karta hai.
-        Agar aap kisi PDF file ko edit karna chahte ho, content change karna ho ya formatting update karni ho,
-        to ye tool fast aur simple solution deta hai.
+        Hamara <strong>free PDF to Word converter</strong> aapko PDF file ko editable Word (DOC/DOCX) format me convert karne ki suvidha deta hai.
+        Agar aap document me changes karna chahte ho, text edit karna hai ya formatting update karni hai,
+        to ye <strong>online PDF to DOC tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap PDF ko online Word format me convert kar sakte hain bina koi software install kiye.
-        Sirf apni PDF file upload karein aur editable .docx file download karein.
-        Ye tool secure hai aur uploaded files permanently store nahi hoti.
+        Aap bina kisi software install kiye PDF ko Word me convert kar sakte hain.
+        Sirf apni file upload karein aur editable Word document download karein.
+        Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
     <h3>How to Convert PDF to Word Online?</h3>
     <ul>
         <li>Step 1: Apni PDF file upload karein</li>
         <li>Step 2: Convert to Word button par click karein</li>
-        <li>Step 3: Editable Word document download karein</li>
+        <li>Step 3: Editable DOC file download karein</li>
     </ul>
 
-    <h3>Why Use This PDF to Word Converter?</h3>
+    <h3>Why Use This PDF to Word Tool?</h3>
     <ul>
-        <li>100% free PDF to Word conversion</li>
+        <li>100% free conversion</li>
         <li>No watermark</li>
+        <li>Editable Word output</li>
         <li>Fast processing</li>
-        <li>Editable output format</li>
-        <li>No registration required</li>
+        <li>Secure file handling</li>
+        <li>Works on mobile & desktop</li>
+    </ul>
+
+    <!-- 🔗 MINIMAL INTERNAL LINKING (ONLY 3 STRONG PDF LINKS) -->
+    <h3>Explore More PDF Tools</h3>
+
+    <ul>
+        <li><a href="{{ url_for('compress_pdf_action') }}">Compress PDF</a> – PDF file size reduce karein</li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF</a> – Multiple PDFs ko ek file me combine karein</li>
+        <li><a href="{{ url_for('split_pdf') }}">Split PDF</a> – Large PDF ko alag pages me divide karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Q: Kya converted Word file editable hoti hai?</strong><br>
-    Haan, output file editable .docx format me hoti hai jise aap easily edit kar sakte hain.</p>
+    <p><strong>Q: Kya conversion ke baad formatting same rahegi?</strong><br>
+    Most cases me formatting preserve hoti hai, lekin complex layouts me minor adjustments ho sakte hain.</p>
 
-    <p><strong>Q: Kya formatting same rehti hai?</strong><br>
-    Basic formatting mostly maintain hoti hai, lekin complex layouts me thoda difference ho sakta hai.</p>
+    <p><strong>Q: Kya ye tool safe hai?</strong><br>
+    Haan, files temporary process hoti hain aur permanently store nahi ki jati.</p>
 
-    <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, aap mobile, laptop ya kisi bhi device se use kar sakte hain.</p>
+    <p><strong>Q: Kya main mobile se bhi PDF ko Word me convert kar sakta hoon?</strong><br>
+    Haan, ye fully responsive converter hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
