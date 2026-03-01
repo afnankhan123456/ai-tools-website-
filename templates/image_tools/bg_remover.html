@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Free Background Remover Online | Remove Image Background Easily{% endblock %}
-{% block description %}Remove image background online free. Fast AI powered background remover tool. Image background remove karein easily without watermark.{% endblock %}
+{% block description %}Remove image background online free. Fast AI powered background remover tool without watermark. 100% secure & instant processing.{% endblock %}
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -18,104 +18,166 @@
         animation: gradientMove 8s ease infinite;
     ">
 
+        <!-- Logo Row -->
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
-            <div style="background:white;color:#11998e;font-weight:bold;font-size:22px;width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,0.2);">
-                AI
+
+            <div style="
+                background:white;
+                color:#11998e;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                IMG
             </div>
+
             <div style="font-size:24px; font-weight:600;">
                 Background Remover
             </div>
+
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Remove image background online free and choose your new background style instantly.
+            Remove your image background instantly using AI technology.
+            Fast, secure and completely free background removal tool.
         </p>
 
-        <form action="{{ url_for('bg_remover') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('bg_remover') }}"
+              method="POST"
+              enctype="multipart/form-data">
 
-            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
-                <input type="file" name="file" accept="image/*" required style="border:none; width:100%;">
+            <!-- Main Image Upload -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <input type="file"
+                       name="file"
+                       accept="image/*"
+                       required
+                       style="border:none; width:100%;">
             </div>
 
-            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
+            <!-- Background Option -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
                 <label style="color:#333; font-size:14px;">Choose Background Type</label>
-                <select name="bg_option" style="width:100%; border:none; margin-top:5px;">
+                <select name="bg_option"
+                        style="width:100%; border:none; margin-top:5px;">
                     <option value="white">White Background</option>
                     <option value="custom">Upload Custom Background</option>
                 </select>
             </div>
 
-            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:20px;">
-                <label style="color:#333; font-size:14px;">Upload Custom Background (optional)</label>
-                <input type="file" name="custom_bg" accept="image/*" style="border:none; width:100%; margin-top:5px;">
+            <!-- Custom Background Upload -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <label style="color:#333; font-size:14px;">Upload Custom Background (Optional)</label>
+                <input type="file"
+                       name="custom_bg"
+                       accept="image/*"
+                       style="border:none; width:100%; margin-top:5px;">
             </div>
 
+            <!-- Button -->
             <button type="submit"
-                style="background:white; color:#11998e; border:none; padding:14px; width:100%; border-radius:10px; font-weight:600; cursor:pointer;">
-                Process Image
+                    style="
+                        background:white;
+                        color:#11998e;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
+                Remove Background
+
             </button>
 
         </form>
 
     </div>
+
 </section>
 
-
-<!-- SEO + INTERNAL LINKING SECTION -->
+<!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>Free Background Remover Online – Image Background Remove Karein Easily</h2>
+    <h2>Free Background Remover Online – Remove Image Background Easily & Instantly</h2>
 
     <p>
-        Hamara free background remover tool aapko kisi bhi image ka background remove karne me madad karta hai.
-        Agar aap product photo edit kar rahe ho, eCommerce ke liye clean white background chahte ho,
-        ya social media content bana rahe ho – ye tool fast aur simple solution deta hai.
+        Hamara <strong>free background remover tool</strong> AI technology ka use karta hai
+        jo automatically image ka background remove karta hai.
+        Agar aap product photos, eCommerce listing, passport photo ya social media graphics bana rahe ho,
+        to ye <strong>online background remover</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap bina kisi software install kiye image background remove kar sakte hain.
-        Sirf image upload karein aur download karein. Ye tool PNG, JPG aur WebP support karta hai.
+        Aap bina kisi software install kiye background remove kar sakte hain.
+        Sirf image upload karein aur processed image download karein.
+        Ye tool JPG, PNG aur WebP format support karta hai.
     </p>
 
     <h3>How to Remove Background Online?</h3>
     <ul>
-        <li>Image upload karein</li>
-        <li>Background option select karein</li>
-        <li>Process button click karein</li>
-        <li>Final image download karein</li>
+        <li>Step 1: Apni image upload karein</li>
+        <li>Step 2: Background type select karein</li>
+        <li>Step 3: Remove Background button par click karein</li>
+        <li>Step 4: Final image download karein</li>
     </ul>
 
-    <h3>Why Use This Tool?</h3>
+    <h3>Why Use This Online Background Remover?</h3>
     <ul>
+        <li>100% free background removal</li>
         <li>No watermark</li>
         <li>Fast AI processing</li>
-        <li>Secure uploads</li>
-        <li>Free to use</li>
+        <li>Secure image handling</li>
+        <li>No registration required</li>
+        <li>Works on mobile & desktop</li>
     </ul>
 
-    <h3>Try Our Other Free Tools</h3>
+    <h3>More Free Online Tools</h3>
 
     <p>
-        Agar aap image convert karna chahte hain to hamara 
-        <a href="{{ url_for('png_to_pdf') }}">PNG to PDF Converter</a> 
-        try karein.
+        Background remove ke alawa aap hamare dusre tools bhi try kar sakte hain:
     </p>
 
-    <p>
-        Aap PDF edit karna chahte hain to 
-        <a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> 
-        ya 
-        <a href="{{ url_for('merge_pdf') }}">Merge PDF Tool</a> 
-        bhi use kar sakte hain.
-    </p>
+    <ul>
+        <li><a href="{{ url_for('image_compress') }}">Compress Image Online</a></li>
+        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a></li>
+        <li><a href="{{ url_for('png_to_pdf') }}">PNG to PDF Converter</a></li>
+        <li><a href="{{ url_for('jpg_to_pdf') }}">JPG to PDF Tool</a></li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a></li>
+    </ul>
 
-    <h3>FAQ</h3>
+    <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Kya ye background remover free hai?</strong><br>
-    Haan, ye completely free tool hai.</p>
+    <p><strong>Q: Kya background remove karne ke baad image quality safe rahegi?</strong><br>
+    Haan, original resolution maintain ki jati hai.</p>
 
-    <p><strong>Kya image safe rahegi?</strong><br>
-    Haan, files temporary process hoti hain.</p>
+    <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
+    Haan, ye fully responsive background remover hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
