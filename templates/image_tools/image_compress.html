@@ -18,98 +18,154 @@
         animation: gradientMove 8s ease infinite;
     ">
 
+        <!-- Logo Row -->
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
-            <div style="background:white;color:#dd2476;font-weight:bold;font-size:22px;width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,0.2);">
-                AI
+
+            <div style="
+                background:white;
+                color:#dd2476;
+                font-weight:bold;
+                font-size:22px;
+                width:70px;
+                height:70px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:16px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            ">
+                IMG
             </div>
+
             <div style="font-size:24px; font-weight:600;">
                 Image Compressor
             </div>
+
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Compress image online free and reduce file size instantly without losing important quality.
+            Compress your image online easily by reducing file size without losing important quality.
+            Fast, secure and completely free image compression tool.
         </p>
 
-        <form action="{{ url_for('image_compressor') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('image_compressor') }}"
+              method="POST"
+              enctype="multipart/form-data">
 
-            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
-                <input type="file" name="file" accept="image/*" required style="border:none; width:100%;">
+            <!-- File Upload -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+                <input type="file"
+                       name="file"
+                       accept="image/*"
+                       required
+                       style="border:none; width:100%;">
             </div>
 
-            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:20px;">
-                <label style="color:#333; font-size:14px;">Choose Compression Quality (10-90)</label>
-                <input type="number" name="quality" min="10" max="90" value="60"
+            <!-- Quality -->
+            <div style="
+                background:white;
+                padding:12px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                <label style="color:#333; font-size:14px;">Compression Quality (10-90)</label>
+                <input type="number"
+                       name="quality"
+                       min="10"
+                       max="90"
+                       value="60"
+                       required
                        style="width:100%; border:none; margin-top:5px;">
             </div>
 
+            <!-- Button -->
             <button type="submit"
-                style="background:white; color:#dd2476; border:none; padding:14px; width:100%; border-radius:10px; font-weight:600; cursor:pointer;">
+                    style="
+                        background:white;
+                        color:#dd2476;
+                        border:none;
+                        padding:14px;
+                        width:100%;
+                        border-radius:10px;
+                        font-weight:600;
+                        cursor:pointer;
+                        transition:0.3s;
+                    "
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='white'">
+
                 Compress Image
+
             </button>
 
         </form>
 
     </div>
+
 </section>
 
-
-<!-- SEO + INTERNAL LINKING SECTION -->
+<!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>Free Image Compressor Online – Image Size Kam Karein Easily</h2>
+    <h2>Free Image Compressor Online – Reduce Image Size Easily & Instantly</h2>
 
     <p>
-        Hamara free image compressor tool aapko kisi bhi image ka file size kam karne me madad karta hai.
-        Agar aap website ke liye fast loading images chahte ho, email me bhejna hai,
-        ya social media upload ke liye size kam karna hai – ye tool simple aur fast solution deta hai.
+        Hamara <strong>free image compressor tool</strong> aapko kisi bhi photo ka file size kam karne me madad karta hai
+        bina noticeable quality loss ke. Agar aap website speed improve karna chahte ho,
+        email ke liye size kam karna hai ya social media upload optimize karna hai,
+        to ye <strong>online image compression tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
-        Aap bina kisi software install kiye image compress kar sakte hain.
-        Sirf image upload karein, compression level choose karein aur optimized image download karein.
+        Aap image ko online compress kar sakte hain bina koi software install kiye.
+        Sirf apni image upload karein, compression quality choose karein aur optimized image download karein.
         Ye tool JPG, PNG aur WebP format support karta hai.
     </p>
 
     <h3>How to Compress Image Online?</h3>
     <ul>
-        <li>Image upload karein</li>
-        <li>Compression quality select karein</li>
-        <li>Compress button click karein</li>
-        <li>Final optimized image download karein</li>
+        <li>Step 1: Apni image upload karein</li>
+        <li>Step 2: Compression quality select karein</li>
+        <li>Step 3: Compress Image button par click karein</li>
+        <li>Step 4: Optimized image download karein</li>
     </ul>
 
-    <h3>Why Use This Tool?</h3>
+    <h3>Why Use This Online Image Compressor?</h3>
     <ul>
+        <li>100% free image compression</li>
         <li>No watermark</li>
-        <li>Fast AI processing</li>
-        <li>Secure uploads</li>
-        <li>Free to use</li>
+        <li>Fast processing</li>
+        <li>Secure image handling</li>
+        <li>No registration required</li>
+        <li>Works on mobile & desktop</li>
     </ul>
 
-    <h3>Try Our Other Free Tools</h3>
+    <h3>More Free Online Tools</h3>
 
     <p>
-        Agar aap background remove karna chahte hain to hamara 
-        <a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> 
-        try karein.
+        Image compress ke alawa aap hamare dusre tools bhi try kar sakte hain:
     </p>
 
-    <p>
-        Aap image convert karna chahte hain to 
-        <a href="{{ url_for('png_to_pdf') }}">PNG to PDF Converter</a> 
-        ya 
-        <a href="{{ url_for('jpg_to_pdf') }}">JPG to PDF Converter</a> 
-        bhi use kar sakte hain.
-    </p>
+    <ul>
+        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a></li>
+        <li><a href="{{ url_for('png_to_pdf') }}">PNG to PDF Converter</a></li>
+        <li><a href="{{ url_for('jpg_to_pdf') }}">JPG to PDF Tool</a></li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a></li>
+        <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a></li>
+    </ul>
 
-    <h3>FAQ</h3>
+    <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Kya image compress karne se quality kharab hoti hai?</strong><br>
+    <p><strong>Q: Kya image compress karne se quality kharab hoti hai?</strong><br>
     Medium compression (50-70) par noticeable quality loss nahi hota.</p>
 
-    <p><strong>Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, ye tool mobile, laptop aur desktop sab par kaam karta hai.</p>
+    <p><strong>Q: Kya main mobile par image compress kar sakta hoon?</strong><br>
+    Haan, ye fully responsive online image compressor hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
