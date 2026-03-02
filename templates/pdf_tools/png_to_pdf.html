@@ -48,7 +48,8 @@
             Fast, secure and completely free PNG to PDF converter.
         </p>
 
-        <form action="{{ url_for('png_to_pdf') }}"
+        <!-- ✅ FIXED FORM -->
+        <form action="{{ url_for('png_to_pdf_action') }}"
               method="POST"
               enctype="multipart/form-data">
 
@@ -60,9 +61,8 @@
                 margin-bottom:20px;
             ">
                 <input type="file"
-                       name="files"
+                       name="file"
                        accept="image/png"
-                       multiple
                        required
                        style="border:none; width:100%;">
             </div>
@@ -99,20 +99,20 @@
     <h2>PNG to PDF Converter Online Free – PNG Images ko PDF Me Convert Karein</h2>
 
     <p>
-        Hamara <strong>free PNG to PDF converter</strong> aapko multiple PNG images ko ek single PDF file me convert karne ki suvidha deta hai.
+        Hamara <strong>free PNG to PDF converter</strong> aapko PNG image ko ek single PDF file me convert karne ki suvidha deta hai.
         Agar aap screenshots, scanned documents ya design images ko PDF format me save karna chahte ho,
         to ye <strong>online image to PDF tool</strong> fast aur simple solution deta hai.
     </p>
 
     <p>
         Aap bina kisi software install kiye PNG ko PDF me convert kar sakte hain.
-        Sirf images upload karein aur ek combined PDF download karein.
+        Sirf image upload karein aur ek PDF download karein.
         Ye tool secure processing use karta hai aur files permanently store nahi hoti.
     </p>
 
     <h3>How to Convert PNG to PDF Online?</h3>
     <ul>
-        <li>Step 1: Apni PNG images upload karein</li>
+        <li>Step 1: Apni PNG image upload karein</li>
         <li>Step 2: Convert to PDF button par click karein</li>
         <li>Step 3: Final PDF file download karein</li>
     </ul>
@@ -131,18 +131,18 @@
     <h3>Explore More PDF Tools</h3>
 
     <ul>
-    <li><a href="{{ url_for('image_compressor') }}">Compress Image Online</a> – Photo size kam karein bina quality loss ke</li>
-    <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a> – Custom width aur height set karein easily</li>
-    <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> – AI se background instantly remove karein</li>
-    <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a> – Multiple PDFs ko ek file me combine karein</li>
-    <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a> – Large PDF ko alag pages me divide karein</li>
-    <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> – Editable Word format me convert karein</li>
+        <li><a href="{{ url_for('image_compressor') }}">Compress Image Online</a> – Photo size kam karein bina quality loss ke</li>
+        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a> – Custom width aur height set karein easily</li>
+        <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> – AI se background instantly remove karein</li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a> – Multiple PDFs ko ek file me combine karein</li>
+        <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a> – Large PDF ko alag pages me divide karein</li>
+        <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> – Editable Word format me convert karein</li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
-    <p><strong>Q: Kya main multiple PNG images ko ek PDF me convert kar sakta hoon?</strong><br>
-    Haan, aap multiple PNG files upload karke ek single PDF bana sakte hain.</p>
+    <p><strong>Q: Kya main PNG image ko PDF me convert kar sakta hoon?</strong><br>
+    Haan, aap PNG file upload karke ek single PDF bana sakte hain.</p>
 
     <p><strong>Q: Kya image quality safe rahegi?</strong><br>
     Haan, high-quality PDF generate hoti hai bina noticeable quality loss ke.</p>
@@ -161,5 +161,3 @@
 </style>
 
 {% endblock %}
-
-
