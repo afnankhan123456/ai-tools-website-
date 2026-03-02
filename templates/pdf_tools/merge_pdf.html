@@ -48,7 +48,8 @@
             Fast, secure and completely free PDF merger tool.
         </p>
 
-        <form action="{{ url_for('merge_pdf') }}"
+        <!-- ✅ FIXED FORM -->
+        <form action="{{ url_for('merge_pdf_action') }}"
               method="POST"
               enctype="multipart/form-data">
 
@@ -136,18 +137,18 @@
     </p>
 
     <ul>
-    <li><a href="{{ url_for('image_compressor') }}">Compress Image Online</a> – Photo size kam karein bina quality loss ke</li>
-    <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a> – Custom width aur height set karein easily</li>
-    <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a> – AI se background instantly remove karein</li>
-    <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a> – Multiple PDFs ko ek file me combine karein</li>
-    <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a> – Large PDF ko alag pages me divide karein</li>
-    <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a> – Editable Word format me convert karein</li>
+        <li><a href="{{ url_for('image_compressor') }}">Compress Image Online</a></li>
+        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a></li>
+        <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a></li>
+        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a></li>
+        <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a></li>
+        <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a></li>
     </ul>
 
     <h3>Frequently Asked Questions (FAQ)</h3>
 
     <p><strong>Q: Kya main multiple PDFs ko ek order me merge kar sakta hoon?</strong><br>
-    Haan, aap upload order ke hisaab se PDFs combine ho jati hain.</p>
+    Haan, upload order ke hisaab se PDFs combine ho jati hain.</p>
 
     <p><strong>Q: Kya merging ke baad original files safe rahengi?</strong><br>
     Haan, original files change nahi hoti. Sirf ek nayi merged file generate hoti hai.</p>
@@ -166,4 +167,3 @@
 </style>
 
 {% endblock %}
-
