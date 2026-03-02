@@ -321,7 +321,7 @@ def image_resize_logic(app):
 
     resized.save(output_path, "JPEG")
 
-    return send_file(output_path, as_attachment=True))
+    return send_file(output_path, as_attachment=True)
 
 
 # ---------------- BG REMOVER ----------------
@@ -369,6 +369,7 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
 
