@@ -291,37 +291,34 @@ def image_compress_logic(app):
 # ---------------- IMAGE RESIZE ----------------
 def image_resize_logic(app):
 
-    # File validation
-    if "file" not in request.files:
-        return "No file uploaded"
+    file = request.files.get("file")
+    if not file or file.filename == "":
+        return "No file selected"
 
-    file = request.files["file"]
-
-    if file.filename == "":
-        return "No selected file"
-
-    # Width & Height validation
     try:
         width = int(request.form.get("width"))
         height = int(request.form.get("height"))
     except (TypeError, ValueError):
         return "Invalid width or height"
 
-    # Folder ensure
-    os.makedirs(app.config["PROCESSED_FOLDER"], exist_ok=True)
+    try:
+        processed_folder = app.config.get("PROCESSED_FOLDER", "processed")
+        os.makedirs(processed_folder, exist_ok=True)
 
-    # Resize
-    image = Image.open(file)
-    resized = image.resize((width, height))
+        image = Image.open(file)
+        resized = image.resize((width, height))
 
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".jpg"
-    )
+        output_path = os.path.join(
+            processed_folder,
+            str(uuid.uuid4()) + ".jpg"
+        )
 
-    resized.save(output_path, "JPEG")
+        resized.save(output_path, "JPEG")
 
-    return send_file(output_path, as_attachment=True)
+        return send_file(output_path, as_attachment=True)
+
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 
 # ---------------- BG REMOVER ----------------
@@ -369,6 +366,7 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
 
