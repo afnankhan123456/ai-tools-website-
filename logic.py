@@ -1,4 +1,4 @@
-from flask import request, send_file
+from flask import request, send_file, render_template
 from PIL import Image
 from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
@@ -11,6 +11,7 @@ import qrcode
 import os
 import uuid
 import zipfile
+
 
 
 # ---------------- PNG TO PDF ----------------
@@ -289,10 +290,27 @@ def image_compress_logic(app):
 
 # ---------------- IMAGE RESIZE ----------------
 def image_resize_logic(app):
-    file = request.files["file"]
-    width = int(request.form.get("width", 800))
-    height = int(request.form.get("height", 600))
 
+    # File validation
+    if "file" not in request.files:
+        return "No file uploaded"
+
+    file = request.files["file"]
+
+    if file.filename == "":
+        return "No selected file"
+
+    # Width & Height validation
+    try:
+        width = int(request.form.get("width"))
+        height = int(request.form.get("height"))
+    except (TypeError, ValueError):
+        return "Invalid width or height"
+
+    # Folder ensure
+    os.makedirs(app.config["PROCESSED_FOLDER"], exist_ok=True)
+
+    # Resize
     image = Image.open(file)
     resized = image.resize((width, height))
 
@@ -301,9 +319,9 @@ def image_resize_logic(app):
         str(uuid.uuid4()) + ".jpg"
     )
 
-    resized.save(output_path)
+    resized.save(output_path, "JPEG")
 
-    return send_file(output_path, as_attachment=True)
+    return send_file(output_path, as_attachment=True))
 
 
 # ---------------- BG REMOVER ----------------
@@ -351,6 +369,7 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
 
