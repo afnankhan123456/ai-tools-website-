@@ -34,8 +34,8 @@ body {
 }
 
 .nav-logo {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     margin-right: 8px;
 }
@@ -45,11 +45,12 @@ body {
     gap: 25px;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 500;
-    transition: 0.3s;
+.nav-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-right: 8px;
+    background: transparent;
 }
 
 .nav-links a:hover {
@@ -209,3 +210,4 @@ body {
         font-size: 14px;
     }
 }
+
