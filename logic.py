@@ -13,9 +13,6 @@ import uuid
 import zipfile
 
 
-
-
-
 # ---------------- PNG TO PDF ----------------
 def png_to_pdf_logic(app):
     file = request.files["file"]
@@ -310,72 +307,11 @@ def image_resize_logic(app):
 
 
 # ---------------- BG REMOVER ----------------
-from flask import request, send_file
-from PIL import Image
-from rembg import remove
-import os
-import uuid
-import io
+from flask import render_template
 
 def bg_remover_logic(app):
-
-    if "file" not in request.files:
-        return "No file uploaded"
-
-    file = request.files["file"]
-    bg_option = request.form.get("bg_option")
-    selected_bg = request.form.get("selected_bg")
-    custom_bg_file = request.files.get("custom_bg")
-
-    os.makedirs(app.config["PROCESSED_FOLDER"], exist_ok=True)
-
-    # 🔹 Open and remove background
-    input_image = Image.open(file).convert("RGBA")
-    removed = remove(input_image)
-    foreground = Image.open(io.BytesIO(removed)).convert("RGBA")
-
-    width, height = foreground.size
-
-    # ===============================
-    # PRESET BACKGROUND (GitHub folder)
-    # ===============================
-    if bg_option == "preset" and selected_bg:
-
-        preset_path = os.path.join(
-            app.root_path,
-            "templates/image_tools/backgroud_images",
-            selected_bg
-        )
-
-        if not os.path.exists(preset_path):
-            return "Preset background not found"
-
-        background = Image.open(preset_path).convert("RGB")
-        background = background.resize((width, height))
-        background.paste(foreground, (0, 0), foreground)
-
-    # ===============================
-    #  UPLOAD BACKGROUND
-    # ===============================
-    elif bg_option == "custom" and custom_bg_file:
-
-        background = Image.open(custom_bg_file).convert("RGB")
-        background = background.resize((width, height))
-        background.paste(foreground, (0, 0), foreground)
-
-    else:
-        return "Please select a valid background option"
-
-    output_filename = str(uuid.uuid4()) + ".jpg"
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        output_filename
-    )
-
-    background.save(output_path, "JPEG")
-
-    return send_file(output_path, as_attachment=True)
-
+    # Temporary: Feature disabled
+    return render_template("coming_soon.html")
 
 # ---------------- BASE64 ENCODER ----------------
 def base64_encoder_logic():
@@ -415,5 +351,6 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
