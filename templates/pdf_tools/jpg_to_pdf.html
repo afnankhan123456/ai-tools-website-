@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}JPG to PDF Converter Online Free | Convert Images to PDF Instantly{% endblock %}
-{% block description %}Convert JPG to PDF online free. Fast and secure image to PDF converter without watermark. Combine JPG images into one PDF easily.{% endblock %}
+{% block description %}Convert JPG to PDF online free. Fast and secure image to PDF converter without watermark.{% endblock %}
+
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -43,11 +44,11 @@
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Convert your JPG images into a high-quality PDF instantly.
+            Convert your JPG image into a high-quality PDF instantly.
             Fast, secure and completely free JPG to PDF converter.
         </p>
 
-        <!-- ✅ FIXED FORM -->
+        <!-- ✅ CORRECT FORM -->
         <form action="{{ url_for('jpg_to_pdf_action') }}"
               method="POST"
               enctype="multipart/form-data">
@@ -59,9 +60,8 @@
                 margin-bottom:20px;
             ">
                 <input type="file"
-                       name="files"
-                       accept="image/jpeg"
-                       multiple
+                       name="file"
+                       accept=".jpg,.jpeg"
                        required
                        style="border:none; width:100%;">
             </div>
@@ -91,61 +91,21 @@
 
 </section>
 
-<!-- 🔥 SEO CONTENT SECTION -->
 <section style="max-width:900px; margin:100px auto; padding:0 20px; line-height:1.8;">
 
-    <h2>JPG to PDF Converter Online Free – Images ko PDF Me Convert Karein Easily</h2>
+    <h2>JPG to PDF Converter Online Free – Image ko PDF Me Convert Karein</h2>
 
     <p>
-        Hamara <strong>free JPG to PDF converter</strong> aapko multiple JPG images ko ek single PDF file me convert karne ki suvidha deta hai.
-        Agar aap scanned documents, notes, ya photos ko PDF format me save karna chahte ho,
-        to ye <strong>online image to PDF tool</strong> fast aur simple solution deta hai.
+        Hamara free JPG to PDF converter aapko JPG image ko PDF format me convert karne ki suvidha deta hai.
+        Aap bina kisi software install kiye apni image ko secure PDF me badal sakte hain.
     </p>
 
-    <p>
-        Aap bina kisi software install kiye JPG ko PDF me convert kar sakte hain.
-        Sirf images upload karein aur ek combined PDF download karein.
-        Ye tool secure processing use karta hai aur files permanently store nahi hoti.
-    </p>
-
-    <h3>How to Convert JPG to PDF Online?</h3>
+    <h3>How to Convert JPG to PDF?</h3>
     <ul>
-        <li>Step 1: Apni JPG images upload karein</li>
+        <li>Step 1: Apni JPG image upload karein</li>
         <li>Step 2: Convert to PDF button par click karein</li>
-        <li>Step 3: Final PDF file download karein</li>
+        <li>Step 3: PDF download karein</li>
     </ul>
-
-    <h3>Why Use This JPG to PDF Tool?</h3>
-    <ul>
-        <li>100% free conversion</li>
-        <li>No watermark</li>
-        <li>High-quality PDF output</li>
-        <li>Fast processing</li>
-        <li>Secure file handling</li>
-        <li>Works on mobile & desktop</li>
-    </ul>
-
-    <h3>More Free Online Tools</h3>
-
-    <ul>
-        <li><a href="{{ url_for('image_compressor') }}">Compress Image Online</a></li>
-        <li><a href="{{ url_for('image_resize') }}">Resize Image Online</a></li>
-        <li><a href="{{ url_for('bg_remover') }}">Background Remover Tool</a></li>
-        <li><a href="{{ url_for('merge_pdf') }}">Merge PDF Files</a></li>
-        <li><a href="{{ url_for('split_pdf') }}">Split PDF Online</a></li>
-        <li><a href="{{ url_for('pdf_to_word') }}">PDF to Word Converter</a></li>
-    </ul>
-
-    <h3>Frequently Asked Questions (FAQ)</h3>
-
-    <p><strong>Q: Kya main multiple JPG images ko ek PDF me convert kar sakta hoon?</strong><br>
-    Haan, aap multiple images upload karke ek single PDF bana sakte hain.</p>
-
-    <p><strong>Q: Kya conversion ke baad image quality safe rahegi?</strong><br>
-    Haan, high-quality PDF output generate hota hai bina noticeable quality loss ke.</p>
-
-    <p><strong>Q: Kya ye tool mobile par bhi kaam karega?</strong><br>
-    Haan, ye fully responsive JPG to PDF converter hai jo mobile aur desktop dono par smoothly kaam karta hai.</p>
 
 </section>
 
