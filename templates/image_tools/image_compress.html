@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Resize Images Online Free | Change Image Size Instantly | AI Tools Hub{% endblock %}
+{% block title %}Free Image Compressor Online | Compress Images Easily | AI Tools Hub{% endblock %}
 
 {% block description %}
-Resize images online free. Change image width and height easily without losing quality.
-Fast, secure and no watermark image resizer tool.
+Compress image online free. Reduce image file size without losing quality.
+Fast, secure and no watermark image compressor tool.
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@ Fast, secure and no watermark image resizer tool.
         width:480px;
         color:white;
         box-shadow:0 15px 35px rgba(0,0,0,0.18);
-        background: linear-gradient(270deg, #4e54c8, #8f94fb, #4e54c8);
+        background: linear-gradient(270deg, #ff512f, #dd2476, #ff512f);
         background-size: 600% 600%;
         animation: gradientMove 8s ease infinite;
     ">
@@ -26,7 +26,7 @@ Fast, secure and no watermark image resizer tool.
 
             <div style="
                 background:white;
-                color:#4e54c8;
+                color:#dd2476;
                 font-weight:bold;
                 font-size:22px;
                 width:70px;
@@ -40,16 +40,16 @@ Fast, secure and no watermark image resizer tool.
             </div>
 
             <div style="font-size:24px; font-weight:600;">
-                Image Resizer
+                Image Compressor
             </div>
 
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Resize your image online easily by setting custom width and height.
+            Compress your image by reducing file size without losing noticeable quality.
         </p>
 
-        <form action="{{ url_for('image_resize') }}"
+        <form action="{{ url_for('image_compressor') }}"
               method="POST"
               enctype="multipart/form-data">
 
@@ -61,18 +61,13 @@ Fast, secure and no watermark image resizer tool.
                        style="border:none; width:100%;">
             </div>
 
-            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
-                <label style="color:#333;">Width (px)</label>
-                <input type="number"
-                       name="width"
-                       required
-                       style="width:100%; border:none;">
-            </div>
-
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:20px;">
-                <label style="color:#333;">Height (px)</label>
+                <label style="color:#333;">Compression Quality (10 - 90)</label>
                 <input type="number"
-                       name="height"
+                       name="quality"
+                       min="10"
+                       max="90"
+                       value="60"
                        required
                        style="width:100%; border:none;">
             </div>
@@ -80,7 +75,7 @@ Fast, secure and no watermark image resizer tool.
             <button type="submit"
                     style="
                         background:white;
-                        color:#4e54c8;
+                        color:#dd2476;
                         border:none;
                         padding:14px;
                         width:100%;
@@ -88,7 +83,7 @@ Fast, secure and no watermark image resizer tool.
                         font-weight:600;
                         cursor:pointer;
                     ">
-                Resize Image
+                Compress Image
             </button>
 
         </form>
