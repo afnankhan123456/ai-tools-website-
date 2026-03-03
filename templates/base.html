@@ -10,13 +10,13 @@
     <!-- ✅ Dynamic Meta Description -->
     <meta name="description" content="{% block description %}Free online AI tools to convert, compress, edit PDFs and images instantly. Fast, secure and easy to use tools.{% endblock %}">
 
-    <!-- Keywords (Basic) -->
+    <!-- Keywords -->
     <meta name="keywords" content="PDF tools, Image tools, Word counter, PNG to PDF, AI tools online, free file converter">
 
     <!-- Author -->
     <meta name="author" content="AI Tools Hub">
 
-    <!-- Open Graph (Social Sharing) -->
+    <!-- Open Graph -->
     <meta property="og:title" content="{% block og_title %}AI Tools Hub{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Free online AI tools for PDF, image and utility conversions.{% endblock %}">
     <meta property="og:type" content="website">
@@ -27,6 +27,16 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <!-- 🔥 Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QB32CC969S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QB32CC969S');
+    </script>
+
 </head>
 
 <body>
@@ -53,9 +63,7 @@
     {% block content %}{% endblock %}
 </main>
 
-<!-- ===================================================== -->
-<!-- 🔥 UNIVERSAL 5MB FILE SIZE VALIDATION (ALL FORMS) -->
-<!-- ===================================================== -->
+<!-- 🔥 UNIVERSAL 5MB FILE SIZE VALIDATION -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -83,4 +91,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
-
