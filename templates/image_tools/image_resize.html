@@ -1,6 +1,9 @@
 {% extends "base.html" %}
+
 {% block title %}Resize Images Online Free | Change Image Size Instantly | AI Tools Hub{% endblock %}
-{% block description %}Resize images online for free. Easily change image width and height without losing quality. Fast, secure and watermark-free image resizer tool for JPG, PNG, WEBP and more.{% endblock %}
+
+{% block description %}Resize images online free. Change image width and height easily without losing quality. Fast, secure and no watermark image resizer tool supporting JPG, PNG, WEBP and more.{% endblock %}
+
 {% block content %}
 
 <section style="display:flex; justify-content:flex-start; margin:200px 0 0 80px;">
@@ -37,42 +40,19 @@
         </div>
 
         <p style="margin-bottom:30px; color:#ffffff;">
-            Upload your image and resize it instantly by setting custom width and height.
-            This free online image resizer supports JPG, PNG, WEBP, GIF, BMP and TIFF images.
+            Resize your image online easily by setting custom width and height.
         </p>
 
         <form action="{{ url_for('image_resize') }}"
               method="POST"
               enctype="multipart/form-data">
 
-            <!-- DRAG DROP AREA -->
-            <div id="drop-area" style="
-                background:white;
-                padding:25px;
-                border-radius:10px;
-                margin-bottom:15px;
-                border:2px dashed #ccc;
-                text-align:center;
-                cursor:pointer;
-                color:#333;
-                font-weight:500;
-                position:relative;
-            ">
-                Drag & Drop Image Here or Click to Upload
-
+            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
                 <input type="file"
-                       id="fileInput"
-                       name="file"
-                       accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.tiff,.tif,image/*"
-                       required
-                       style="
-                       opacity:0;
-                       position:absolute;
-                       left:0;
-                       top:0;
-                       width:100%;
-                       height:100%;
-                       cursor:pointer;">
+                name="file"
+                accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.tiff,.tif,image/*"
+                required
+                style="border:none; width:100%;">
             </div>
 
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
@@ -95,6 +75,39 @@
     </div>
 </section>
 
+
+<!-- SEO CONTENT -->
+
+<section style="max-width:900px; margin:80px auto; line-height:1.7; font-size:16px;">
+
+<h2>Free Online Image Resizer</h2>
+
+<p>
+Our free online image resizer helps you quickly change the width and height of your images without losing quality. 
+Whether you need to resize images for websites, social media, documents, or email attachments, this tool allows you 
+to adjust image dimensions instantly.
+</p>
+
+<h2>Resize Images Without Losing Quality</h2>
+
+<p>
+This image resizer supports multiple formats including JPG, PNG, WEBP, GIF, BMP, and TIFF. 
+Simply upload your image, enter the desired width and height, and the tool will generate a resized image in seconds. 
+The process is fast, secure, and completely free to use with no watermark.
+</p>
+
+<h2>Why Use This Image Resizer Tool</h2>
+
+<p>
+• Resize images for websites and blogs<br>
+• Optimize images for faster page loading<br>
+• Adjust image dimensions for social media posts<br>
+• Reduce large image sizes for sharing
+</p>
+
+</section>
+
+
 {# 
 <ul>
     <li><a href="{{ url_for('image_compressor') }}">Compress Image Online</a></li>
@@ -107,41 +120,10 @@
 
 <style>
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
 }
 </style>
-
-<script>
-
-const dropArea = document.getElementById("drop-area");
-const fileInput = document.getElementById("fileInput");
-
-dropArea.addEventListener("dragover", function(e){
-e.preventDefault();
-dropArea.style.borderColor = "#4e54c8";
-});
-
-dropArea.addEventListener("dragleave", function(){
-dropArea.style.borderColor = "#ccc";
-});
-
-dropArea.addEventListener("drop", function(e){
-e.preventDefault();
-fileInput.files = e.dataTransfer.files;
-
-if(e.dataTransfer.files.length > 0){
-dropArea.innerHTML = e.dataTransfer.files[0].name;
-}
-});
-
-fileInput.addEventListener("change", function(){
-if(this.files.length > 0){
-dropArea.innerHTML = this.files[0].name;
-}
-});
-
-</script>
 
 {% endblock %}
