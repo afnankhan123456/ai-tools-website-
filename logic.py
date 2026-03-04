@@ -322,12 +322,12 @@ def image_resize_logic(app):
 
         resized.save(output_path, "JPEG", quality=95)
 
-        # Direct download remove kiya gaya
-        # Ab result page open hoga
-
-        return render_template(
-            "download.html",
-            filename=output_filename
+        # ✅ direct auto download
+        return send_file(
+            output_path,
+            as_attachment=True,
+            download_name="resized_image.jpg",
+            mimetype="image/jpeg"
         )
 
     except Exception as e:
@@ -378,6 +378,7 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
 
