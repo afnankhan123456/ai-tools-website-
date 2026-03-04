@@ -42,8 +42,7 @@
 
         <form action="{{ url_for('image_resize') }}"
               method="POST"
-              enctype="multipart/form-data"
-              onsubmit="showProcessing()">
+              enctype="multipart/form-data">
 
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
                 <input type="file" name="file" accept="image/*" required style="border:none; width:100%;">
@@ -60,6 +59,7 @@
             </div>
 
             <button type="submit"
+                    onclick="showProcessing()"
                     style="background:white; color:#4e54c8; border:none; padding:14px; width:100%; border-radius:10px; font-weight:600; cursor:pointer;">
                 Resize Image
             </button>
@@ -147,7 +147,10 @@ Most common formats such as JPG, JPEG, PNG, and WEBP images can be resized using
 
 <script>
 function showProcessing(){
-    document.getElementById("processing-message").style.display = "block";
+    const msg = document.getElementById("processing-message");
+    if(msg){
+        msg.style.display = "block";
+    }
 }
 </script>
 
