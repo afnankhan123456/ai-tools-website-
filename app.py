@@ -380,6 +380,11 @@ def image_compressor():
     return render_template("image_tools/image_compress.html")
 
 
+#========== download html============
+return render_template(
+    "download.html",
+    file_url="/static/resized/" + filename
+)
 
 #=================================
 from flask import send_from_directory
@@ -394,6 +399,7 @@ def robots():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
