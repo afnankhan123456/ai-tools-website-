@@ -54,6 +54,8 @@
 
                 <input type="file" id="fileInput" name="file" accept="image/*" required style="border:none; width:100%; margin-top:8px;">
 
+                <div id="fileName" style="margin-top:10px; color:#4e54c8; font-weight:600;"></div>
+
             </div>
 
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:15px;">
@@ -104,6 +106,12 @@ This may take a few seconds.<br>
 Please do not close this page.
 
 </p>
+
+<div id="progressBar" style="margin-top:20px; font-size:22px;">[----------]</div>
+
+<div id="percentText" style="margin-top:10px; font-size:18px;">0%</div>
+
+<div id="tips" style="margin-top:20px; font-size:16px; color:#ccc;"></div>
 
 </div>
 
@@ -172,6 +180,24 @@ Most common formats such as JPG, JPEG, PNG, and WEBP images can be resized using
 
 <script>
 
+const tipsList = [
+"Tip: High resolution images resize better.",
+"Tip: Large images may take few seconds.",
+"Tip: PNG keeps transparency.",
+"Tip: JPG is best for photos.",
+"Tip: Resize images before uploading to websites."
+];
+
+let tipIndex = 0;
+
+function rotateTips(){
+document.getElementById("tips").innerText = tipsList[tipIndex];
+tipIndex = (tipIndex + 1) % tipsList.length;
+}
+
+setInterval(rotateTips,3000);
+
+
 document.getElementById("resizeForm").addEventListener("submit", function(){
 
     const msg = document.getElementById("processing-message");
@@ -185,6 +211,35 @@ document.getElementById("resizeForm").addEventListener("submit", function(){
         btn.disabled = true;
         btn.innerText = "Processing...";
     }
+
+    let percent = 0;
+
+    const progressInterval = setInterval(function(){
+
+        percent += 5;
+
+        let bars = Math.floor(percent/10);
+        let barText = "[" + "█".repeat(bars) + "-".repeat(10-bars) + "]";
+
+        document.getElementById("progressBar").innerText = barText;
+        document.getElementById("percentText").innerText = percent + "%";
+
+        if(percent >= 100){
+            clearInterval(progressInterval);
+        }
+
+    },200);
+
+});
+
+
+/* FILE NAME SHOW */
+
+document.getElementById("fileInput").addEventListener("change", function(){
+
+if(this.files.length > 0){
+document.getElementById("fileName").innerText = "Selected: " + this.files[0].name;
+}
 
 });
 
@@ -210,6 +265,10 @@ e.preventDefault();
 uploadBox.style.background="white";
 
 fileInput.files = e.dataTransfer.files;
+
+if(fileInput.files.length > 0){
+document.getElementById("fileName").innerText = "Selected: " + fileInput.files[0].name;
+}
 
 });
 
