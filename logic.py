@@ -291,34 +291,44 @@ def image_compress_logic(app):
 # ---------------- IMAGE RESIZE ----------------
 def image_resize_logic(app):
 
-    file = request.files.get("file")
-    if not file or file.filename == "":
-        return "No file selected"
+```
+file = request.files.get("file")
+if not file or file.filename == "":
+    return "No file selected"
 
-    try:
-        width = int(request.form.get("width"))
-        height = int(request.form.get("height"))
-    except (TypeError, ValueError):
-        return "Invalid width or height"
+try:
+    width = int(request.form.get("width"))
+    height = int(request.form.get("height"))
+except (TypeError, ValueError):
+    return "Invalid width or height"
 
-    try:
-        processed_folder = app.config.get("PROCESSED_FOLDER", "processed")
-        os.makedirs(processed_folder, exist_ok=True)
+try:
+    processed_folder = app.config.get("PROCESSED_FOLDER", "processed")
+    os.makedirs(processed_folder, exist_ok=True)
 
-        image = Image.open(file)
-        resized = image.resize((width, height))
+    image = Image.open(file)
 
-        output_path = os.path.join(
-            processed_folder,
-            str(uuid.uuid4()) + ".jpg"
-        )
+    # Handle transparency and unsupported modes
+    if image.mode in ("RGBA", "P", "LA"):
+        image = image.convert("RGB")
+    elif image.mode != "RGB":
+        image = image.convert("RGB")
 
-        resized.save(output_path, "JPEG")
+    resized = image.resize((width, height))
 
-        return send_file(output_path, as_attachment=True)
+    output_path = os.path.join(
+        processed_folder,
+        str(uuid.uuid4()) + ".jpg"
+    )
 
-    except Exception as e:
-        return f"Error: {str(e)}"
+    resized.save(output_path, "JPEG", quality=95)
+
+    return send_file(output_path, as_attachment=True)
+
+except Exception as e:
+    return f"Error: {str(e)}"
+```
+
 
 
 # ---------------- BG REMOVER ----------------
@@ -366,6 +376,7 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
 
