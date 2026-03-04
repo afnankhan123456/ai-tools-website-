@@ -313,19 +313,25 @@ def image_resize_logic(app):
 
         resized = image.resize((width, height))
 
+        output_filename = str(uuid.uuid4()) + ".jpg"
+
         output_path = os.path.join(
             processed_folder,
-            str(uuid.uuid4()) + ".jpg"
+            output_filename
         )
 
         resized.save(output_path, "JPEG", quality=95)
 
-        return send_file(output_path, as_attachment=True)
+        # Direct download remove kiya gaya
+        # Ab result page open hoga
+
+        return render_template(
+            "download.html",
+            filename=output_filename
+        )
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
 
 # ---------------- BG REMOVER ----------------
 from flask import render_template
@@ -372,6 +378,7 @@ def word_counter_logic():
         "words": len(text.split()),
         "characters": len(text)
     }
+
 
 
 
