@@ -66,7 +66,7 @@
     {% block content %}{% endblock %}
 </main>
 
-<!-- 🔥 UNIVERSAL 5MB FILE SIZE VALIDATION -->
+<!--  UNIVERSAL 5MB FILE SIZE VALIDATION -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -92,6 +92,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+<!-- Processing Message Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const forms = document.querySelectorAll("form");
+
+    forms.forEach(function(form){
+        form.addEventListener("submit", function(){
+
+            const msg = form.querySelector("#processing-message");
+
+            if(msg){
+                msg.style.display = "block";
+            }
+
+        });
+    });
+
+});
+</script>
+
 </body>
 </html>
-
