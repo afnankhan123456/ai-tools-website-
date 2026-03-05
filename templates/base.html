@@ -48,11 +48,14 @@
     <div class="logo">
         <a href="{{ url_for('home') }}">
             <img class="nav-logo"
-                 src="{{ url_for('static', filename='logo.png') }}"
-                 alt="AI Tools Hub Logo">
+                 src="{{ url_for('static', filename='logo.webp') }}"
+                 alt="AI Tools Hub Logo"
+                 width="120"
+                 height="40">
             <span>AI Tools Hub</span>
         </a>
     </div>
+</nav>
 
     <div class="nav-links">
         <a href="{{ url_for('home') }}">Home</a>
@@ -94,3 +97,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
