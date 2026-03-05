@@ -44,18 +44,19 @@
 
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar">
+
     <div class="logo">
         <a href="{{ url_for('home') }}">
             <img class="nav-logo"
-                 src="{{ url_for('static', filename='logo.webp') }}"
+                 src="{{ url_for('static', filename='logo.png') }}"
                  alt="AI Tools Hub Logo"
                  width="120"
                  height="40">
             <span>AI Tools Hub</span>
         </a>
     </div>
-</nav>
 
     <div class="nav-links">
         <a href="{{ url_for('home') }}">Home</a>
@@ -63,6 +64,7 @@
         <a href="{{ url_for('pdf_tools') }}">PDF Tools</a>
         <a href="{{ url_for('utility_tools') }}">Utility Tools</a>
     </div>
+
 </nav>
 
 <main class="main-container">
@@ -76,7 +78,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
 
     document.querySelectorAll('input[type="file"]').forEach(function(input) {
 
@@ -98,3 +100,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+</body>
+</html>
