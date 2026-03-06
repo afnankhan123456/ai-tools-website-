@@ -216,4 +216,39 @@ body {
     .hero-content p {
         font-size: 14px;
     }
+
+
+    /* ============================= */
+    /* 🎮 GAME HUB CARD STYLE */
+    /* ============================= */
+
+    .game-card{
+        background: linear-gradient(135deg,#0f172a,#1e293b);
+        border-radius:14px;
+        padding:18px;
+        text-align:center;
+        transition:0.3s;
+        border:1px solid rgba(255,255,255,0.1);
+    }
+
+    .game-card:hover{
+        transform:scale(1.04);
+        box-shadow:0 8px 25px rgba(0,0,0,0.4);
+    }
+
+    .game-icon{
+        font-size:34px;
+        margin-bottom:10px;
+    }
+
+    .play-btn{
+        background:#22c55e;
+        color:white;
+        padding:6px 14px;
+        border-radius:8px;
+        font-size:13px;
+        margin-top:8px;
+        display:inline-block;
+    }
+
 }
