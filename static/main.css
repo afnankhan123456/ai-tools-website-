@@ -219,36 +219,35 @@ body {
 
 
     /* ============================= */
-    /* 🎮 GAME HUB CARD STYLE */
-    /* ============================= */
+/* 🎮 GAME HUB CARD STYLE */
+/* ============================= */
 
-    .game-card{
-        background: linear-gradient(135deg,#0f172a,#1e293b);
-        border-radius:14px;
-        padding:18px;
-        text-align:center;
-        transition:0.3s;
-        border:1px solid rgba(255,255,255,0.1);
-    }
+.game-card{
+    background: linear-gradient(135deg,#1a0033,#4c00ff);
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+    transition:0.3s;
+    border:1px solid rgba(255,255,255,0.15);
+}
 
-    .game-card:hover{
-        transform:scale(1.04);
-        box-shadow:0 8px 25px rgba(0,0,0,0.4);
-    }
+.game-card:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 30px rgba(124,58,237,0.6);
+}
 
-    .game-icon{
-        font-size:34px;
-        margin-bottom:10px;
-    }
+.game-icon{
+    font-size:36px;
+    margin-bottom:10px;
+}
 
-    .play-btn{
-        background:#22c55e;
-        color:white;
-        padding:6px 14px;
-        border-radius:8px;
-        font-size:13px;
-        margin-top:8px;
-        display:inline-block;
-    }
-
+.play-btn{
+    background:linear-gradient(45deg,#ff7a00,#ff2d55);
+    color:white;
+    padding:7px 16px;
+    border-radius:20px;
+    font-size:13px;
+    margin-top:8px;
+    display:inline-block;
+    font-weight:600;
 }
