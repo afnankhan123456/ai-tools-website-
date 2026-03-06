@@ -387,12 +387,18 @@ from flask import send_from_directory
 def robots():
     return send_from_directory('static', 'robots.txt')
 
+#================= game============
+@app.route("/games")
+def games():
+    return render_template("games.html")
+
 # ===============================
 # LOCAL RUN
 # ===============================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
