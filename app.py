@@ -83,10 +83,6 @@ def rotate_pdf():
 def split_pdf():
     return render_template('pdf_tools/split_pdf.html')
 
-@app.route('/word-to-pdf')
-def word_to_pdf():
-    return render_template('pdf_tools/word_to_pdf.html')
-
 
 # ============================================
 #          IMAGE TOOL PAGES (client-side)
