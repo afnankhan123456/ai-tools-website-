@@ -51,12 +51,12 @@ def utility_tools():
 
 @app.route('/jpg-to-pdf')
 def jpg_to_pdf():
-    # 🔽 Exact filename with spaces and commas
+    # Exact filename from GitHub: JPG, JPEG, PNG_to_pdf.html
     return render_template('pdf_tools/JPG, JPEG, PNG_to_pdf.html')
 
 @app.route('/pdf-to-jpg')
 def pdf_to_jpg():
-    # 🔽 Exact filename with spaces and commas
+    # Exact filename from GitHub: PDF_to-JPG,JPEG,PNG.html
     return render_template('pdf_tools/PDF_to-JPG,JPEG,PNG.html')
 
 @app.route('/compress-pdf')
@@ -107,7 +107,8 @@ def image_resize():
 
 @app.route('/base64-encoder', endpoint='Base64 Encoder-Decoder')
 def base64_encoder():
-    return render_template('utility_tools/Base64 Encoder-Decoder.html')
+    # Exact filename with leading space (from GitHub)
+    return render_template('utility_tools/ Base64 Encoder-Decoder.html')
 
 @app.route('/json-formatter', endpoint='JSON Formatter')
 def json_formatter():
