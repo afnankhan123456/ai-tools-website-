@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+
 {% block title %}All PDF Tools Online Free 2026 | Fast PDF Converter & Editor{% endblock %}
 {% block description %}Best free PDF tools in 2026. Convert, merge, split, compress, rotate and resize PDF files online with fast and secure processing.{% endblock %}
 
 {% block content %}
 
-<section class="tools-section" style="max-width:1000px; margin:120px auto 60px; padding:0 20px;"> 
+<section class="tools-section" style="max-width:1000px; margin:120px auto 60px; padding:0 20px;">
 
     <h1 class="section-title" style="text-align:center; margin-bottom:20px;">
         All PDF Tools Online 2026 – Fast & Secure PDF Converter and Editor
@@ -19,58 +20,55 @@
 
     <div class="tools-grid">
 
-        <a href="{{ url_for('png_to_pdf') }}" class="tool-card"><h3>PNG to PDF</h3></a>
-        <a href="{{ url_for('jpg_to_pdf') }}" class="tool-card"><h3>JPG to PDF</h3></a>
-        <a href="{{ url_for('pdf_to_word') }}" class="tool-card"><h3>PDF to Word</h3></a>
-        <a href="{{ url_for('word_to_pdf') }}" class="tool-card"><h3>Word to PDF</h3></a>
-        <a href="{{ url_for('pdf_to_jpg') }}" class="tool-card"><h3>PDF to JPG</h3></a>
-        <a href="{{ url_for('merge_pdf') }}" class="tool-card"><h3>Merge PDF</h3></a>
-        <a href="{{ url_for('split_pdf') }}" class="tool-card"><h3>Split PDF</h3></a>
-        <a href="{{ url_for('compress_pdf') }}" class="tool-card"><h3>Compress PDF</h3></a>
-        <a href="{{ url_for('rotate_pdf') }}" class="tool-card"><h3>Rotate PDF</h3></a>
-        <a href="{{ url_for('resize_pdf') }}" class="tool-card"><h3>Resize PDF</h3></a>
+        <!-- 1. JPG, JPEG, PNG to PDF (uses jpg_to_pdf route) -->
+        <a href="{{ url_for('jpg_to_pdf') }}" class="tool-card">
+            <h3>JPG, JPEG, PNG to PDF</h3>
+        </a>
+
+        <!-- 2. PDF to JPG, JPEG, PNG (uses pdf_to_jpg route) -->
+        <a href="{{ url_for('pdf_to_jpg') }}" class="tool-card">
+            <h3>PDF to JPG, JPEG, PNG</h3>
+        </a>
+
+        <!-- 3. Compress PDF -->
+        <a href="{{ url_for('compress_pdf') }}" class="tool-card">
+            <h3>Compress PDF</h3>
+        </a>
+
+        <!-- 4. Merge PDF -->
+        <a href="{{ url_for('merge_pdf') }}" class="tool-card">
+            <h3>Merge PDF</h3>
+        </a>
+
+        <!-- 5. PDF to Word -->
+        <a href="{{ url_for('pdf_to_word') }}" class="tool-card">
+            <h3>PDF to Word</h3>
+        </a>
+
+        <!-- 6. Resize PDF -->
+        <a href="{{ url_for('resize_pdf') }}" class="tool-card">
+            <h3>Resize PDF</h3>
+        </a>
+
+        <!-- 7. Rotate PDF -->
+        <a href="{{ url_for('rotate_pdf') }}" class="tool-card">
+            <h3>Rotate PDF</h3>
+        </a>
+
+        <!-- 8. Split PDF -->
+        <a href="{{ url_for('split_pdf') }}" class="tool-card">
+            <h3>Split PDF</h3>
+        </a>
+
+        <!-- 9. Word to PDF -->
+        <a href="{{ url_for('word_to_pdf') }}" class="tool-card">
+            <h3>Word to PDF</h3>
+        </a>
 
     </div>
 </section>
 
-<!-- 🔥 SEO CONTENT SECTION -->
-<section style="max-width:900px; margin:80px auto; padding:0 20px; line-height:1.8;">
-
-    <h2>Best Free PDF Tools Online in 2026 – Convert, Edit & Manage Files Instantly</h2>
-
-    <p>
-        Our advanced PDF tools in 2026 are designed to help users manage documents faster and more efficiently.
-        Whether you need to convert PDF to Word, merge multiple files, split large documents,
-        or compress file size for faster sharing, everything can be done online in seconds.
-    </p>
-
-    <p>
-        These tools are widely used by students, professionals, freelancers, and businesses.
-        With modern optimization, faster processing, and secure file handling,
-        you can complete your document tasks without any technical knowledge.
-    </p>
-
-    <h3>Why Choose Our PDF Tools in 2026?</h3>
-    <ul>
-        <li>100% free and updated for latest 2026 needs</li>
-        <li>No watermark on processed files</li>
-        <li>No login or registration required</li>
-        <li>High-speed processing with accurate results</li>
-        <li>Works smoothly on mobile, tablet, and desktop</li>
-        <li>Secure file handling with automatic deletion</li>
-    </ul>
-
-    <h3>Frequently Asked Questions (FAQ)</h3>
-
-    <p><strong>Q: Are all PDF tools completely free in 2026?</strong><br>
-    Yes, all tools are free to use with no hidden charges.</p>
-
-    <p><strong>Q: Is my data safe while using these tools?</strong><br>
-    Yes, all uploaded files are processed securely and automatically deleted after use.</p>
-
-    <p><strong>Q: Can I use these tools on mobile devices?</strong><br>
-    Yes, all tools are fully responsive and optimized for mobile and desktop.</p>
-
-</section>
-
 {% endblock %}
+
+
+
