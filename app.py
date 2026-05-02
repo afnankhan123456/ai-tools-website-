@@ -105,22 +105,22 @@ def image_resize():
 
 # ============================================
 #         UTILITY TOOL PAGES (client-side)
-#         (Base64, JSON, QR, Word Counter)
+#         Endpoint names match HTML url_for()
 # ============================================
 
-@app.route('/base64-encoder')
+@app.route('/base64-encoder', endpoint='Base64 Encoder-Decoder')
 def base64_encoder():
     return render_template('utility_tools/base64_encoder.html')
 
-@app.route('/json-formatter')
+@app.route('/json-formatter', endpoint='JSON Formatter')
 def json_formatter():
     return render_template('utility_tools/json_formatter.html')
 
-@app.route('/qr-generator')
+@app.route('/qr-generator', endpoint='QR Generator')
 def qr_generator():
     return render_template('utility_tools/qr_generator.html')
 
-@app.route('/word-counter')
+@app.route('/word-counter', endpoint='Word Counter')
 def word_counter():
     return render_template('utility_tools/word_counter.html')
 
@@ -141,6 +141,10 @@ def page_not_found(e):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
+
+
+
+
 
 
 
