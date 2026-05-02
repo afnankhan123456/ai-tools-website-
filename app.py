@@ -105,12 +105,13 @@ def image_resize():
 
 # ============================================
 #         UTILITY TOOL PAGES (client-side)
-#         Endpoint names match HTML url_for()
+#         Exact filenames as per templates/
 # ============================================
 
 @app.route('/base64-encoder', endpoint='Base64 Encoder-Decoder')
 def base64_encoder():
-    return render_template('utility_tools/base64_encoder.html')
+    # Note: leading space before filename (as per user's file)
+    return render_template('utility_tools/ Base64 Encoder-Decoder.html')
 
 @app.route('/json-formatter', endpoint='JSON Formatter')
 def json_formatter():
@@ -141,10 +142,6 @@ def page_not_found(e):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
-
-
-
-
 
 
 
