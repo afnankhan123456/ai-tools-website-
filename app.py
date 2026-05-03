@@ -124,7 +124,7 @@ def word_counter():
 
 @app.route('/pdf-to-handwriting', endpoint='PDF to Handwriting')
 def pdf_handwriting():
-    return render_template('pdf_handwriting.html')
+    return render_template('utility_tools/pdf_handwriting.html')
 
 @app.route('/convert-handwriting', methods=['POST'])
 def convert_handwriting():
