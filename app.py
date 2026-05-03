@@ -118,9 +118,43 @@ def qr_generator():
 def word_counter():
     return render_template('utility_tools/word_counter.html')
 
-@app.route('/pdf-to-handwriting', endpoint='PDF to Handwriting')
-def pdf_handwriting():
-    return render_template('pdf_handwriting.html')
+========##############=========================
+import os
+import subprocess
+from flask import request, send_file, jsonify
+from werkzeug.utils import secure_filename
+
+@app.route('/convert-handwriting', methods=['POST'])
+def convert_handwriting():
+    if 'pdf' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
+    
+    file = request.files['pdf']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+
+    filename = secure_filename(file.filename)
+    input_path = os.path.join('temp', filename)
+    output_path = os.path.splitext(input_path)[0] + '_handwritten.pdf'
+    
+    os.makedirs('temp', exist_ok=True)
+    file.save(input_path)
+
+    try:
+        subprocess.run([
+            'python', 'pdf_handwriting_converter.py',
+            input_path, output_path
+        ], check=True, capture_output=True, text=True)
+
+        return send_file(output_path, as_attachment=True, download_name='handwritten_assignment.pdf')
+    except subprocess.CalledProcessError as e:
+        return jsonify({'error': f'Conversion failed: {e.stderr}'}), 500
+    finally:
+        if os.path.exists(input_path):
+            os.remove(input_path)
+        if os.path.exists(output_path):
+            os.remove(output_path)
+===================####=========================
 
 
 # ============================================
