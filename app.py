@@ -1,5 +1,7 @@
 import os
-from flask import Flask, render_template, send_from_directory
+import subprocess
+from flask import Flask, render_template, request, send_file, jsonify
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -99,7 +101,7 @@ def image_resize():
 
 # ============================================
 #         UTILITY TOOL PAGES (client-side)
-#============================================
+# ============================================
 
 @app.route('/base64-encoder', endpoint='Base64 Encoder-Decoder')
 def base64_encoder():
@@ -118,17 +120,17 @@ def qr_generator():
 def word_counter():
     return render_template('utility_tools/word_counter.html')
 
-# =====================handwrititng=========================
-import os
-import subprocess
-from flask import request, send_file, jsonify
-from werkzeug.utils import secure_filename
+# ===================== HANDWRITING =========================
+
+@app.route('/pdf-to-handwriting', endpoint='PDF to Handwriting')
+def pdf_handwriting():
+    return render_template('pdf_handwriting.html')
 
 @app.route('/convert-handwriting', methods=['POST'])
 def convert_handwriting():
     if 'pdf' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
-    
+
     file = request.files['pdf']
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
@@ -136,7 +138,7 @@ def convert_handwriting():
     filename = secure_filename(file.filename)
     input_path = os.path.join('temp', filename)
     output_path = os.path.splitext(input_path)[0] + '_handwritten.pdf'
-    
+
     os.makedirs('temp', exist_ok=True)
     file.save(input_path)
 
@@ -154,8 +156,6 @@ def convert_handwriting():
             os.remove(input_path)
         if os.path.exists(output_path):
             os.remove(output_path)
-# =======================================
-
 
 # ============================================
 #                   ERROR HANDLER
@@ -163,8 +163,8 @@ def convert_handwriting():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
-
+    # Bina template ke simple text return karega – ab 500 nahi aayega
+    return "Page Not Found", 404
 
 # ============================================
 #                     RUN
@@ -173,7 +173,5 @@ def page_not_found(e):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
-
-
 
 
