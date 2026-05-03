@@ -118,7 +118,7 @@ def qr_generator():
 def word_counter():
     return render_template('utility_tools/word_counter.html')
 
-========##############=========================
+# =====================handwrititng=========================
 import os
 import subprocess
 from flask import request, send_file, jsonify
@@ -154,7 +154,7 @@ def convert_handwriting():
             os.remove(input_path)
         if os.path.exists(output_path):
             os.remove(output_path)
-===================####=========================
+# =======================================
 
 
 # ============================================
