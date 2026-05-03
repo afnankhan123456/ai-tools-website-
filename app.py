@@ -118,6 +118,10 @@ def qr_generator():
 def word_counter():
     return render_template('utility_tools/word_counter.html')
 
+@app.route('/pdf-to-handwriting', endpoint='PDF to Handwriting')
+def pdf_handwriting():
+    return render_template('pdf_handwriting.html')
+
 
 # ============================================
 #                   ERROR HANDLER
