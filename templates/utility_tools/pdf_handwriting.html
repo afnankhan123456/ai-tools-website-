@@ -1,161 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to Handwriting</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
-        }
-        .container {
-            background: white; border-radius: 20px; padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1); max-width: 600px; width: 100%; text-align: center;
-        }
-        h1 { font-size: 2rem; color: #2d3436; margin-bottom: 0.5rem; }
-        p { color: #636e72; margin-bottom: 1.5rem; }
-        .drop-zone {
-            border: 2px dashed #a29bfe; border-radius: 15px; padding: 3rem 2rem;
-            background: #f9f9ff; transition: 0.3s; cursor: pointer;
-        }
-        .drop-zone.dragover { background: #e8e7ff; border-color: #6c5ce7; }
-        .drop-zone .icon { font-size: 3rem; color: #a29bfe; margin-bottom: 0.5rem; }
-        .file-name { margin-top: 1rem; color: #2d3436; font-weight: 500; }
-        button {
-            background: #6c5ce7; color: white; border: none; padding: 0.8rem 2.5rem;
-            border-radius: 30px; font-size: 1rem; margin-top: 1.5rem; cursor: pointer; transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 0.5rem;
-        }
-        button:disabled { background: #b2bec3; cursor: not-allowed; }
-        button:hover:not(:disabled) { background: #5b4cdb; }
-        .progress {
-            width: 100%; height: 6px; background: #dfe6e9; border-radius: 10px;
-            margin: 1.5rem 0 0.5rem; overflow: hidden; display: none;
-        }
-        .progress-bar { height: 100%; width: 0%; background: #6c5ce7; transition: width 0.3s; }
-        .status { margin-top: 0.5rem; color: #2d3436; font-size: 0.9rem; }
-        .download-link {
-            display: none; margin-top: 1.5rem; color: #0984e3;
-            text-decoration: underline; font-weight: 500; cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>PDF to Handwriting (Client‑Side)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    #dropZone { border: 2px dashed #aaa; padding: 2rem; margin: 1rem auto; max-width: 400px; cursor: pointer; }
+    #dropZone.dragover { background: #f0f0f0; }
+    button { margin: 1rem; padding: 0.5rem 1.5rem; cursor: pointer; }
+    #status { margin-top: 1rem; color: #555; }
+    canvas { display: none; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>✍️ PDF to Handwriting</h1>
-        <p>Upload your assignment PDF and get it in realistic handwriting style.</p>
+  <h2>PDF to Handwriting (Client‑Side)</h2>
+  <div id="dropZone">
+    <p>Drag & drop PDF here, or click to browse</p>
+    <input type="file" id="fileInput" accept=".pdf" hidden>
+    <div id="fileName"></div>
+  </div>
+  <button id="convertBtn" disabled>Convert to Handwriting</button>
+  <div id="status"></div>
 
-        <div class="drop-zone" id="dropZone">
-            <div class="icon">📄</div>
-            <p>Drag & drop your PDF here, or click to select</p>
-            <input type="file" id="fileInput" accept=".pdf" hidden>
-            <div class="file-name" id="fileName"></div>
-        </div>
+  <script>
+    // ================== GLOBALS ==================
+    const ALPHABET_BASE = "https://raw.githubusercontent.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/templates/Handwritten/Alfabet/";
+    const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const glyphCache = {}; // { 'A': [Image, Image, ...], ... }
+    const pagesText = [];  // extracted text per page
+    let pdfDoc = null;
 
-        <button id="convertBtn" disabled>
-            <span>✨</span> Convert to Handwriting
-        </button>
+    // UI elements
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDiv = document.getElementById('fileName');
+    const convertBtn = document.getElementById('convertBtn');
+    const statusDiv = document.getElementById('status');
 
-        <div class="progress" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="status" id="statusText"></div>
-        <a class="download-link" id="downloadLink" download="handwritten_assignment.pdf">⬇️ Download Converted PDF</a>
-    </div>
-
-    <script>
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const fileName = document.getElementById('fileName');
-        const convertBtn = document.getElementById('convertBtn');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressBar = document.getElementById('progressBar');
-        const statusText = document.getElementById('statusText');
-        const downloadLink = document.getElementById('downloadLink');
-
-        let selectedFile = null;
-
-        // Click to open file dialog
-        dropZone.addEventListener('click', () => fileInput.click());
-
-        // File selected via browse
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) handleFile(e.target.files[0]);
-        });
-
-        // Drag & drop events
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-        });
-
-        function handleFile(file) {
-            if (file.type !== 'application/pdf') {
-                alert('Please upload a PDF file only!');
-                return;
-            }
-            selectedFile = file;
-            fileName.textContent = '📎 ' + file.name;
-            convertBtn.disabled = false;
-            // Reset UI
-            progressContainer.style.display = 'none';
-            statusText.textContent = '';
-            downloadLink.style.display = 'none';
+    // ================== 1. LOAD ALL GLYPHS (SAFELY – no canvas taint) ==================
+    async function preloadGlyphs() {
+      statusDiv.textContent = 'Loading handwriting glyphs...';
+      const promises = [];
+      for (const ch of LETTERS) {
+        glyphCache[ch] = [];
+        for (let v = 1; v <= 4; v++) {
+          const url = ALPHABET_BASE + ch + v + '.jpeg';
+          const p = fetch(url, { mode: 'cors' })
+            .then(res => {
+              if (!res.ok) throw new Error('fail');
+              return res.blob();
+            })
+            .then(blob => {
+              return new Promise((resolve) => {
+                const img = new Image();
+                // Object URL is same‑origin -> no canvas taint
+                img.src = URL.createObjectURL(blob);
+                img.onload = () => {
+                  glyphCache[ch].push(img);
+                  resolve();
+                };
+                img.onerror = () => resolve(); // skip
+              });
+            })
+            .catch(() => {}); // skip missing variants
+          promises.push(p);
         }
+      }
+      await Promise.all(promises);
+      statusDiv.textContent = 'Glyphs loaded. Ready.';
+    }
 
-        // Convert button click
-        convertBtn.addEventListener('click', async () => {
-            if (!selectedFile) return;
-
-            const formData = new FormData();
-            formData.append('pdf', selectedFile);
-
-            convertBtn.disabled = true;
-            progressContainer.style.display = 'block';
-            progressBar.style.width = '0%';
-            statusText.textContent = 'Uploading & converting...';
-
-            try {
-                const response = await fetch('/convert-handwriting', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    const err = await response.json().catch(() => ({ error: 'Conversion failed' }));
-                    throw new Error(err.error || 'Conversion failed');
-                }
-
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                downloadLink.href = url;
-                downloadLink.style.display = 'block';
-                statusText.textContent = 'Conversion complete!';
-                progressBar.style.width = '100%';
-                convertBtn.disabled = false;
-            } catch (error) {
-                statusText.textContent = 'Error: ' + error.message;
-                convertBtn.disabled = false;
-                progressContainer.style.display = 'none';
-            }
+    // ================== 2. EXTRACT TEXT FROM PDF ==================
+    async function extractText(file) {
+      statusDiv.textContent = 'Extracting text from PDF...';
+      const arrayBuffer = await file.arrayBuffer();
+      pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const numPages = pdfDoc.numPages;
+      pagesText.length = 0;
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const textContent = await page.getTextContent();
+        let pageText = '';
+        textContent.items.forEach(item => {
+          if (item.str) pageText += item.str + ' ';
         });
-    </script>
+        pagesText.push(pageText.trim());
+      }
+      pdfDoc = null;
+    }
+
+    // ================== 3. RENDER ONE PAGE TO CANVAS ==================
+    function renderPage(text, pageIndex) {
+      const DPI = 150;
+      const A4_W = 595, A4_H = 842; // points
+      const canvas_w = Math.floor(A4_W * DPI / 72);
+      const canvas_h = Math.floor(A4_H * DPI / 72);
+      const margin = Math.floor(50 * DPI / 72);
+      const fontSize = 32; // pt
+      const fontSizePx = Math.floor(fontSize * DPI / 72); // desired cap height
+      const lineHeight = Math.floor(fontSizePx * 2.2);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas_w;
+      canvas.height = canvas_h;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas_w, canvas_h);
+
+      // Compute average scaled width per character
+      const avgWidths = {};
+      for (const ch of LETTERS) {
+        if (glyphCache[ch] && glyphCache[ch].length > 0) {
+          // Get width of first variant after scaling to target height
+          const img = glyphCache[ch][0];
+          const scale = fontSizePx / img.height;  // scale to match font size
+          avgWidths[ch] = img.width * scale;
+        }
+      }
+      const defaultW = fontSizePx * 0.55;
+
+      const wavePhase = Math.random() * 2 * Math.PI;
+      const waveFreq = 0.002 + Math.random() * 0.003;
+
+      let x = margin + (Math.random() - 0.5) * 10;
+      let y = margin + fontSizePx + (Math.random() - 0.5) * 10;
+
+      function drawChar(ch) {
+        const variants = glyphCache[ch];
+        if (!variants || variants.length === 0) {
+          // Fallback: use browser font
+          ctx.save();
+          ctx.font = `${fontSizePx}px 'Segoe UI', cursive`;
+          ctx.fillStyle = '#222';
+          ctx.fillText(ch, x, y);
+          ctx.restore();
+          x += defaultW * 0.8;
+          return;
+        }
+        const img = variants[Math.floor(Math.random() * variants.length)];
+        const angle = (Math.random() * 6 - 3); // -3..3 deg
+        const scaleFactor = (0.95 + Math.random() * 0.1);  // size jitter
+        const scale = (fontSizePx / img.height) * scaleFactor;
+        const w = Math.floor(img.width * scale);
+        const h = Math.floor(img.height * scale);
+
+        ctx.save();
+        const baselineOffset = 2 * Math.sin(waveFreq * x + wavePhase);
+        const yJitter = (Math.random() - 0.5) * 4;
+        ctx.translate(x, y - h + baselineOffset + yJitter);
+        ctx.rotate(angle * Math.PI / 180);
+        ctx.drawImage(img, 0, 0, w, h);
+        ctx.restore();
+
+        x += w + Math.random() * 3;
+      }
+
+      const lines = text.split('\n');
+      for (const line of lines) {
+        const words = line.split(' ');
+        if (words.length === 0) { x += defaultW; continue; }
+        for (const word of words) {
+          if (!word) {
+            x += defaultW * (1.5 + Math.random() * 1);
+            continue;
+          }
+          // estimate word width
+          let wordW = 0;
+          for (const ch of word) wordW += avgWidths[ch] || defaultW;
+          if (x + wordW + margin > canvas_w) {
+            x = margin + (Math.random() - 0.5) * 10;
+            y += lineHeight;
+            if (y + lineHeight > canvas_h - margin) break;
+          }
+          for (const ch of word) {
+            drawChar(ch);
+          }
+          x += defaultW * (1.5 + Math.random() * 1);
+        }
+        // new line
+        x = margin + (Math.random() - 0.5) * 10;
+        y += lineHeight + (Math.random() - 0.5) * 2;
+        if (y + lineHeight > canvas_h - margin) break;
+      }
+
+      // Add texture noise
+      const imageData = ctx.getImageData(0, 0, canvas_w, canvas_h);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const noise = Math.floor(Math.random() * 6 - 3);
+        data[i] = Math.min(255, Math.max(0, data[i] + noise));
+        data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
+        data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
+      }
+      ctx.putImageData(imageData, 0, 0);
+
+      return canvas;
+    }
+
+    // ================== 4. PDF GENERATION ==================
+    async function generatePDF() {
+      statusDiv.textContent = 'Generating handwriting...';
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit: 'pt', format: 'a4', orientation: 'portrait' });
+
+      for (let i = 0; i < pagesText.length; i++) {
+        const canvas = renderPage(pagesText[i], i);
+        const imgData = canvas.toDataURL('image/jpeg', 0.85);
+        if (i > 0) pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, 0, 595, 842);
+      }
+
+      pdf.save('handwritten_assignment.pdf');
+      statusDiv.textContent = 'Downloaded!';
+    }
+
+    // ================== EVENT HANDLERS ==================
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) handleFile(e.target.files[0]);
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+    });
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    function handleFile(file) {
+      if (file.type !== 'application/pdf') {
+        alert('Only PDF!');
+        return;
+      }
+      fileNameDiv.textContent = '📎 ' + file.name;
+      convertBtn.disabled = false;
+      window.selectedFile = file;
+    }
+
+    convertBtn.addEventListener('click', async () => {
+      if (!window.selectedFile) return;
+      convertBtn.disabled = true;
+      statusDiv.textContent = 'Processing...';
+      try {
+        await preloadGlyphs();
+        await extractText(window.selectedFile);
+        await generatePDF();
+      } catch (err) {
+        statusDiv.textContent = 'Error: ' + err.message;
+      }
+      convertBtn.disabled = false;
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
