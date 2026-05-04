@@ -7,3 +7,9 @@ docx2pdf
 pdf2image
 qrcode[pil]
 
+werkzeug
+requests
+PyMuPDF
+reportlab
+numpy
+opencv-python-headless
