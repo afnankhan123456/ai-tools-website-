@@ -10,15 +10,13 @@ import fitz  # PyMuPDF
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
-import requests
 
 
 # ============================================
 #    HANDWRITING CONVERSION (SERVER-SIDE)
 # ============================================
 
-GITHUB_ALPHABET_URL = "https://raw.githubusercontent.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
-ALPHABET_DIR = 'alfabet_glyphs'
+ALPHABET_DIR = 'static/handwriting/alfabat'  # Tumhari GitHub location
 HW_DPI = 100
 PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
 MARGIN = 40 * HW_DPI // 72
@@ -36,25 +34,9 @@ def ensure_glyphs():
         return _glyph_cache
     
     if not os.path.exists(ALPHABET_DIR):
-        os.makedirs(ALPHABET_DIR)
+        raise Exception(f"Alphabet folder '{ALPHABET_DIR}' nahi mila! GitHub par push karo.")
     
-    # Sirf missing files download karo
-    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-        for variant in range(1, 5):
-            fname = f"{letter}{variant}.png"
-            save_path = os.path.join(ALPHABET_DIR, fname)
-            if os.path.exists(save_path):
-                continue
-            url = f"{GITHUB_ALPHABET_URL}/{fname}"
-            try:
-                resp = requests.get(url, timeout=5)
-                if resp.status_code == 200:
-                    with open(save_path, 'wb') as f:
-                        f.write(resp.content)
-            except:
-                pass
-    
-    # Load glyphs from disk
+    # Seedha local folder se load karo — koi download nahi
     glyphs = {}
     for fname in os.listdir(ALPHABET_DIR):
         if fname.endswith('.png'):
@@ -193,11 +175,10 @@ def pdf_to_handwriting_logic(app):
         return jsonify({'error': str(e)}), 500
 
 
-# App start hote hi glyphs preload karo (pehli request se pehle)
-print("🖊️ Preloading handwriting glyphs...")
+# App start hote hi glyphs preload karo
+print("🖊️ Loading handwriting glyphs...")
 ensure_glyphs()
 print("✅ Glyphs ready!")
-
 
 
 
