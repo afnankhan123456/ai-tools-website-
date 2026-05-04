@@ -1,412 +1,192 @@
-from flask import request, send_file, render_template, after_this_request  # ✅ Cleanup ke liye
+from flask import request, send_file, jsonify
 from PIL import Image
-from PyPDF2 import PdfReader, PdfWriter, PdfMerger
-from pdf2docx import Converter
-from docx2pdf import convert
-from pdf2image import convert_from_path
 import io
-import base64
-import json
-import qrcode
 import os
 import uuid
-import zipfile
-import tempfile  # ✅ Temporary files ke liye
+import random
+import math
+import numpy as np
+import fitz  # PyMuPDF
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
+import requests
 
 
+# ============================================
+#    HANDWRITING CONVERSION (SERVER-SIDE)
+# ============================================
 
-# ---------------- PNG TO PDF ----------------
-def png_to_pdf_logic(app):
-    file = request.files["file"]
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    Image.open(file).convert("RGB").save(output_path)
-
-    return send_file(output_path, as_attachment=True)
+GITHUB_ALPHABET_URL = "https://raw.githubusercontent.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
+ALPHABET_DIR = 'alfabet_glyphs'
+HW_DPI = 150
+PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
+MARGIN = 50 * HW_DPI // 72
+FONT_SIZE_PX = 28
+LINE_HEIGHT = int(FONT_SIZE_PX * 1.8)
 
 
-# ---------------- JPG TO PDF ----------------
+def ensure_glyphs():
+    """GitHub se transparent PNG glyphs download karo (agar nahi hain) aur load karo."""
+    if not os.path.exists(ALPHABET_DIR):
+        os.makedirs(ALPHABET_DIR)
+        for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            for variant in range(1, 5):
+                fname = f"{letter}{variant}.png"
+                url = f"{GITHUB_ALPHABET_URL}/{fname}"
+                try:
+                    resp = requests.get(url, timeout=5)
+                    if resp.status_code == 200:
+                        with open(os.path.join(ALPHABET_DIR, fname), 'wb') as f:
+                            f.write(resp.content)
+                except:
+                    pass
     
-def jpg_to_pdf_logic(app):
-    file = request.files["file"]
-    
-    output_path = os.path.join(app.config["PROCESSED_FOLDER"], str(uuid.uuid4()) + ".pdf")
-    
-    img = Image.open(file).convert('RGB')
-    img_width, img_height = img.size
-    
-    # A4 at 300 DPI
-    A4_W, A4_H = 2480, 3508
-    
-    # Calculate fit size (maintain aspect ratio)
-    if img_width / img_height > A4_W / A4_H:
-        new_w, new_h = A4_W, int(A4_W / (img_width / img_height))
-    else:
-        new_w, new_h = int(A4_H * (img_width / img_height)), A4_H
-    
-    # Resize and center on white canvas
-    img_resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-    canvas = Image.new('RGB', (A4_W, A4_H), 'white')
-    canvas.paste(img_resized, ((A4_W - new_w) // 2, (A4_H - new_h) // 2))
-    
-    canvas.save(output_path, 'PDF', resolution=300.0, quality=100)
-    
-    return send_file(output_path, as_attachment=True)
-    
+    glyphs = {}
+    for fname in os.listdir(ALPHABET_DIR):
+        if fname.endswith('.png'):
+            letter = fname[0]
+            img = Image.open(os.path.join(ALPHABET_DIR, fname)).convert('RGBA')
+            if letter not in glyphs:
+                glyphs[letter] = []
+            glyphs[letter].append(img)
+    return glyphs
 
-# ---------------- PDF TO JPG ----------------
-def pdf_to_jpg_logic(app):
-    file = request.files["file"]
 
-    input_path = os.path.join(
-        app.config["UPLOAD_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
+def render_page(text, glyphs):
+    """Ek page ka text le kar handwriting image banata hai."""
+    page = Image.new("RGBA", (PAGE_W, PAGE_H), (255, 255, 255, 255))
+    
+    avg_widths = {}
+    for ch, imgs in glyphs.items():
+        if imgs:
+            avg_widths[ch] = sum(im.size[0] for im in imgs) / len(imgs)
+    default_w = FONT_SIZE_PX * 0.55
+
+    wave_phase = random.uniform(0, 2 * math.pi)
+    wave_freq = random.uniform(0.002, 0.005)
+
+    x = MARGIN + random.randint(-5, 5)
+    y = MARGIN + FONT_SIZE_PX + random.randint(-5, 5)
+
+    for line in text.split('\n'):
+        words = line.split(' ')
+        for word in words:
+            if not word:
+                x += default_w * random.uniform(1.5, 2.5)
+                continue
+            
+            word_width = sum(avg_widths.get(ch, default_w) for ch in word) + len(word) * 2
+            if x + word_width > PAGE_W - MARGIN:
+                x = MARGIN + random.randint(-5, 5)
+                y += LINE_HEIGHT
+                if y + LINE_HEIGHT > PAGE_H - MARGIN:
+                    break
+            
+            for ch in word:
+                if ch in glyphs and glyphs[ch]:
+                    variant = random.choice(glyphs[ch])
+                    angle = random.randint(-2, 2)
+                    scale = random.uniform(0.95, 1.05)
+                    transformed = variant.rotate(angle, expand=True, fillcolor=(0, 0, 0, 0))
+                    new_w = int(transformed.size[0] * scale)
+                    new_h = int(transformed.size[1] * scale)
+                    transformed = transformed.resize((new_w, new_h), Image.LANCZOS)
+                    
+                    baseline = int(1.5 * math.sin(wave_freq * x + wave_phase))
+                    paste_y = y - new_h + baseline + random.randint(-3, 3)
+                    page.paste(transformed, (int(x), paste_y), transformed)
+                    x += new_w + random.uniform(0, 3)
+                else:
+                    x += default_w + random.uniform(0, 2)
+            x += default_w * random.uniform(1.5, 2.5)
+        x = MARGIN + random.randint(-5, 5)
+        y += LINE_HEIGHT + random.randint(-2, 2)
+    
+    # Add noise
+    frame = np.array(page.convert("RGB"))
+    noise = np.random.normal(0, 3, frame.shape).astype('int16')
+    frame = np.clip(frame.astype('int16') + noise, 0, 255).astype('uint8')
+    return Image.fromarray(frame)
+
+
+def pdf_to_handwriting_logic(app):
+    """PDF upload ko handwriting PDF mein convert karta hai."""
+    if 'pdf' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
+    
+    file = request.files['pdf']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+
+    # Temp paths
+    upload_folder = app.config.get('UPLOAD_FOLDER', 'uploads')
+    processed_folder = app.config.get('PROCESSED_FOLDER', 'processed')
+    
+    os.makedirs(upload_folder, exist_ok=True)
+    os.makedirs(processed_folder, exist_ok=True)
+    
+    input_path = os.path.join(upload_folder, str(uuid.uuid4()) + '.pdf')
+    output_path = os.path.join(processed_folder, str(uuid.uuid4()) + '_handwritten.pdf')
+    
     file.save(input_path)
-
-    images = convert_from_path(input_path)
-
-    zip_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".zip"
-    )
-
-    with zipfile.ZipFile(zip_path, "w") as zipf:
-        for i, image in enumerate(images):
-            img_name = f"page_{i+1}.jpg"
-            img_path = os.path.join(app.config["PROCESSED_FOLDER"], img_name)
-            image.save(img_path, "JPEG")
-            zipf.write(img_path, img_name)
-            os.remove(img_path)
-
-    return send_file(zip_path, as_attachment=True)
-
-
-# ---------------- PDF TO WORD ----------------
-def pdf_to_word_logic(app):
-    file = request.files["file"]
-
-    input_path = os.path.join(
-        app.config["UPLOAD_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-    file.save(input_path)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".docx"
-    )
-
-    converter = Converter(input_path)
-    converter.convert(output_path)
-    converter.close()
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- WORD TO PDF ----------------
-def word_to_pdf_logic(app):
-    file = request.files["file"]
-
-    input_path = os.path.join(
-        app.config["UPLOAD_FOLDER"],
-        str(uuid.uuid4()) + ".docx"
-    )
-    file.save(input_path)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    convert(input_path, output_path)
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- MERGE PDF ----------------
-def merge_pdf_logic(app):
-    files = request.files.getlist("files")
-    merger = PdfMerger()
-
-    for file in files:
-        merger.append(file)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    merger.write(output_path)
-    merger.close()
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- SPLIT PDF ----------------
-def split_pdf_logic(app):
-    file = request.files["file"]
-    reader = PdfReader(file)
-
-    zip_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".zip"
-    )
-
-    with zipfile.ZipFile(zip_path, "w") as zipf:
-        for i in range(len(reader.pages)):
-            writer = PdfWriter()
-            writer.add_page(reader.pages[i])
-
-            temp_path = os.path.join(
-                app.config["PROCESSED_FOLDER"],
-                f"page_{i+1}.pdf"
-            )
-
-            with open(temp_path, "wb") as f:
-                writer.write(f)
-
-            zipf.write(temp_path, f"page_{i+1}.pdf")
-            os.remove(temp_path)
-
-    return send_file(zip_path, as_attachment=True)
-
-
-# ---------------- COMPRESS PDF ----------------
-def compress_pdf_logic(app):
-    file = request.files["file"]
-    reader = PdfReader(file)
-    writer = PdfWriter()
-
-    for page in reader.pages:
-        writer.add_page(page)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    with open(output_path, "wb") as f:
-        writer.write(f)
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- ROTATE PDF ----------------
-def rotate_pdf_logic(app):
-    file = request.files["file"]
-    reader = PdfReader(file)
-    writer = PdfWriter()
-
-    for page in reader.pages:
-        page.rotate(90)
-        writer.add_page(page)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    with open(output_path, "wb") as f:
-        writer.write(f)
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- PROTECT PDF ----------------
-
-def protect_pdf_logic(app):
-    from flask import send_file
-    
-    file = request.files["file"]
-    password = request.form["password"]
-
-    if not password or len(password) < 4:
-        return {"error": "Password must be at least 4 characters"}, 400
-
-    reader = PdfReader(file)
-    writer = PdfWriter()
-
-    for page in reader.pages:
-        writer.add_page(page)
-
-    writer.encrypt(password)  # PyPDF2>=3.0.0 mein ye kaam karta hai
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    with open(output_path, "wb") as f:
-        writer.write(f)
-
-    return send_file(output_path, as_attachment=True, download_name="protected.pdf")
-
-
-# ---------------- UNLOCK PDF ----------------
-def unlock_pdf_logic(app):
-    file = request.files["file"]
-    password = request.form["password"]
-
-    reader = PdfReader(file)
-
-    if not reader.is_encrypted:
-        return "PDF is not password protected."
-
-    reader.decrypt(password)
-
-    writer = PdfWriter()
-    for page in reader.pages:
-        writer.add_page(page)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    with open(output_path, "wb") as f:
-        writer.write(f)
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- RESIZE PDF ----------------
-def resize_pdf_logic(app):
-    file = request.files["file"]
-    reader = PdfReader(file)
-    writer = PdfWriter()
-
-    for page in reader.pages:
-        page.scale_by(0.8)
-        writer.add_page(page)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".pdf"
-    )
-
-    with open(output_path, "wb") as f:
-        writer.write(f)
-
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- IMAGE COMPRESS ----------------
-def image_compress_logic(app):
-    file = request.files["file"]
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".jpg"
-    )
-
-    image = Image.open(file).convert("RGB")
-    image.save(output_path, "JPEG", quality=40, optimize=True)
-
-    return send_file(output_path, as_attachment=True)
-
-# ---------------- IMAGE RESIZE ----------------
-def image_resize_logic(app):
-
-    file = request.files.get("file")
-    if not file or file.filename == "":
-        return "No file selected"
 
     try:
-        width = int(request.form.get("width"))
-        height = int(request.form.get("height"))
-    except (TypeError, ValueError):
-        return "Invalid width or height"
+        # Extract text using PyMuPDF (100% words guaranteed)
+        doc = fitz.open(input_path)
+        pages_text = []
+        for page in doc:
+            text = page.get_text("text")
+            if text.strip():
+                pages_text.append(text.upper())
+        doc.close()
 
-    try:
-        processed_folder = app.config.get("PROCESSED_FOLDER", "processed")
-        os.makedirs(processed_folder, exist_ok=True)
+        if not pages_text:
+            return jsonify({'error': 'No text found in PDF'}), 400
 
-        image = Image.open(file)
+        # Load glyphs
+        glyphs = ensure_glyphs()
 
-        if image.mode in ("RGBA", "P", "LA"):
-            image = image.convert("RGB")
-        elif image.mode != "RGB":
-            image = image.convert("RGB")
+        # Render pages
+        rendered = []
+        for text in pages_text:
+            rendered.append(render_page(text, glyphs))
 
-        resized = image.resize((width, height))
+        # Create PDF
+        c = canvas.Canvas(output_path, pagesize=A4)
+        for img in rendered:
+            buf = io.BytesIO()
+            img.save(buf, format='JPEG', quality=85)
+            buf.seek(0)
+            c.drawImage(ImageReader(buf), 0, 0, width=A4[0], height=A4[1])
+            c.showPage()
+        c.save()
 
-        output_filename = str(uuid.uuid4()) + ".jpg"
+        # Cleanup temp input file
+        try:
+            os.remove(input_path)
+        except:
+            pass
 
-        output_path = os.path.join(
-            processed_folder,
-            output_filename
-        )
-
-        resized.save(output_path, "JPEG", quality=95)
-
-        # ✅ direct auto download
         return send_file(
             output_path,
             as_attachment=True,
-            download_name="resized_image.jpg",
-            mimetype="image/jpeg"
+            download_name='handwritten_assignment.pdf'
         )
-
+    
     except Exception as e:
-        return f"Error: {str(e)}"
-
-# ---------------- BG REMOVER ----------------
-from flask import render_template
-
-def bg_remover_logic(app):
-    # Temporary: Feature disabled
-    return render_template("coming_soon.html")
-
-# ---------------- BASE64 ENCODER ----------------
-def base64_encoder_logic():
-    text = request.form.get("text", "")
-    return base64.b64encode(text.encode()).decode()
-
-
-# ---------------- JSON FORMATTER ----------------
-def json_formatter_logic():
-    raw_json = request.form.get("json_data", "")
-    parsed = json.loads(raw_json)
-    return json.dumps(parsed, indent=4)
-
-
-# ---------------- QR GENERATOR ----------------
-def qr_generator_logic(app):
-    data = request.form.get("data", "")
-    img = qrcode.make(data)
-
-    output_path = os.path.join(
-        app.config["PROCESSED_FOLDER"],
-        str(uuid.uuid4()) + ".png"
-    )
-
-    img.save(output_path)
-    return send_file(output_path, as_attachment=True)
-
-
-# ---------------- WORD COUNTER (2000 LIMIT) ----------------
-def word_counter_logic():
-    text = request.form.get("text", "")
-
-    if len(text) > 2000:
-        return {"error": "Sweet limit exceeded ❤️ Please keep text under 2000 characters."}
-
-    return {
-        "words": len(text.split()),
-        "characters": len(text)
-    }
-
-
-
-
-
-
-
+        # Cleanup on error
+        try:
+            if os.path.exists(input_path):
+                os.remove(input_path)
+        except:
+            pass
+        try:
+            if os.path.exists(output_path):
+                os.remove(output_path)
+        except:
+            pass
+        return jsonify({'error': str(e)}), 500
 
 
 
