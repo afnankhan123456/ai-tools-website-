@@ -5,7 +5,6 @@ import os
 import uuid
 import random
 import math
-import numpy as np
 import fitz
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -14,27 +13,24 @@ import requests
 from io import BytesIO
 
 
-# GitHub Raw URL — ek ek karke fetch karenge, memory nahi bachega
 GITHUB_RAW_BASE = "https://raw.githubusercontent.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
-HW_DPI = 100
-PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
-MARGIN = 40 * HW_DPI // 72
-FONT_SIZE_PX = 26
-LINE_HEIGHT = int(FONT_SIZE_PX * 1.6)
 
-# Cache sirf recently use kiye gaye characters ke liye (max 100 images)
+# Ultra-low settings for Render Free Tier (512MB RAM)
+HW_DPI = 72
+PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
+MARGIN = 30 * HW_DPI // 72
+FONT_SIZE_PX = 22
+LINE_HEIGHT = int(FONT_SIZE_PX * 1.5)
+
 _usage_cache = {}
 
 
 def fetch_single_glyph(letter):
-    """Ek character ke liye koi bhi ek variant GitHub se fetch karo."""
     cache_key = letter
     
-    # Agar cache mein hai to turant return
     if cache_key in _usage_cache and _usage_cache[cache_key]:
         return random.choice(_usage_cache[cache_key])
     
-    # Nahi to GitHub se fetch karo
     variants = []
     for v in range(1, 5):
         url = f"{GITHUB_RAW_BASE}/{letter}{v}.png"
@@ -43,17 +39,20 @@ def fetch_single_glyph(letter):
             if resp.status_code == 200:
                 img = Image.open(BytesIO(resp.content)).convert('RGBA')
                 variants.append(img)
-                if len(variants) >= 2:  # 2 variants enough for variety
+                if len(variants) >= 2:
                     break
         except:
             pass
     
     if variants:
-        _usage_cache[cache_key] = variants
-        # Cache size limit — 100 se zyada ho to purane hatao
-        if len(_usage_cache) > 100:
+        # Cache cleanup - keep max 50 entries
+        if len(_usage_cache) > 50:
             oldest_key = next(iter(_usage_cache))
+            for old_img in _usage_cache.get(oldest_key, []):
+                old_img.close()
             del _usage_cache[oldest_key]
+        
+        _usage_cache[cache_key] = variants
         return random.choice(variants)
     
     return None
@@ -98,61 +97,64 @@ def extract_text_clean(page):
 
 
 def render_page(text):
-    """Har character draw karte waqt GitHub se live fetch karo."""
     page = Image.new("RGBA", (PAGE_W, PAGE_H), (255, 255, 255, 255))
     
-    # Average widths ke liye temporary cache — pehle use hue characters se calculate
     avg_widths = {}
     default_w = FONT_SIZE_PX * 0.55
 
     wave_phase = random.uniform(0, 2 * math.pi)
     wave_freq = random.uniform(0.002, 0.005)
 
-    x = MARGIN + random.randint(-4, 4)
-    y = MARGIN + FONT_SIZE_PX + random.randint(-4, 4)
+    x = MARGIN + random.randint(-3, 3)
+    y = MARGIN + FONT_SIZE_PX + random.randint(-3, 3)
 
     for line in text.split('\n'):
         for word in line.split(' '):
             if not word:
-                x += default_w * random.uniform(1.3, 2.2)
+                x += default_w * random.uniform(1.2, 2.0)
                 continue
             
-            word_width = sum(avg_widths.get(ch, default_w) for ch in word) + len(word) * 2
+            word_width = sum(avg_widths.get(ch, default_w) for ch in word) + len(word) * 1.5
             if x + word_width > PAGE_W - MARGIN:
-                x = MARGIN + random.randint(-4, 4)
+                x = MARGIN + random.randint(-3, 3)
                 y += LINE_HEIGHT
                 if y + LINE_HEIGHT > PAGE_H - MARGIN:
                     break
             
             for ch in word:
-                img = fetch_single_glyph(ch)  # GitHub se live fetch
+                img = fetch_single_glyph(ch)
                 
                 if img:
-                    # First time width calculate
                     if ch not in avg_widths:
                         avg_widths[ch] = img.width * (FONT_SIZE_PX / img.height)
                     
                     angle = random.randint(-2, 2)
-                    scale = random.uniform(0.95, 1.05)
-                    transformed = img.rotate(angle, expand=True, fillcolor=(0, 0, 0, 0))
-                    new_w = int(transformed.size[0] * scale)
-                    new_h = int(transformed.size[1] * scale)
-                    transformed = transformed.resize((new_w, new_h), Image.LANCZOS)
+                    scale = random.uniform(0.97, 1.03)
+                    new_w = int(img.width * scale * (FONT_SIZE_PX / img.height))
+                    new_h = int(img.height * scale * (FONT_SIZE_PX / img.height))
+                    
+                    if new_w < 2 or new_h < 2:
+                        x += default_w * 0.5
+                        continue
+                    
+                    transformed = img.resize((new_w, new_h), Image.LANCZOS)
+                    if angle != 0:
+                        transformed = transformed.rotate(angle, expand=True, fillcolor=(0, 0, 0, 0))
                     
                     baseline = int(1.5 * math.sin(wave_freq * x + wave_phase))
-                    paste_y = y - new_h + baseline + random.randint(-2, 2)
+                    paste_y = max(0, min(PAGE_H - new_h, y - new_h + baseline + random.randint(-2, 2)))
                     page.paste(transformed, (int(x), paste_y), transformed)
-                    x += new_w + random.uniform(0, 2.5)
+                    
+                    x += new_w + random.uniform(0, 2)
+                    transformed.close()
                 else:
-                    x += default_w + random.uniform(0, 1.5)
-            x += default_w * random.uniform(1.3, 2.2)
-        x = MARGIN + random.randint(-4, 4)
+                    x += default_w + random.uniform(0, 1)
+            x += default_w * random.uniform(1.2, 2.0)
+        x = MARGIN + random.randint(-3, 3)
         y += LINE_HEIGHT + random.randint(-1, 1)
     
-    frame = np.array(page.convert("RGB"))
-    noise = np.random.normal(0, 2, frame.shape).astype('int16')
-    frame = np.clip(frame.astype('int16') + noise, 0, 255).astype('uint8')
-    return Image.fromarray(frame)
+    # NO NOISE — saves ~100MB RAM
+    return page.convert("RGB")
 
 
 def pdf_to_handwriting_logic(app):
@@ -188,14 +190,16 @@ def pdf_to_handwriting_logic(app):
             return jsonify({'error': 'No text found in PDF'}), 400
 
         c = canvas.Canvas(output_path, pagesize=A4)
-        for text in pages_text:
-            img = render_page(text)  # Ab glyphs argument nahi chahiye
+        for i, text in enumerate(pages_text):
+            print(f"Rendering page {i+1}/{len(pages_text)}...")
+            img = render_page(text)
             buf = io.BytesIO()
-            img.save(buf, format='JPEG', quality=80)
+            img.save(buf, format='JPEG', quality=75)
             buf.seek(0)
             c.drawImage(ImageReader(buf), 0, 0, width=A4[0], height=A4[1])
             c.showPage()
             img.close()
+            buf.close()
         c.save()
 
         try:
@@ -215,10 +219,7 @@ def pdf_to_handwriting_logic(app):
         return jsonify({'error': str(e)}), 500
 
 
-print("✅ Handwriting converter ready (Lazy-load mode — zero preload)")
-
-
-
+print("✅ Handwriting converter ready (Ultra-low memory mode)")
 
 
 
