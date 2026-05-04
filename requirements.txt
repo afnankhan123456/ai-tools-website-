@@ -6,7 +6,7 @@ pdf2docx
 docx2pdf
 pdf2image
 qrcode[pil]
-GUNICORN_TIMEOUT = 120
+
 werkzeug
 requests
 PyMuPDF
