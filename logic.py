@@ -6,7 +6,7 @@ import uuid
 import random
 import math
 import numpy as np
-import fitz  # PyMuPDF
+import fitz
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
@@ -14,12 +14,8 @@ import requests
 from io import BytesIO
 
 
-# ============================================
-#    HANDWRITING CONVERSION (SERVER-SIDE)
-# ============================================
-
-# jsDelivr CDN URL — GitHub images ko optimized serve karega, koi memory load nahi
-CDN_BASE_URL = "https://cdn.jsdelivr.net/gh/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
+# Sahi jsDelivr CDN URL — @main ke saath
+CDN_BASE_URL = "https://cdn.jsdelivr.net/gh/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-@main/static/handwriting/alfabat"
 HW_DPI = 100
 PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
 MARGIN = 40 * HW_DPI // 72
@@ -35,7 +31,7 @@ def ensure_glyphs():
     if _glyph_cache is not None:
         return _glyph_cache
     
-    print("🖊️  Loading glyphs from jsDelivr CDN (zero disk usage)...")
+    print("🖊️  Loading glyphs from jsDelivr CDN...")
     glyphs = {}
     
     for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
@@ -47,22 +43,21 @@ def ensure_glyphs():
                 if resp.status_code == 200:
                     img = Image.open(BytesIO(resp.content)).convert('RGBA')
                     glyphs[letter].append(img)
+                    print(f"  ✅ {letter}{variant} loaded")
                 else:
-                    print(f"  ⚠️ {letter}{variant} not found (CDN)")
+                    print(f"  ⚠️ {letter}{variant} HTTP {resp.status_code}")
             except Exception as e:
-                print(f"  ❌ {letter}{variant} failed: {e}")
+                print(f"  ❌ {letter}{variant}: {str(e)[:50]}")
     
     count = sum(len(v) for v in glyphs.values())
-    print(f"✅ {count} glyphs loaded into memory from CDN.")
+    print(f"✅ Total {count} glyphs loaded from CDN.")
     
     _glyph_cache = glyphs
     return _glyph_cache
 
 
 def extract_text_clean(page):
-    """PyMuPDF se proper text extraction — words + positions."""
     words = page.get_text("words")
-    
     if not words:
         return ""
     
@@ -115,8 +110,7 @@ def render_page(text, glyphs):
     y = MARGIN + FONT_SIZE_PX + random.randint(-4, 4)
 
     for line in text.split('\n'):
-        words = line.split(' ')
-        for word in words:
+        for word in line.split(' '):
             if not word:
                 x += default_w * random.uniform(1.3, 2.2)
                 continue
@@ -204,31 +198,22 @@ def pdf_to_handwriting_logic(app):
         except:
             pass
 
-        return send_file(
-            output_path,
-            as_attachment=True,
-            download_name='handwritten_assignment.pdf'
-        )
+        return send_file(output_path, as_attachment=True, download_name='handwritten_assignment.pdf')
     
     except Exception as e:
         try:
-            if os.path.exists(input_path):
-                os.remove(input_path)
-        except:
-            pass
+            if os.path.exists(input_path): os.remove(input_path)
+        except: pass
         try:
-            if os.path.exists(output_path):
-                os.remove(output_path)
-        except:
-            pass
+            if os.path.exists(output_path): os.remove(output_path)
+        except: pass
         return jsonify({'error': str(e)}), 500
 
 
-# App start par hi glyphs CDN se memory mein load karo
-print("=" * 50)
-print("🖊️  Preloading glyphs from CDN (zero disk, minimum memory)...")
+print("🖊️ Loading glyphs from jsDelivr CDN...")
 ensure_glyphs()
-print("=" * 50)
+print("✅ Ready!")
+
 
 
 
