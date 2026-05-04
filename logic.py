@@ -16,14 +16,13 @@ from reportlab.lib.utils import ImageReader
 #    HANDWRITING CONVERSION (SERVER-SIDE)
 # ============================================
 
-ALPHABET_DIR = 'static/handwriting/alfabat'  # Tumhari GitHub location
+ALPHABET_DIR = 'static/handwriting/alfabat'
 HW_DPI = 100
 PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
 MARGIN = 40 * HW_DPI // 72
 FONT_SIZE_PX = 26
 LINE_HEIGHT = int(FONT_SIZE_PX * 1.6)
 
-# Global glyph cache
 _glyph_cache = None
 
 
@@ -34,9 +33,8 @@ def ensure_glyphs():
         return _glyph_cache
     
     if not os.path.exists(ALPHABET_DIR):
-        raise Exception(f"Alphabet folder '{ALPHABET_DIR}' nahi mila! GitHub par push karo.")
+        raise Exception(f"Alphabet folder '{ALPHABET_DIR}' nahi mila!")
     
-    # Seedha local folder se load karo — koi download nahi
     glyphs = {}
     for fname in os.listdir(ALPHABET_DIR):
         if fname.endswith('.png'):
@@ -48,6 +46,51 @@ def ensure_glyphs():
     
     _glyph_cache = glyphs
     return _glyph_cache
+
+
+def extract_text_clean(page):
+    """PyMuPDF se proper text extraction — words + positions."""
+    words = page.get_text("words")  # [x0, y0, x1, y1, "word", block, line, word_no]
+    
+    if not words:
+        return ""
+    
+    # Y-position se sort (top to bottom), then X (left to right)
+    words.sort(key=lambda w: (-w[1], w[0]))
+    
+    # Lines mein group karo (same Y-position wale words ek line mein)
+    lines = []
+    current_line = [words[0]]
+    current_y = words[0][1]
+    
+    for w in words[1:]:
+        if abs(w[1] - current_y) < 5:  # Same line
+            current_line.append(w)
+        else:  # New line
+            current_line.sort(key=lambda x: x[0])  # X-position se sort
+            lines.append(current_line)
+            current_line = [w]
+            current_y = w[1]
+    
+    # Last line
+    if current_line:
+        current_line.sort(key=lambda x: x[0])
+        lines.append(current_line)
+    
+    # Har line ko string mein convert karo
+    result_lines = []
+    for line in lines:
+        line_str = ""
+        for i, w in enumerate(line):
+            line_str += w[4]  # word string
+            # Space add karo agar next word door hai
+            if i < len(line) - 1:
+                gap = line[i+1][0] - w[2]  # next_x0 - current_x1
+                if gap > 3:
+                    line_str += " "
+        result_lines.append(line_str)
+    
+    return "\n".join(result_lines)
 
 
 def render_page(text, glyphs):
@@ -129,7 +172,7 @@ def pdf_to_handwriting_logic(app):
         doc = fitz.open(input_path)
         pages_text = []
         for page in doc:
-            text = page.get_text("text")
+            text = extract_text_clean(page)  # Nayi proper extraction
             if text.strip():
                 pages_text.append(text.upper())
         doc.close()
@@ -175,10 +218,10 @@ def pdf_to_handwriting_logic(app):
         return jsonify({'error': str(e)}), 500
 
 
-# App start hote hi glyphs preload karo
 print("🖊️ Loading handwriting glyphs...")
 ensure_glyphs()
 print("✅ Glyphs ready!")
+
 
 
 
