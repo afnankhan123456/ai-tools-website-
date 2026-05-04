@@ -14,46 +14,49 @@ import requests
 from io import BytesIO
 
 
-# Sahi jsDelivr CDN URL — @main ke saath
-CDN_BASE_URL = "https://cdn.jsdelivr.net/gh/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-@main/static/handwriting/alfabat"
+# GitHub Raw URL — ek ek karke fetch karenge, memory nahi bachega
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
 HW_DPI = 100
 PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
 MARGIN = 40 * HW_DPI // 72
 FONT_SIZE_PX = 26
 LINE_HEIGHT = int(FONT_SIZE_PX * 1.6)
 
-_glyph_cache = None
+# Cache sirf recently use kiye gaye characters ke liye (max 100 images)
+_usage_cache = {}
 
 
-def ensure_glyphs():
-    global _glyph_cache
+def fetch_single_glyph(letter):
+    """Ek character ke liye koi bhi ek variant GitHub se fetch karo."""
+    cache_key = letter
     
-    if _glyph_cache is not None:
-        return _glyph_cache
+    # Agar cache mein hai to turant return
+    if cache_key in _usage_cache and _usage_cache[cache_key]:
+        return random.choice(_usage_cache[cache_key])
     
-    print("🖊️  Loading glyphs from jsDelivr CDN...")
-    glyphs = {}
+    # Nahi to GitHub se fetch karo
+    variants = []
+    for v in range(1, 5):
+        url = f"{GITHUB_RAW_BASE}/{letter}{v}.png"
+        try:
+            resp = requests.get(url, timeout=5)
+            if resp.status_code == 200:
+                img = Image.open(BytesIO(resp.content)).convert('RGBA')
+                variants.append(img)
+                if len(variants) >= 2:  # 2 variants enough for variety
+                    break
+        except:
+            pass
     
-    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-        glyphs[letter] = []
-        for variant in range(1, 5):
-            url = f"{CDN_BASE_URL}/{letter}{variant}.png"
-            try:
-                resp = requests.get(url, timeout=10)
-                if resp.status_code == 200:
-                    img = Image.open(BytesIO(resp.content)).convert('RGBA')
-                    glyphs[letter].append(img)
-                    print(f"  ✅ {letter}{variant} loaded")
-                else:
-                    print(f"  ⚠️ {letter}{variant} HTTP {resp.status_code}")
-            except Exception as e:
-                print(f"  ❌ {letter}{variant}: {str(e)[:50]}")
+    if variants:
+        _usage_cache[cache_key] = variants
+        # Cache size limit — 100 se zyada ho to purane hatao
+        if len(_usage_cache) > 100:
+            oldest_key = next(iter(_usage_cache))
+            del _usage_cache[oldest_key]
+        return random.choice(variants)
     
-    count = sum(len(v) for v in glyphs.values())
-    print(f"✅ Total {count} glyphs loaded from CDN.")
-    
-    _glyph_cache = glyphs
-    return _glyph_cache
+    return None
 
 
 def extract_text_clean(page):
@@ -94,13 +97,12 @@ def extract_text_clean(page):
     return "\n".join(result_lines)
 
 
-def render_page(text, glyphs):
+def render_page(text):
+    """Har character draw karte waqt GitHub se live fetch karo."""
     page = Image.new("RGBA", (PAGE_W, PAGE_H), (255, 255, 255, 255))
     
+    # Average widths ke liye temporary cache — pehle use hue characters se calculate
     avg_widths = {}
-    for ch, imgs in glyphs.items():
-        if imgs:
-            avg_widths[ch] = sum(im.size[0] for im in imgs) / len(imgs)
     default_w = FONT_SIZE_PX * 0.55
 
     wave_phase = random.uniform(0, 2 * math.pi)
@@ -123,11 +125,16 @@ def render_page(text, glyphs):
                     break
             
             for ch in word:
-                if ch in glyphs and glyphs[ch]:
-                    variant = random.choice(glyphs[ch])
+                img = fetch_single_glyph(ch)  # GitHub se live fetch
+                
+                if img:
+                    # First time width calculate
+                    if ch not in avg_widths:
+                        avg_widths[ch] = img.width * (FONT_SIZE_PX / img.height)
+                    
                     angle = random.randint(-2, 2)
                     scale = random.uniform(0.95, 1.05)
-                    transformed = variant.rotate(angle, expand=True, fillcolor=(0, 0, 0, 0))
+                    transformed = img.rotate(angle, expand=True, fillcolor=(0, 0, 0, 0))
                     new_w = int(transformed.size[0] * scale)
                     new_h = int(transformed.size[1] * scale)
                     transformed = transformed.resize((new_w, new_h), Image.LANCZOS)
@@ -180,11 +187,9 @@ def pdf_to_handwriting_logic(app):
         if not pages_text:
             return jsonify({'error': 'No text found in PDF'}), 400
 
-        glyphs = ensure_glyphs()
-
         c = canvas.Canvas(output_path, pagesize=A4)
         for text in pages_text:
-            img = render_page(text, glyphs)
+            img = render_page(text)  # Ab glyphs argument nahi chahiye
             buf = io.BytesIO()
             img.save(buf, format='JPEG', quality=80)
             buf.seek(0)
@@ -210,9 +215,9 @@ def pdf_to_handwriting_logic(app):
         return jsonify({'error': str(e)}), 500
 
 
-print("🖊️ Loading glyphs from jsDelivr CDN...")
-ensure_glyphs()
-print("✅ Ready!")
+print("✅ Handwriting converter ready (Lazy-load mode — zero preload)")
+
+
 
 
 
