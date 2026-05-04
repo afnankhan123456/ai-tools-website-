@@ -123,6 +123,12 @@ def word_counter():
 @app.route('/pdf-to-handwriting', endpoint='PDF to Handwriting')
 def pdf_handwriting():
     return render_template('utility_tools/pdf_handwriting.html')
+
+@app.route('/convert-handwriting', methods=['POST'])
+def convert_handwriting_route():
+    from logic import pdf_to_handwriting_logic
+    return pdf_to_handwriting_logic(app)
+    
     
 # ============================================
 #                   ERROR HANDLER
