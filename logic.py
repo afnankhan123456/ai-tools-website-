@@ -10,13 +10,16 @@ import fitz  # PyMuPDF
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
+import requests
+from io import BytesIO
 
 
 # ============================================
 #    HANDWRITING CONVERSION (SERVER-SIDE)
 # ============================================
 
-ALPHABET_DIR = 'static/handwriting/alfabat'
+# jsDelivr CDN URL — GitHub images ko optimized serve karega, koi memory load nahi
+CDN_BASE_URL = "https://cdn.jsdelivr.net/gh/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
 HW_DPI = 100
 PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
 MARGIN = 40 * HW_DPI // 72
@@ -32,17 +35,25 @@ def ensure_glyphs():
     if _glyph_cache is not None:
         return _glyph_cache
     
-    if not os.path.exists(ALPHABET_DIR):
-        raise Exception(f"Alphabet folder '{ALPHABET_DIR}' nahi mila!")
-    
+    print("🖊️  Loading glyphs from jsDelivr CDN (zero disk usage)...")
     glyphs = {}
-    for fname in os.listdir(ALPHABET_DIR):
-        if fname.endswith('.png'):
-            letter = fname[0]
-            img = Image.open(os.path.join(ALPHABET_DIR, fname)).convert('RGBA')
-            if letter not in glyphs:
-                glyphs[letter] = []
-            glyphs[letter].append(img)
+    
+    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        glyphs[letter] = []
+        for variant in range(1, 5):
+            url = f"{CDN_BASE_URL}/{letter}{variant}.png"
+            try:
+                resp = requests.get(url, timeout=10)
+                if resp.status_code == 200:
+                    img = Image.open(BytesIO(resp.content)).convert('RGBA')
+                    glyphs[letter].append(img)
+                else:
+                    print(f"  ⚠️ {letter}{variant} not found (CDN)")
+            except Exception as e:
+                print(f"  ❌ {letter}{variant} failed: {e}")
+    
+    count = sum(len(v) for v in glyphs.values())
+    print(f"✅ {count} glyphs loaded into memory from CDN.")
     
     _glyph_cache = glyphs
     return _glyph_cache
@@ -50,42 +61,37 @@ def ensure_glyphs():
 
 def extract_text_clean(page):
     """PyMuPDF se proper text extraction — words + positions."""
-    words = page.get_text("words")  # [x0, y0, x1, y1, "word", block, line, word_no]
+    words = page.get_text("words")
     
     if not words:
         return ""
     
-    # Y-position se sort (top to bottom), then X (left to right)
     words.sort(key=lambda w: (-w[1], w[0]))
     
-    # Lines mein group karo (same Y-position wale words ek line mein)
     lines = []
     current_line = [words[0]]
     current_y = words[0][1]
     
     for w in words[1:]:
-        if abs(w[1] - current_y) < 5:  # Same line
+        if abs(w[1] - current_y) < 5:
             current_line.append(w)
-        else:  # New line
-            current_line.sort(key=lambda x: x[0])  # X-position se sort
+        else:
+            current_line.sort(key=lambda x: x[0])
             lines.append(current_line)
             current_line = [w]
             current_y = w[1]
     
-    # Last line
     if current_line:
         current_line.sort(key=lambda x: x[0])
         lines.append(current_line)
     
-    # Har line ko string mein convert karo
     result_lines = []
     for line in lines:
         line_str = ""
         for i, w in enumerate(line):
-            line_str += w[4]  # word string
-            # Space add karo agar next word door hai
+            line_str += w[4]
             if i < len(line) - 1:
-                gap = line[i+1][0] - w[2]  # next_x0 - current_x1
+                gap = line[i+1][0] - w[2]
                 if gap > 3:
                     line_str += " "
         result_lines.append(line_str)
@@ -172,7 +178,7 @@ def pdf_to_handwriting_logic(app):
         doc = fitz.open(input_path)
         pages_text = []
         for page in doc:
-            text = extract_text_clean(page)  # Nayi proper extraction
+            text = extract_text_clean(page)
             if text.strip():
                 pages_text.append(text.upper())
         doc.close()
@@ -218,10 +224,11 @@ def pdf_to_handwriting_logic(app):
         return jsonify({'error': str(e)}), 500
 
 
-print("🖊️ Loading handwriting glyphs...")
+# App start par hi glyphs CDN se memory mein load karo
+print("=" * 50)
+print("🖊️  Preloading glyphs from CDN (zero disk, minimum memory)...")
 ensure_glyphs()
-print("✅ Glyphs ready!")
-
+print("=" * 50)
 
 
 
