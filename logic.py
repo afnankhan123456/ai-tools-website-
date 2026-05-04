@@ -19,19 +19,17 @@ import requests
 
 GITHUB_ALPHABET_URL = "https://raw.githubusercontent.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/main/static/handwriting/alfabat"
 ALPHABET_DIR = 'alfabet_glyphs'
-HW_DPI = 100  # Kam DPI → memory bachao
+HW_DPI = 100
 PAGE_W, PAGE_H = int(A4[0] * HW_DPI / 72), int(A4[1] * HW_DPI / 72)
 MARGIN = 40 * HW_DPI // 72
 FONT_SIZE_PX = 26
 LINE_HEIGHT = int(FONT_SIZE_PX * 1.6)
 
-# Global glyph cache — sirf ek baar load hoga
+# Global glyph cache
 _glyph_cache = None
 
 
 def ensure_glyphs():
-    """GitHub se transparent PNG glyphs download karo (agar nahi hain) aur load karo.
-       Global cache use karta hai — ek baar load, baar-baar use."""
     global _glyph_cache
     
     if _glyph_cache is not None:
@@ -39,21 +37,24 @@ def ensure_glyphs():
     
     if not os.path.exists(ALPHABET_DIR):
         os.makedirs(ALPHABET_DIR)
-        for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            for variant in range(1, 5):
-                fname = f"{letter}{variant}.png"
-                url = f"{GITHUB_ALPHABET_URL}/{fname}"
-                save_path = os.path.join(ALPHABET_DIR, fname)
-                if os.path.exists(save_path):
-                    continue
-                try:
-                    resp = requests.get(url, timeout=8)
-                    if resp.status_code == 200:
-                        with open(save_path, 'wb') as f:
-                            f.write(resp.content)
-                except:
-                    pass
     
+    # Sirf missing files download karo
+    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        for variant in range(1, 5):
+            fname = f"{letter}{variant}.png"
+            save_path = os.path.join(ALPHABET_DIR, fname)
+            if os.path.exists(save_path):
+                continue
+            url = f"{GITHUB_ALPHABET_URL}/{fname}"
+            try:
+                resp = requests.get(url, timeout=5)
+                if resp.status_code == 200:
+                    with open(save_path, 'wb') as f:
+                        f.write(resp.content)
+            except:
+                pass
+    
+    # Load glyphs from disk
     glyphs = {}
     for fname in os.listdir(ALPHABET_DIR):
         if fname.endswith('.png'):
@@ -68,7 +69,6 @@ def ensure_glyphs():
 
 
 def render_page(text, glyphs):
-    """Ek page ka text le kar handwriting image banata hai."""
     page = Image.new("RGBA", (PAGE_W, PAGE_H), (255, 255, 255, 255))
     
     avg_widths = {}
@@ -117,7 +117,6 @@ def render_page(text, glyphs):
         x = MARGIN + random.randint(-4, 4)
         y += LINE_HEIGHT + random.randint(-1, 1)
     
-    # Add noise
     frame = np.array(page.convert("RGB"))
     noise = np.random.normal(0, 2, frame.shape).astype('int16')
     frame = np.clip(frame.astype('int16') + noise, 0, 255).astype('uint8')
@@ -125,7 +124,6 @@ def render_page(text, glyphs):
 
 
 def pdf_to_handwriting_logic(app):
-    """PDF upload ko handwriting PDF mein convert karta hai."""
     if 'pdf' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
     
@@ -133,7 +131,6 @@ def pdf_to_handwriting_logic(app):
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
 
-    # Temp paths — project folder ke andar (Render compatible)
     base_dir = os.path.join(os.getcwd(), 'temp')
     upload_folder = os.path.join(base_dir, 'uploads')
     processed_folder = os.path.join(base_dir, 'processed')
@@ -147,7 +144,6 @@ def pdf_to_handwriting_logic(app):
     file.save(input_path)
 
     try:
-        # Extract text using PyMuPDF (100% words guaranteed)
         doc = fitz.open(input_path)
         pages_text = []
         for page in doc:
@@ -159,10 +155,8 @@ def pdf_to_handwriting_logic(app):
         if not pages_text:
             return jsonify({'error': 'No text found in PDF'}), 400
 
-        # Load glyphs (cached — fast after first request)
         glyphs = ensure_glyphs()
 
-        # Render pages one by one to save memory
         c = canvas.Canvas(output_path, pagesize=A4)
         for text in pages_text:
             img = render_page(text, glyphs)
@@ -171,10 +165,9 @@ def pdf_to_handwriting_logic(app):
             buf.seek(0)
             c.drawImage(ImageReader(buf), 0, 0, width=A4[0], height=A4[1])
             c.showPage()
-            img.close()  # Free memory
+            img.close()
         c.save()
 
-        # Cleanup
         try:
             os.remove(input_path)
         except:
@@ -198,6 +191,14 @@ def pdf_to_handwriting_logic(app):
         except:
             pass
         return jsonify({'error': str(e)}), 500
+
+
+# App start hote hi glyphs preload karo (pehli request se pehle)
+print("🖊️ Preloading handwriting glyphs...")
+ensure_glyphs()
+print("✅ Glyphs ready!")
+
+
 
 
 
