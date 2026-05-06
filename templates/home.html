@@ -9,52 +9,43 @@
     </div>
 </section>
 
-<!-- 9-DOT MENU BUTTON (Right Side) -->
-<div style="position: fixed; right: 20px; top: 100px; z-index: 1000;">
-    <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-        ⋮⋮⋮
+<!-- 9-DOT MENU - FIXED POSITION -->
+<div style="position: fixed; right: 20px; top: 20px; z-index: 9999;">
+    <!-- 9 Dots Button -->
+    <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; font-size: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">
+        <i class="fa-solid fa-grip"></i>
     </button>
 
-    <!-- DROPDOWN MENU -->
-    <div id="appMenuDropdown" style="display: none; position: absolute; right: 0; top: 55px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 180px; overflow: hidden;">
-        <a href="{{ url_for('pdf_tools') }}" style="display: block; padding: 12px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">
-            📄 PDF Tools
-        </a>
-        <a href="{{ url_for('image_tools') }}" style="display: block; padding: 12px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">
-            🖼️ Image Tools
-        </a>
-        <a href="{{ url_for('utility_tools') }}" style="display: block; padding: 12px 20px; text-decoration: none; color: #333;">
-            🔧 Utility Tools
-        </a>
+    <!-- Google Style Dropdown - Horizontal Buttons (Mobile + Laptop) -->
+    <div id="appMenuDropdown" style="display: none; position: absolute; top: 60px; right: 0; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); padding: 16px; z-index: 10000;">
+        
+        <!-- HORIZONTAL BUTTONS - Ek line mein hamesha -->
+        <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; justify-content: center; flex-wrap: nowrap;">
+            
+            <!-- PDF Button -->
+            <a href="{{ url_for('pdf_tools') }}" style="text-decoration: none; text-align: center; padding: 10px 16px; background: #f8f9fa; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
+                <div style="font-size: 24px; margin-bottom: 6px;">📄</div>
+                <div style="font-size: 11px; color: #202124; font-weight: 500;">PDF</div>
+            </a>
+            
+            <!-- Image Button -->
+            <a href="{{ url_for('image_tools') }}" style="text-decoration: none; text-align: center; padding: 10px 16px; background: #f8f9fa; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
+                <div style="font-size: 24px; margin-bottom: 6px;">🖼️</div>
+                <div style="font-size: 11px; color: #202124; font-weight: 500;">Image</div>
+            </a>
+            
+            <!-- Utility Button -->
+            <a href="{{ url_for('utility_tools') }}" style="text-decoration: none; text-align: center; padding: 10px 16px; background: #f8f9fa; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
+                <div style="font-size: 24px; margin-bottom: 6px;">🔧</div>
+                <div style="font-size: 11px; color: #202124; font-weight: 500;">Utility</div>
+            </a>
+            
+        </div>
     </div>
 </div>
 
-<!-- MAIN CATEGORY SECTION - BILKUL WAISA HI -->
-<section class="tools-section">
-    <h2 class="section-title">Our Tools</h2>
-
-    <div class="tools-grid">
-
-        <!-- PDF TOOLS -->
-        <a href="{{ url_for('pdf_tools') }}" class="tool-card">
-            <h3><i class="fa-solid fa-file-pdf"></i> PDF Tools</h3>
-            <p>Merge, Split, Convert, Compress, Protect & More</p>
-        </a>
-
-        <!-- IMAGE TOOLS -->
-        <a href="{{ url_for('image_tools') }}" class="tool-card">
-            <h3><i class="fa-solid fa-image"></i> Image Tools</h3>
-            <p>Compress, Resize, Background Remove & More</p>
-        </a>
-
-        <!-- UTILITY TOOLS -->
-        <a href="{{ url_for('utility_tools') }}" class="tool-card">
-            <h3><i class="fa-solid fa-screwdriver-wrench"></i> Smart Utility Tools</h3>
-            <p>Word Counter, QR Generator, Base64, JSON Formatter</p>
-        </a>
-
-    </div>
-</section>
+<!-- YAHAN SE "OUR TOOLS" WALA SECTION POORA REMOVE KAR DIYA -->
+<!-- Pehle yahan tools-section tha, ab kuch nahi -->
 
 <script>
     const menuBtn = document.getElementById('appMenuBtn');
@@ -76,7 +67,40 @@
     });
 </script>
 
-{% endblock %}
+<style>
+    /* Mobile ke liye extra responsive */
+    @media (max-width: 768px) {
+        #appMenuDropdown {
+            right: -10px !important;
+        }
+        #appMenuDropdown > div {
+            gap: 8px !important;
+        }
+        #appMenuDropdown a {
+            padding: 8px 12px !important;
+            min-width: 55px !important;
+        }
+        #appMenuDropdown div div:first-child {
+            font-size: 20px !important;
+        }
+        #appMenuDropdown div div:last-child {
+            font-size: 10px !important;
+        }
+    }
+    
+    /* Hover effects */
+    #appMenuDropdown a:hover {
+        background: #e8f0fe !important;
+        transform: translateY(-2px);
+        border-color: #1a73e8 !important;
+    }
+    
+    #appMenuBtn:hover {
+        background: #f0f0f0 !important;
+        transform: scale(1.05);
+    }
+</style>
 
+{% endblock %}
 
 
