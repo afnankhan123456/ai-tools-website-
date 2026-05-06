@@ -1,6 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!-- 9-DOT MENU - Utility ke just niche (Right side, Hero se upar) -->
+<div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-top: 10px; margin-bottom: 20px;">
+    <div style="position: relative;">
+        <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-grip"></i>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div id="appMenuDropdown" style="display: none; position: absolute; top: 55px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 12px; z-index: 10000; min-width: 180px;">
+            <a href="{{ url_for('pdf_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; margin-bottom: 5px; text-align: center;">
+                📄 PDF Tools
+            </a>
+            <a href="{{ url_for('image_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; margin-bottom: 5px; text-align: center;">
+                🖼️ Image Tools
+            </a>
+            <a href="{{ url_for('utility_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; text-align: center;">
+                🔧 Utility Tools
+            </a>
+        </div>
+    </div>
+</div>
+
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-content">
@@ -8,29 +30,6 @@
         <p>Compress, Convert & Edit Instantly</p>
     </div>
 </section>
-
-<!-- 9-DOT MENU - Just Below Utility (Right Side) -->
-<div style="position: relative; float: right; margin-top: 10px; margin-right: 20px; clear: both;">
-    <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">
-        <i class="fa-solid fa-grip"></i>
-    </button>
-
-    <!-- Dropdown Menu -->
-    <div id="appMenuDropdown" style="display: none; position: absolute; top: 55px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 12px; z-index: 10000; min-width: 180px;">
-        <a href="{{ url_for('pdf_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; margin-bottom: 5px; text-align: center;">
-            📄 PDF Tools
-        </a>
-        <a href="{{ url_for('image_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; margin-bottom: 5px; text-align: center;">
-            🖼️ Image Tools
-        </a>
-        <a href="{{ url_for('utility_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; text-align: center;">
-            🔧 Utility Tools
-        </a>
-    </div>
-</div>
-
-<!-- Clear float to prevent overlapping -->
-<div style="clear: both;"></div>
 
 <script>
     const menuBtn = document.getElementById('appMenuBtn');
@@ -61,17 +60,14 @@
         transform: scale(1.05);
     }
     
-    /* Mobile responsive */
     @media (max-width: 768px) {
-        #appMenuDropdown {
-            right: -10px !important;
-        }
         #appMenuBtn {
             width: 40px !important;
             height: 40px !important;
-            font-size: 16px !important;
         }
     }
 </style>
 
 {% endblock %}
+
+
