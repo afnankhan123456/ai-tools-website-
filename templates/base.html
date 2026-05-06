@@ -46,6 +46,20 @@
       gtag('config', 'G-QB32CC969S');
     </script>
 
+    <!-- Footer Background Color Fix -->
+    <style>
+        /* Dark Navy Blue & Deep Indigo ke beech ka color */
+        footer {
+            background-color: #1a237e !important;  /* Deep Indigo */
+        }
+        
+        /* Ya ye try karo agar darker chahiye */
+        /* footer { background-color: #0d1b4a !important; } */
+        
+        /* Ya ye jo exact beech me hai */
+        /* footer { background-color: #16216b !important; } */
+    </style>
+
 </head>
 
 <body>
@@ -78,33 +92,19 @@
 </main>
 
 <!-- ================================= -->
-<!-- UNIVERSAL 5MB FILE SIZE VALIDATION -->
+<!-- FOOTER - WITH FIXED BACKGROUND COLOR -->
 <!-- ================================= -->
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+<footer style="background-color: #1a237e; padding: 40px 20px; margin-top: 40px;">
+    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+        <p style="color: white; opacity: 0.8;">© 2025 AI Tools Hub. All rights reserved.</p>
+        <p style="color: white; opacity: 0.6; margin-top: 10px; font-size: 14px;">
+            Free online tools for PDF, Images & Utility tasks
+        </p>
+    </div>
+</footer>
 
-    const maxSize = 5 * 1024 * 1024;
-
-    document.querySelectorAll('input[type="file"]').forEach(function(input) {
-
-        input.addEventListener("change", function () {
-
-            if (this.files.length > 0) {
-                const file = this.files[0];
-
-                if (file.size > maxSize) {
-                    alert("File size must be under 5MB.");
-                    this.value = "";
-                }
-            }
-
-        });
-
-    });
-
-});
-</script>
+<!-- 5MB VALIDATION CODE REMOVED ✅ -->
 
 </body>
 </html>
