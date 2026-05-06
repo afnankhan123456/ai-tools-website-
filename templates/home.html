@@ -9,7 +9,27 @@
     </div>
 </section>
 
-<!-- MAIN CATEGORY SECTION -->
+<!-- 9-DOT MENU BUTTON (Right Side) -->
+<div style="position: fixed; right: 20px; top: 100px; z-index: 1000;">
+    <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        ⋮⋮⋮
+    </button>
+
+    <!-- DROPDOWN MENU -->
+    <div id="appMenuDropdown" style="display: none; position: absolute; right: 0; top: 55px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 180px; overflow: hidden;">
+        <a href="{{ url_for('pdf_tools') }}" style="display: block; padding: 12px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">
+            📄 PDF Tools
+        </a>
+        <a href="{{ url_for('image_tools') }}" style="display: block; padding: 12px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">
+            🖼️ Image Tools
+        </a>
+        <a href="{{ url_for('utility_tools') }}" style="display: block; padding: 12px 20px; text-decoration: none; color: #333;">
+            🔧 Utility Tools
+        </a>
+    </div>
+</div>
+
+<!-- MAIN CATEGORY SECTION - BILKUL WAISA HI -->
 <section class="tools-section">
     <h2 class="section-title">Our Tools</h2>
 
@@ -36,5 +56,27 @@
     </div>
 </section>
 
+<script>
+    const menuBtn = document.getElementById('appMenuBtn');
+    const dropdown = document.getElementById('appMenuDropdown');
+
+    menuBtn.addEventListener('click', function(event) {
+        event.stopPropagation();
+        if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+            dropdown.style.display = 'block';
+        } else {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!menuBtn.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+</script>
+
 {% endblock %}
+
+
 
