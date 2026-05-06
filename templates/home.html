@@ -9,25 +9,25 @@
             ⋮⋮⋮
         </button>
 
-        <!-- Dropdown Menu - SIRF IMAGES (Text Nahi) -->
+        <!-- Dropdown Menu - Sirf Images (Text Nahi) -->
         <div id="appMenuDropdown" style="display: none; position: absolute; top: 55px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 16px; z-index: 10000;">
             
-            <!-- HORIZONTAL Buttons - Sirf Images -->
+            <!-- HORIZONTAL Buttons - Button size same, logo bada -->
             <div style="display: flex; flex-direction: row; gap: 15px; align-items: center; justify-content: center; flex-wrap: nowrap;">
                 
-                <!-- PDF Button - Sirf Image -->
-                <a href="{{ url_for('pdf_tools') }}" style="display: flex; align-items: center; justify-content: center; padding: 12px; text-decoration: none; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0;">
-                    <img src="https://github.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/raw/main/logo_pic/menu-logo/pdf-tools.png" alt="PDF Tools" style="width: 48px; height: 48px; object-fit: contain;">
+                <!-- PDF Button - Button size same (70px width), andar ka logo bada -->
+                <a href="{{ url_for('pdf_tools') }}" style="display: flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
+                    <img src="https://github.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/raw/main/logo_pic/menu-logo/pdf-tools.png" alt="PDF Tools" style="width: 56px; height: 56px; object-fit: contain;">
                 </a>
                 
-                <!-- Image Button - Sirf Image -->
-                <a href="{{ url_for('image_tools') }}" style="display: flex; align-items: center; justify-content: center; padding: 12px; text-decoration: none; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0;">
-                    <img src="https://github.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/raw/main/logo_pic/menu-logo/image-tools%20.png" alt="Image Tools" style="width: 48px; height: 48px; object-fit: contain;">
+                <!-- Image Button - Button size same, andar ka logo bada -->
+                <a href="{{ url_for('image_tools') }}" style="display: flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
+                    <img src="https://github.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/raw/main/logo_pic/menu-logo/image-tools%20.png" alt="Image Tools" style="width: 56px; height: 56px; object-fit: contain;">
                 </a>
                 
-                <!-- Utility Button - Sirf Image -->
-                <a href="{{ url_for('utility_tools') }}" style="display: flex; align-items: center; justify-content: center; padding: 12px; text-decoration: none; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0;">
-                    <img src="https://github.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/raw/main/logo_pic/menu-logo/utillity-tools%20.png" alt="Utility Tools" style="width: 48px; height: 48px; object-fit: contain;">
+                <!-- Utility Button - Button size same, andar ka logo bada -->
+                <a href="{{ url_for('utility_tools') }}" style="display: flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
+                    <img src="https://github.com/afnankhan123456/Free-AI-Tools-for-PDF-Image-File-Conversion-No-Signup-/raw/main/logo_pic/menu-logo/utillity-tools%20.png" alt="Utility Tools" style="width: 56px; height: 56px; object-fit: contain;">
                 </a>
                 
             </div>
@@ -74,7 +74,7 @@
         transform: scale(1.05);
     }
     
-    /* Mobile - Images size chota ho jayega */
+    /* Mobile - Button size same, logo size adjust */
     @media (max-width: 768px) {
         #appMenuBtn {
             width: 40px !important;
@@ -88,11 +88,12 @@
             gap: 10px !important;
         }
         #appMenuDropdown a {
-            padding: 8px !important;
+            padding: 6px !important;
+            min-width: 60px !important;
         }
         #appMenuDropdown img {
-            width: 36px !important;
-            height: 36px !important;
+            width: 48px !important;
+            height: 48px !important;
         }
     }
 </style>
