@@ -46,20 +46,6 @@
       gtag('config', 'G-QB32CC969S');
     </script>
 
-    <!-- Footer Background Color Fix -->
-    <style>
-        /* Dark Navy Blue & Deep Indigo ke beech ka color */
-        footer {
-            background-color: #1a237e !important;  /* Deep Indigo */
-        }
-        
-        /* Ya ye try karo agar darker chahiye */
-        /* footer { background-color: #0d1b4a !important; } */
-        
-        /* Ya ye jo exact beech me hai */
-        /* footer { background-color: #16216b !important; } */
-    </style>
-
 </head>
 
 <body>
@@ -91,11 +77,8 @@
     {% block content %}{% endblock %}
 </main>
 
-<!-- ================================= -->
-<!-- FOOTER - WITH FIXED BACKGROUND COLOR -->
-<!-- ================================= -->
-
-<footer style="background-color: #1a237e; padding: 40px 20px; margin-top: 40px;">
+<!-- FOOTER - Website ke same background color se match karega -->
+<footer style="background-color: transparent; padding: 40px 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
     <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
         <p style="color: white; opacity: 0.8;">© 2025 AI Tools Hub. All rights reserved.</p>
         <p style="color: white; opacity: 0.6; margin-top: 10px; font-size: 14px;">
