@@ -9,43 +9,28 @@
     </div>
 </section>
 
-<!-- 9-DOT MENU - FIXED POSITION -->
-<div style="position: fixed; right: 20px; top: 20px; z-index: 9999;">
-    <!-- 9 Dots Button -->
-    <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; font-size: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">
+<!-- 9-DOT MENU - Just Below Utility (Right Side) -->
+<div style="position: relative; float: right; margin-top: 10px; margin-right: 20px; clear: both;">
+    <button id="appMenuBtn" style="background: white; border: 1px solid #ddd; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">
         <i class="fa-solid fa-grip"></i>
     </button>
 
-    <!-- Google Style Dropdown - Horizontal Buttons (Mobile + Laptop) -->
-    <div id="appMenuDropdown" style="display: none; position: absolute; top: 60px; right: 0; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); padding: 16px; z-index: 10000;">
-        
-        <!-- HORIZONTAL BUTTONS - Ek line mein hamesha -->
-        <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; justify-content: center; flex-wrap: nowrap;">
-            
-            <!-- PDF Button -->
-            <a href="{{ url_for('pdf_tools') }}" style="text-decoration: none; text-align: center; padding: 10px 16px; background: #f8f9fa; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
-                <div style="font-size: 24px; margin-bottom: 6px;">📄</div>
-                <div style="font-size: 11px; color: #202124; font-weight: 500;">PDF</div>
-            </a>
-            
-            <!-- Image Button -->
-            <a href="{{ url_for('image_tools') }}" style="text-decoration: none; text-align: center; padding: 10px 16px; background: #f8f9fa; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
-                <div style="font-size: 24px; margin-bottom: 6px;">🖼️</div>
-                <div style="font-size: 11px; color: #202124; font-weight: 500;">Image</div>
-            </a>
-            
-            <!-- Utility Button -->
-            <a href="{{ url_for('utility_tools') }}" style="text-decoration: none; text-align: center; padding: 10px 16px; background: #f8f9fa; border-radius: 12px; transition: all 0.2s; border: 1px solid #e0e0e0; min-width: 70px;">
-                <div style="font-size: 24px; margin-bottom: 6px;">🔧</div>
-                <div style="font-size: 11px; color: #202124; font-weight: 500;">Utility</div>
-            </a>
-            
-        </div>
+    <!-- Dropdown Menu -->
+    <div id="appMenuDropdown" style="display: none; position: absolute; top: 55px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 12px; z-index: 10000; min-width: 180px;">
+        <a href="{{ url_for('pdf_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; margin-bottom: 5px; text-align: center;">
+            📄 PDF Tools
+        </a>
+        <a href="{{ url_for('image_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; margin-bottom: 5px; text-align: center;">
+            🖼️ Image Tools
+        </a>
+        <a href="{{ url_for('utility_tools') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-radius: 8px; text-align: center;">
+            🔧 Utility Tools
+        </a>
     </div>
 </div>
 
-<!-- YAHAN SE "OUR TOOLS" WALA SECTION POORA REMOVE KAR DIYA -->
-<!-- Pehle yahan tools-section tha, ab kuch nahi -->
+<!-- Clear float to prevent overlapping -->
+<div style="clear: both;"></div>
 
 <script>
     const menuBtn = document.getElementById('appMenuBtn');
@@ -68,39 +53,25 @@
 </script>
 
 <style>
-    /* Mobile ke liye extra responsive */
+    #appMenuDropdown a:hover {
+        background: #f0f0f0;
+    }
+    #appMenuBtn:hover {
+        background: #f0f0f0;
+        transform: scale(1.05);
+    }
+    
+    /* Mobile responsive */
     @media (max-width: 768px) {
         #appMenuDropdown {
             right: -10px !important;
         }
-        #appMenuDropdown > div {
-            gap: 8px !important;
+        #appMenuBtn {
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 16px !important;
         }
-        #appMenuDropdown a {
-            padding: 8px 12px !important;
-            min-width: 55px !important;
-        }
-        #appMenuDropdown div div:first-child {
-            font-size: 20px !important;
-        }
-        #appMenuDropdown div div:last-child {
-            font-size: 10px !important;
-        }
-    }
-    
-    /* Hover effects */
-    #appMenuDropdown a:hover {
-        background: #e8f0fe !important;
-        transform: translateY(-2px);
-        border-color: #1a73e8 !important;
-    }
-    
-    #appMenuBtn:hover {
-        background: #f0f0f0 !important;
-        transform: scale(1.05);
     }
 </style>
 
 {% endblock %}
-
-
