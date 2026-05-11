@@ -90,6 +90,12 @@ def split_pdf():
 #          IMAGE TOOL PAGES (client-side)
 # ============================================
 
+# OLD URL REDIRECT
+@app.route('/compress-image')
+def old_compress_image():
+    return redirect('/image-compressor', code=301)
+
+# NEW URL
 @app.route('/image-compressor')
 def image_compressor():
     return render_template('image_tools/image_compress.html')
