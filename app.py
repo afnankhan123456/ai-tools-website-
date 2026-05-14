@@ -134,7 +134,13 @@ def pdf_handwriting():
 def convert_handwriting_route():
     from logic import pdf_to_handwriting_logic
     return pdf_to_handwriting_logic(app)
-    
+
+# ======================ADS==============
+from flask import send_from_directory
+
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory('.', 'ads.txt')
     
 # ============================================
 #                   ERROR HANDLER
